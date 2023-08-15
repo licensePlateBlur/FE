@@ -2,7 +2,7 @@ import React,{ Component,useState,useRef,useEffect } from 'react'
 import styled from 'styled-components';
 import { ReactComponent as DragImage} from "../svg/upload-box-group.svg"
 import { upload } from '../apis/photo';
-import Counter from './Counter';
+import Counter from '../hook/Counter';
 
 function Photo(){
     const [datas,setDatas]=useState([]);
@@ -11,11 +11,16 @@ function Photo(){
     // ref
     const canvasRef = useRef<any>(null);
     const inputRef = useRef<any>(null);
-    const blurRef = useRef(null);
-    const hoverRef = useRef(null);
+    const blurRef = useRef<any>(null);
+    const hoverRef = useRef<any>(null);
     useEffect(()=>{
         const input = inputRef.current; //어떤 객체가 만들어진다고 했는데 이게 이벤트 리스너랑 같은 역활을 한다.
         const canvas = canvasRef.current;
+        const blur=blurRef.current;
+        const hover=hoverRef.current;
+        const context = canvas.getContext('2d',{ willReadFrequently: true });
+        const blurctx = blur.getContext('2d',{ willReadFrequently: true });
+        const hoverctx = hover.getContext('2d',{ willReadFrequently: true });
         // Handle dragover event
         function handleDragOver(event:DragEvent) {
             event.preventDefault();
@@ -30,9 +35,10 @@ function Photo(){
 
         function handleDrop(event : DragEvent) {
             input.style.transform = 'scale(1.0)';
+            setLoading(prev => !prev)
             event.preventDefault();
             DrawImage(event);
-          }
+        }
         const DrawImage = async(event : DragEvent) =>{
             if(event.dataTransfer)
             {
@@ -44,14 +50,31 @@ function Photo(){
                     const response = await upload(formData);
                     setDatas(response.data)
                     const copylabel = Counter(response.data)
-                    setLabel(copylabel);       
-        }catch(err)
+                    setLabel(copylabel);
+                }
+        catch(err)
         {
             console.log(err)
         }
-        }
-        ////////////////////////////////////////좌표값을 받아오고 진행
+         ////////////////////////////////////////좌표값을 받아오고 진행
+        const img = new Image();
+        img.src =  URL.createObjectURL(f);
+        img.onload = () => {
+          canvas.width=img.naturalWidth;
+          canvas.height=img.naturalHeight;
+          blur.width = img.naturalWidth;
+          blur.height= img.naturalHeight;
+          hover.width = img.naturalWidth;
+          hover.height = img.naturalHeight;
 
+          //이미지가 로딩되면 한번 초기화 시키고
+          context.clearRect(0,0, canvas.width, canvas.height);
+          //이미지를 로딩
+          context.drawImage(img, 0, 0,canvas.width, canvas.height); //원본
+          blurctx.drawImage(img, 0, 0,canvas.width, canvas.height); //블라인드도 원본으로 초기화
+        };
+
+        }
         }
         
         //리스너생성
@@ -65,7 +88,7 @@ function Photo(){
         input.addEventListener('dragleave', handleDragLeave);
         input.removeEventListener('drop', handleDrop);
         };
-    })
+    },[datas,label])
     return(
         <Layer>
         <UploadBox>
@@ -127,7 +150,6 @@ const Label = styled.label`
   display : flex;
   align-items: center;
   justify-content: center;
-  z-index : 10;
 `
 const DisabledBox = styled.div`
 margin-top : 111px;
