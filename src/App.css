@@ -39,8 +39,8 @@ letter-spacing: -0.24px;
   }
 
   canvas {
-    width: 752px;
-    height: 398px;
+    max-width: 752px;
+    max-height: 398px;
     display: flex;
     position: absolute;
     }
