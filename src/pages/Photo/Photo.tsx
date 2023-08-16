@@ -1,12 +1,15 @@
 import React,{useState,useRef,useEffect } from 'react'
 import styled from 'styled-components';
-import { ReactComponent as DragImage} from "../svg/upload-box-group.svg"
-import { upload } from '../apis/photo';
-import Counter from '../hook/Counter';
-import ResizeImage from '../hook/ResizeImage';
+import { ReactComponent as DragImage} from "../../svg/upload-box-group.svg"
+import { ReactComponent as Icon} from "../../svg/icon.svg"
+import { upload } from '../../apis/photo';
+import Counter from '../../hook/Counter';
+import ResizeImage from '../../hook/ResizeImage';
+import FindXY from './FindXY';
+import FindClass from './FindClass';
 function Photo(){
     const [checkm,setCheckm]=useState([true,true,true]);
-    const [datas,setDatas]=useState([]);
+    const [datas,setDatas]=useState<any[]>([]);
     const [label,setLabel]=useState([0,0,0,0])
     const [loading,setLoading]=useState(false);
     // ref
@@ -15,6 +18,10 @@ function Photo(){
     const blurRef = useRef<any>(null);
     const hoverRef = useRef<any>(null);
     const saveRef = useRef<any>(null);
+    function HandleCancel()
+    {
+        window.location.reload();
+    }
     useEffect(()=>{
         const input = inputRef.current; //어떤 객체가 만들어진다고 했는데 이게 이벤트 리스너랑 같은 역활을 한다.
         const canvas = canvasRef.current;
@@ -35,7 +42,6 @@ function Photo(){
             console.log("leave")
             input.style.transform = 'scale(1.0)';
         }
-
         function handleDrop(event : DragEvent) {
             input.style.transform = 'scale(1.0)';
             setLoading(prev => !prev)
@@ -45,6 +51,8 @@ function Photo(){
         const DrawImage = async(event : DragEvent) =>{
             if(event.dataTransfer)
             {
+                const preload = document.querySelectorAll<HTMLElement>('.preload')
+                preload.forEach( (preload) => preload.style.display="none")
                 console.log(event.dataTransfer.files[0]);
                 const f = event.dataTransfer.files[0];
                 const resizedImage = await ResizeImage(f, 752, 398);
@@ -55,6 +63,7 @@ function Photo(){
                     setDatas(response.data)
                     const copylabel = Counter(response.data)
                     setLabel(copylabel);
+                    setLoading(prev => !prev)
                 }
         catch(err)
         {
@@ -211,7 +220,7 @@ function Photo(){
     return(
         <Layer>
         <UploadBox>
-            <BoldText>사진을 업로드 해주세요</BoldText>
+            <BoldText1>사진을 업로드 해주세요</BoldText1>
             <form>
             <Input  type="file" id="input-file-upload" multiple={true} />
             <Label ref={inputRef} htmlFor="input-file-upload">
@@ -220,12 +229,28 @@ function Photo(){
             </form>
         </UploadBox>
         <DisabledBox>
+        <ButtonLayer>
         <BoldText>클릭해서 블러처리를 on/off 하세요</BoldText>
+        {(!loading && datas.length !== 0) && <><CancelBtn onClick={HandleCancel}>취소</CancelBtn><DownloadBtn ref={saveRef}><Icon />저장하기</DownloadBtn></> }
+        </ButtonLayer>
         <canvas id ="canvas" ref={canvasRef} />
         <canvas id= "blur" ref={blurRef}/>
         <canvas id="hover" ref={hoverRef} />
-        { loading ? null : <DisabledRectangle>사진을 먼저 업로드해주세요.</DisabledRectangle>}
+        <DisabledRectangle className='preload'>사진을 먼저 업로드해주세요.</DisabledRectangle>
+        { loading && <DisabledRectangle>로딩중 입니다. 기다려주세요</DisabledRectangle>}
         </DisabledBox>
+        <DisabledInfoBox>
+            <BoldText1>탐색된 좌표</BoldText1>
+            <DisabledInfoRectangle className='preload'>사진을 먼저 업로드해주세요.</DisabledInfoRectangle>
+            { loading && <DisabledInfoRectangle>로딩중 입니다. 기다려주세요</DisabledInfoRectangle>}
+            { (!loading && datas.length !== 0) && <FindXY data={datas}/> }
+        </DisabledInfoBox>
+        <DisabledInfoBox>
+            <BoldText1>탐색된 클래스</BoldText1>
+            <DisabledInfoRectangle className='preload'>사진을 먼저 업로드해주세요.</DisabledInfoRectangle>
+            { loading && <DisabledInfoRectangle>로딩중 입니다. 기다려주세요</DisabledInfoRectangle>}
+            { (!loading && datas.length !== 0) && <FindClass label={label}/> }
+        </DisabledInfoBox>
         </Layer>
     )
 }
@@ -242,19 +267,26 @@ gap : 27px;
 `
 
 const UploadBox = styled.div`
-margin-top : 111px;
 width : 752px;
 height: 465px;
+margin-top : 111px;
 `
 const BoldText = styled.div`
 color: #000;
 font-family: Pretendard;
-font-size: 32px;
+font-size: 30px;
 font-style: normal;
 font-weight: 700;
-line-height: 135%; /* 43.2px */
 letter-spacing: -0.32px;
-margin-bottom : 18px;
+`
+const BoldText1 = styled.div`
+color: #000;
+font-family: Pretendard;
+font-size: 30px;
+font-style: normal;
+font-weight: 700;
+letter-spacing: -0.32px;
+margin-bottom : 31px;
 `
 const Input = styled.input`
 display: none;
@@ -273,14 +305,71 @@ height: 465px;
 
 `
 const DisabledRectangle = styled.div`
-  width : 100%;
-  height: 398px;
-  display : flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 15px;
-  background: #F9F9F9;
-  color: #808080;
+width : 100%;
+height: 398px;
+display : flex;
+align-items: center;
+justify-content: center;
+border-radius: 15px;
+background: #F9F9F9;
+color: #808080;
+font-family: Pretendard;
+font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: 135%; /* 32.4px */
+letter-spacing: -0.24px;
+`
+const CancelBtn = styled.button`
+width: 96px;
+height: 40px;
+border-radius: 35px;
+background: #F3F3F3;
+color: #606060;
+text-align: center;
+font-family: Pretendard;
+font-size: 22px;
+font-style: normal;
+font-weight: 600;
+border:none;
+`
+const DownloadBtn = styled.button`
+width: 158px;
+height: 40px;
+border-radius: 35px;
+background: #000;
+color: #FFF;
+text-align: center;
+font-family: Pretendard;
+font-size: 22px;
+font-style: normal;
+font-weight: 600;
+display : flex;
+align-items: center;
+justify-content: center;
+gap : 8px;
+padding : 0px;
+`
+const ButtonLayer = styled.div`
+display : flex;
+align-items: center;
+gap : 5px;
+margin-bottom : 31px;
+`
+const DisabledInfoBox = styled.div`
+margin-top : 111px;
+width: 752px;
+height: 310px;
+`
+const DisabledInfoRectangle = styled.div`
+width : 100%;
+height: 245px;
+display : flex;
+align-items: center;
+justify-content: center;
+border-radius: 15px;
+background: #F9F9F9;
+color: #808080;
 font-family: Pretendard;
 font-size: 24px;
 font-style: normal;
