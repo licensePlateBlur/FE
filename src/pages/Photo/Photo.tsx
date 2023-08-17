@@ -2,32 +2,54 @@ import React,{useState,useRef,useEffect } from 'react'
 import styled from 'styled-components';
 import { ReactComponent as DragImage} from "../../svg/upload-box-group.svg"
 import { ReactComponent as Icon} from "../../svg/icon.svg"
-import { upload } from '../../apis/photo';
+import { canvassave, upload } from '../../apis/photo';
 import Counter from '../../hook/Counter';
 import ResizeImage from '../../hook/ResizeImage';
 import FindXY from './FindXY';
 import FindClass from './FindClass';
+import DownMessage from '../../component/DownMessage';
+import TransferCanvastoJpg from './TransferCanvastoJpg';
 function Photo(){
     const [checkm,setCheckm]=useState([true,true,true]);
     const [datas,setDatas]=useState<any[]>([]);
-    const [label,setLabel]=useState([0,0,0,0])
-    const [loading,setLoading]=useState(false);
+    const [label,setLabel]=useState<number[]>([0,0,0,0])
+    const [loading,setLoading]=useState<boolean>(false);
+    const [downloading,setDownloading]=useState<boolean>(false);
+    const [click,setClick]=useState<boolean>(false);
     // ref
     const canvasRef = useRef<any>(null);
     const inputRef = useRef<any>(null);
     const blurRef = useRef<any>(null);
     const hoverRef = useRef<any>(null);
-    const saveRef = useRef<any>(null);
     function HandleCancel()
     {
         window.location.reload();
+    }
+    const SaveHandler = async(event : React.MouseEvent<HTMLButtonElement>) =>
+    {
+      setClick(true);
+      setDownloading(true);
+      event.preventDefault()
+      console.log("click");
+      const blur = document.getElementById('blur') as HTMLCanvasElement;
+      if(blur)
+      {
+      try{
+         await canvassave(TransferCanvastoJpg(blur));
+      }catch(error)
+      {
+        console.log(error);
+      }
+      finally{
+        setDownloading(false);
+      }
+      }
     }
     useEffect(()=>{
         const input = inputRef.current; //어떤 객체가 만들어진다고 했는데 이게 이벤트 리스너랑 같은 역활을 한다.
         const canvas = canvasRef.current;
         const blur=blurRef.current;
         const hover=hoverRef.current;
-        const save=saveRef.current;
         const context = canvas.getContext('2d',{ willReadFrequently: true });
         const blurctx = blur.getContext('2d',{ willReadFrequently: true });
         const hoverctx = hover.getContext('2d',{ willReadFrequently: true });
@@ -219,6 +241,7 @@ function Photo(){
     },[datas,label,checkm])
     return(
         <Layer>
+          {click ? ( downloading ? <DownMessage message="다운로드중"/> : <DownMessage message="다운완료"/>) : null}
         <UploadBox>
             <BoldText1>사진을 업로드 해주세요</BoldText1>
             <form>
@@ -231,7 +254,7 @@ function Photo(){
         <DisabledBox>
         <ButtonLayer>
         <BoldText>클릭해서 블러처리를 on/off 하세요</BoldText>
-        {(!loading && datas.length !== 0) && <><CancelBtn onClick={HandleCancel}>취소</CancelBtn><DownloadBtn ref={saveRef}><Icon />저장하기</DownloadBtn></> }
+        {(!loading && datas.length !== 0) && <><CancelBtn onClick={HandleCancel}>취소</CancelBtn><DownloadBtn onClick={SaveHandler}><Icon />저장하기</DownloadBtn></> }
         </ButtonLayer>
         <canvas id ="canvas" ref={canvasRef} />
         <canvas id= "blur" ref={blurRef}/>
@@ -257,13 +280,13 @@ function Photo(){
 
 export default Photo
 
-
 const Layer = styled.div`
-width : 100%;
+width : 80%;
 margin : 0 197px;
 display : flex;
 flex-wrap: wrap;
 gap : 27px;
+position: relative;
 `
 
 const UploadBox = styled.div`

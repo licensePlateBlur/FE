@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosInstance } from 'axios';
 
 export const BASE_URL = 'http://localhost:5000/python/';
 
