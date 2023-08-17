@@ -4,7 +4,8 @@ import NotFound from "../pages/NotFound";
 import Photo from "../pages/Photo/Photo";
 import Main from "../pages/Main";
 import Video from "../pages/Video/Video";
-import PhotoGallery from "../pages/PhotoGallery/PhotoGallery";
+import Gallery from "../pages/Gallery/Gallery";
+import Realtime from "../pages/Realtime/Realtime";
 
 
 const router = createBrowserRouter([
@@ -25,9 +26,14 @@ const router = createBrowserRouter([
                 element : <Video/>
             },
             {
-                path : "photogallery",
-                element : <PhotoGallery/>
+                path : "gallery",
+                element : <Gallery/>,
             },
+            {
+                path : "realtime",
+                element : <Realtime/>
+            }
+
         ],
         errorElement : <NotFound/>
     }

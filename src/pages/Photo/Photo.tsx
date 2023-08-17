@@ -5,10 +5,10 @@ import { ReactComponent as Icon} from "../../svg/icon.svg"
 import { canvassave, upload } from '../../apis/photo';
 import Counter from '../../hook/Counter';
 import ResizeImage from '../../hook/ResizeImage';
-import FindXY from './FindXY';
-import FindClass from './FindClass';
-import DownMessage from '../../component/DownMessage';
-import TransferCanvastoJpg from './TransferCanvastoJpg';
+import FindXY from './hook/FindXY';
+import FindClass from './hook/FindClass';
+import DownButton from '../../component/Button';
+import TransferCanvastoJpg from './hook/TransferCanvastoJpg';
 function Photo(){
     const [checkm,setCheckm]=useState([true,true,true]);
     const [datas,setDatas]=useState<any[]>([]);
@@ -42,6 +42,9 @@ function Photo(){
       }
       finally{
         setDownloading(false);
+        setTimeout(() => {
+          setClick(false)
+        }, 2000);
       }
       }
     }
@@ -52,7 +55,7 @@ function Photo(){
         const hover=hoverRef.current;
         const context = canvas.getContext('2d',{ willReadFrequently: true });
         const blurctx = blur.getContext('2d',{ willReadFrequently: true });
-        const hoverctx = hover.getContext('2d',{ willReadFrequently: true });
+        let hoverctx = hover.getContext('2d',{ willReadFrequently: true });
         // Handle dragover event
         function handleDragOver(event:DragEvent) {
             event.preventDefault();
@@ -71,6 +74,12 @@ function Photo(){
             DrawImage(event);
         }
         const DrawImage = async(event : DragEvent) =>{
+            if(context !==null)
+            {
+              canvas.style.display="none"
+              blur.style.display="none"
+              hover.style.display="none"
+            }
             if(event.dataTransfer)
             {
                 const preload = document.querySelectorAll<HTMLElement>('.preload')
@@ -86,6 +95,9 @@ function Photo(){
                     const copylabel = Counter(response.data)
                     setLabel(copylabel);
                     setLoading(prev => !prev)
+                    canvas.style.display="flex"
+                    blur.style.display="flex"
+                    hover.style.display="flex"
                 }
         catch(err)
         {
@@ -241,7 +253,12 @@ function Photo(){
     },[datas,label,checkm])
     return(
         <Layer>
-          {click ? ( downloading ? <DownMessage message="다운로드중"/> : <DownMessage message="다운완료"/>) : null}
+          {click ? ( downloading ? 
+          <DownButton message="다운로드중" /> : 
+          <DownButton 
+          message="다운완료" 
+          isfadeout={true}/>) 
+          : null}
         <UploadBox>
             <BoldText1>사진을 업로드 해주세요</BoldText1>
             <form>

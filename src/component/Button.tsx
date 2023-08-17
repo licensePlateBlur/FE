@@ -1,13 +1,15 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { ReactComponent as Check} from "../svg/check.svg"
-function DownMessage ({message} : {message : string})
+function Button ({message,isfadeout=false} : {message : string,isfadeout? : boolean})
 {
-    return(<ButtonLayer>
+
+    return(<ButtonLayer $isfadeout={isfadeout}>
         <Check/> {message}
     </ButtonLayer>)
 }
 
-export default DownMessage
+export default Button
+
 const Fadeout = keyframes`
     from {
         opacity: 1;
@@ -16,7 +18,7 @@ const Fadeout = keyframes`
         opacity: 0;
     }
 `
-const ButtonLayer = styled.div`
+const ButtonLayer = styled.div<{$isfadeout : boolean}>`
 width: 165px;
 height: 69px;
 border-radius: 10px;
@@ -37,5 +39,5 @@ display : flex;
 align-items: center;
 justify-content: center;
 gap : 12px;
-animation: ${Fadeout} 3s;
+animation: ${props=> props.$isfadeout ? css`${Fadeout} 2s` : 'none'}
 `
