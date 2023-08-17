@@ -9,6 +9,11 @@ import FindXY from './hook/FindXY';
 import FindClass from './hook/FindClass';
 import DownButton from '../../component/Button';
 import TransferCanvastoJpg from './hook/TransferCanvastoJpg';
+import { useDispatch, useSelector } from 'react-redux';
+import { getfilename } from './store/photo';
+import { RootState } from './store/store';
+
+
 function Photo(){
     const [checkm,setCheckm]=useState([true,true,true]);
     const [datas,setDatas]=useState<any[]>([]);
@@ -16,6 +21,8 @@ function Photo(){
     const [loading,setLoading]=useState<boolean>(false);
     const [downloading,setDownloading]=useState<boolean>(false);
     const [click,setClick]=useState<boolean>(false);
+    const file = useSelector((store: RootState)=>store.file.filename)
+    const dispatch = useDispatch();
     // ref
     const canvasRef = useRef<any>(null);
     const inputRef = useRef<any>(null);
@@ -35,7 +42,10 @@ function Photo(){
       if(blur)
       {
       try{
-         await canvassave(TransferCanvastoJpg(blur));
+        if(file)
+        {
+          await canvassave(TransferCanvastoJpg(blur,file));
+        }
       }catch(error)
       {
         console.log(error);
@@ -55,7 +65,7 @@ function Photo(){
         const hover=hoverRef.current;
         const context = canvas.getContext('2d',{ willReadFrequently: true });
         const blurctx = blur.getContext('2d',{ willReadFrequently: true });
-        let hoverctx = hover.getContext('2d',{ willReadFrequently: true });
+        const hoverctx = hover.getContext('2d',{ willReadFrequently: true });
         // Handle dragover event
         function handleDragOver(event:DragEvent) {
             event.preventDefault();
@@ -92,6 +102,7 @@ function Photo(){
                 try{
                     const response = await upload(formData);
                     setDatas(response.data)
+                    dispatch(getfilename(f.name))
                     const copylabel = Counter(response.data)
                     setLabel(copylabel);
                     setLoading(prev => !prev)
@@ -250,7 +261,7 @@ function Photo(){
         hover.removeEventListener('mousemove',MouseMoveHandler);
         hover.removeEventListener('mouseout',MouseOutHandler);
         };
-    },[datas,label,checkm])
+    },[datas,label,checkm,dispatch])
     return(
         <Layer>
           {click ? ( downloading ? 
