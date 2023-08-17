@@ -2,7 +2,7 @@ import React,{useState,useRef,useEffect } from 'react'
 import styled from 'styled-components';
 import { ReactComponent as DragImage} from "../../svg/upload-box-group.svg"
 import { ReactComponent as Icon} from "../../svg/icon.svg"
-import { canvassave, upload } from '../../apis/photo';
+import { canvassave, photoupload } from '../../apis/photo';
 import Counter from '../../hook/Counter';
 import ResizeImage from '../../hook/ResizeImage';
 import FindXY from './hook/FindXY';
@@ -10,8 +10,8 @@ import FindClass from './hook/FindClass';
 import DownButton from '../../component/Button';
 import TransferCanvastoJpg from './hook/TransferCanvastoJpg';
 import { useDispatch, useSelector } from 'react-redux';
-import { getfilename } from './store/photo';
-import { RootState } from './store/store';
+import { getfilename } from '../../store/photo';
+import { RootState } from '../../store/store';
 
 
 function Photo(){
@@ -42,10 +42,7 @@ function Photo(){
       if(blur)
       {
       try{
-        if(file)
-        {
           await canvassave(TransferCanvastoJpg(blur,file));
-        }
       }catch(error)
       {
         console.log(error);
@@ -69,12 +66,10 @@ function Photo(){
         // Handle dragover event
         function handleDragOver(event:DragEvent) {
             event.preventDefault();
-            console.log("over")
             input.style.transform = 'scale(1.03)';
         }
         function handleDragLeave(event:DragEvent){
             event.preventDefault();
-            console.log("leave")
             input.style.transform = 'scale(1.0)';
         }
         function handleDrop(event : DragEvent) {
@@ -100,7 +95,7 @@ function Photo(){
                 const formData = new FormData();
                 formData.append("image", resizedImage);
                 try{
-                    const response = await upload(formData);
+                    const response = await photoupload(formData);
                     setDatas(response.data)
                     dispatch(getfilename(f.name))
                     const copylabel = Counter(response.data)
