@@ -10,9 +10,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { getid } from '../../store/video';
 import DownButton from '../../component/Button';
+import { VideoData } from '../../interface/VideoData';
 function Video()
 {
-    const [datas,setDatas]=useState<any[]>([]);
+    const [datas,setDatas]=useState<VideoData[]>([]);
     const [label,setLabel]=useState<number[]>([0,0,0,0])
     const [loading,setLoading]=useState<boolean>(false);
     const [show,setShow]=useState<boolean>(false);
@@ -20,7 +21,7 @@ function Video()
     const id = useSelector((store: RootState)=>store.video.id)
     const dispatch = useDispatch();
     //ref
-    const inputRef = useRef<any>(null);
+    const inputRef = useRef<HTMLLabelElement>(null);
     function HandleCancel()
     {
         window.location.reload();
@@ -41,17 +42,17 @@ function Video()
     }
     useEffect( ()=>{
     const input = inputRef.current;
-    
+
     function handleDragOver(event:DragEvent) {
         event.preventDefault();
-        input.style.transform = 'scale(1.03)';
+        if(input) input.style.transform = 'scale(1.03)';
     }
     function handleDragLeave(event:DragEvent){
         event.preventDefault();
-        input.style.transform = 'scale(1.0)';
+        if(input) input.style.transform = 'scale(1.0)';
     }
     function handleDrop(event : DragEvent) {
-        input.style.transform = 'scale(1.0)';
+        if(input) input.style.transform = 'scale(1.0)';
         setShow(false);
         setLoading(true)
         event.preventDefault();
@@ -90,15 +91,18 @@ function Video()
         }
     }
     //리스너생성
+    if(input){
     input.addEventListener('dragover', handleDragOver); //이게 있어야 drop 이 작동됨
     input.addEventListener('dragleave', handleDragLeave);
     input.addEventListener('drop', handleDrop);
-    
+    }
     return () => {
     //리스너삭제
+    if(input){
     input.removeEventListener('dragover', handleDragOver);
     input.addEventListener('dragleave', handleDragLeave);
     input.removeEventListener('drop', handleDrop);
+    }
     };
      },[dispatch,id])
     return(

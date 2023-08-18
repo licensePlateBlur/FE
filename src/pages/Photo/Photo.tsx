@@ -12,11 +12,12 @@ import TransferCanvastoJpg from './hook/TransferCanvastoJpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { getfilename } from '../../store/photo';
 import { RootState } from '../../store/store';
+import { PhotoData } from '../../interface/PhotoData';
 
 
 function Photo(){
     const [checkm,setCheckm]=useState([true,true,true]);
-    const [datas,setDatas]=useState<any[]>([]);
+    const [datas,setDatas]=useState<PhotoData[]>([]);
     const [label,setLabel]=useState<number[]>([0,0,0,0])
     const [loading,setLoading]=useState<boolean>(false);
     const [downloading,setDownloading]=useState<boolean>(false);
@@ -25,10 +26,10 @@ function Photo(){
     const file = useSelector((store: RootState)=>store.file.filename)
     const dispatch = useDispatch();
     // ref
-    const canvasRef = useRef<any>(null);
-    const inputRef = useRef<any>(null);
-    const blurRef = useRef<any>(null);
-    const hoverRef = useRef<any>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const inputRef = useRef<HTMLLabelElement>(null);
+    const blurRef = useRef<HTMLCanvasElement>(null);
+    const hoverRef = useRef<HTMLCanvasElement>(null);
     function HandleCancel()
     {
         window.location.reload();
@@ -299,7 +300,7 @@ function Photo(){
             <BoldText1>탐색된 좌표</BoldText1>
             <DisabledInfoRectangle className='preload'>사진을 먼저 업로드해주세요.</DisabledInfoRectangle>
             { loading && <DisabledInfoRectangle>로딩중 입니다. 기다려주세요</DisabledInfoRectangle>}
-            { (!loading && datas.length !== 0) && <FindXY data={datas}/> }
+            { (!loading && datas.length !== 0) && <FindXY datas={datas}/> }
         </DisabledInfoBox>
         <DisabledInfoBox>
             <BoldText1>탐색된 클래스</BoldText1>

@@ -1,11 +1,7 @@
-interface VideoData{
-  class : string
-  time : string
-}
-
+import { VideoData } from "../../../interface/VideoData";
 function VideoCounter(props : VideoData[])
 {
-    const label =[0,0,0,0]
+    const label : number[] =[0,0,0,0]
     // eslint-disable-next-line array-callback-return
     props.map( (data : VideoData) =>
           {

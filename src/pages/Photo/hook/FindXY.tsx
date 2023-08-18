@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-function FindXY({ data }: { data: any[] })
+import { PhotoData } from '../../../interface/PhotoData';
+function FindXY ( props : {datas : PhotoData[]})
 {
+    const datas = props.datas
     return(
         <>
         <AbledInfoRectange>
@@ -11,7 +13,7 @@ function FindXY({ data }: { data: any[] })
                 <Info>Ymax</Info>
                 <Info>Ymin</Info>
             </AbledInfoRectange>
-        {data.map( (data : any) =>
+        {datas.map( (data : PhotoData) =>
         (
           <AbledInfoRectange>
             <ClassName>{data.class}</ClassName>

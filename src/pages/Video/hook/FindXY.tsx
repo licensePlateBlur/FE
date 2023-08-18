@@ -1,15 +1,17 @@
 import styled from 'styled-components';
-function FindXY({ data }: { data: any[] })
+import { VideoData } from '../../../interface/VideoData';
+function FindXY(props : {data : VideoData[]})
 {
+    const datas = props.data;
     return(
         <>
         <AbledInfoRectange>
                 <ClassName>Class</ClassName>
                 <Info>time</Info>
             </AbledInfoRectange>
-        {data.map( (data : any) =>
+        {datas.map( (data : VideoData,id : number) =>
         (
-          <AbledInfoRectange>
+          <AbledInfoRectange key={id}>
             <ClassName>{data.class}</ClassName>
                 <Info>{data.time}</Info>
           </AbledInfoRectange>
