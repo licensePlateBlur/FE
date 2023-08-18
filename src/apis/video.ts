@@ -6,6 +6,7 @@ export const videoupload = async(formdata: FormData)=>{
 }
 
 export const previewvideo = async(id : number)=>{
+    console.log(id)
     const response = await api.get(`video/${id}`,{ responseType: 'blob' })
     return response
 }

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { ReactComponent as DragImage} from "../../svg/upload-box-group.svg"
 import { ReactComponent as Icon} from "../../svg/icon.svg"
 import { canvassave, photoupload } from '../../apis/photo';
-import Counter from '../../hook/Counter';
+import PhotoCounter from './hook/PhotoCounter';
 import ResizeImage from '../../hook/ResizeImage';
 import FindXY from './hook/FindXY';
 import FindClass from './hook/FindClass';
@@ -21,6 +21,7 @@ function Photo(){
     const [loading,setLoading]=useState<boolean>(false);
     const [downloading,setDownloading]=useState<boolean>(false);
     const [click,setClick]=useState<boolean>(false);
+    const [drop,setDrop]=useState<boolean>(false);
     const file = useSelector((store: RootState)=>store.file.filename)
     const dispatch = useDispatch();
     // ref
@@ -87,6 +88,7 @@ function Photo(){
             }
             if(event.dataTransfer)
             {
+                setDrop(true)
                 const preload = document.querySelectorAll<HTMLElement>('.preload')
                 preload.forEach( (preload) => preload.style.display="none")
                 console.log(event.dataTransfer.files[0]);
@@ -98,7 +100,7 @@ function Photo(){
                     const response = await photoupload(formData);
                     setDatas(response.data)
                     dispatch(getfilename(f.name))
-                    const copylabel = Counter(response.data)
+                    const copylabel = PhotoCounter(response.data)
                     setLabel(copylabel);
                     setLoading(prev => !prev)
                     canvas.style.display="flex"
@@ -126,8 +128,10 @@ function Photo(){
           context.drawImage(img, 0, 0,canvas.width, canvas.height); //원본
           blurctx.drawImage(img, 0, 0,canvas.width, canvas.height); //블라인드도 원본으로 초기화
         };
-
         }
+        setTimeout(() => {
+          setDrop(false)
+        }, 2000);
         }
         function SetBlindCheck(i : number)
         {
@@ -259,6 +263,12 @@ function Photo(){
     },[datas,label,checkm,dispatch])
     return(
         <Layer>
+          {drop ? ( loading ? 
+          <DownButton message="로딩중" /> : 
+          <DownButton 
+          message="로딩완료" 
+          isfadeout={true}/>) 
+          : null}
           {click ? ( downloading ? 
           <DownButton message="다운로드중" /> : 
           <DownButton 

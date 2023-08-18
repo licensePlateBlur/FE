@@ -5,21 +5,13 @@ function FindXY({ data }: { data: any[] })
         <>
         <AbledInfoRectange>
                 <ClassName>Class</ClassName>
-                <Info>Per</Info>
-                <Info>Xmax</Info>
-                <Info>Xmin</Info>
-                <Info>Ymax</Info>
-                <Info>Ymin</Info>
+                <Info>time</Info>
             </AbledInfoRectange>
         {data.map( (data : any) =>
         (
           <AbledInfoRectange>
             <ClassName>{data.class}</ClassName>
-                <Info>{Math.round(data.confidence*100)}%</Info>
-                <Info>{Math.floor(data.xmax)}</Info>
-                <Info>{Math.floor(data.xmin)}</Info>
-                <Info>{Math.floor(data.ymax)}</Info>
-                <Info>{Math.floor(data.ymin)}</Info>
+                <Info>{data.time}</Info>
           </AbledInfoRectange>
         ))}
         </>
@@ -51,6 +43,6 @@ font-style: normal;
 font-weight: 700;
 `
 const Info = styled.div`
-width : 80px;
+width : 200px;
 text-align: center;
 `

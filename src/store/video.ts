@@ -12,12 +12,12 @@ export const FileSlice = createSlice({
     name : 'video',
     initialState,
     reducers:{ //리덕스의 함수가 createAction을 대체한다.
-        getId(state,action : PayloadAction<number>){ //state를 initialState 값을 가져온다
+        getid(state,action : PayloadAction<number>){ //state를 initialState 값을 가져온다
             state.id=action.payload //state가 변경되면 자동으로 reducer에서 리턴해준다.
         }
     }
 })
 
-export const {getId} = FileSlice.actions
+export const {getid} = FileSlice.actions
 
 export default FileSlice.reducer

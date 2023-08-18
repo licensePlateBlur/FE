@@ -1,7 +1,7 @@
-import React,{useState} from 'react'
-function Counter(props : any)
+function PhotoCounter(props : any)
 {
     const label =[0,0,0,0]
+    // eslint-disable-next-line array-callback-return
     props.map( (data : any) =>
           {
             if(data.name === '0')
@@ -23,4 +23,4 @@ function Counter(props : any)
           })
     return label
 }
-export default Counter
+export default PhotoCounter

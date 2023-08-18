@@ -1,18 +1,22 @@
 import React,{useState,useRef,useEffect } from 'react'
 import styled from 'styled-components';
-import Counter from '../../hook/Counter';
+import VideoCounter from './hook/VideoCounter';
 import FindXY from './hook/FindXY';
 import FindClass from './hook/FindClass';
 import { ReactComponent as DragImage} from "../../svg/upload-box-group.svg"
+import { ReactComponent as Icon} from "../../svg/icon.svg"
 import { previewvideo, videoupload } from '../../apis/video';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { getId } from '../../store/video';
+import { getid } from '../../store/video';
+import DownButton from '../../component/Button';
 function Video()
 {
     const [datas,setDatas]=useState<any[]>([]);
     const [label,setLabel]=useState<number[]>([0,0,0,0])
     const [loading,setLoading]=useState<boolean>(false);
+    const [show,setShow]=useState<boolean>(false);
+    const [drop,setDrop]=useState<boolean>(false);
     const id = useSelector((store: RootState)=>store.video.id)
     const dispatch = useDispatch();
     //ref
@@ -21,9 +25,21 @@ function Video()
     {
         window.location.reload();
     }
+    const PreviewHandler = async() =>{
+        const video = document.getElementById("video") as HTMLVideoElement;
+        const source = document.getElementById("source") as HTMLVideoElement
+        try{
+            const res = await previewvideo(id)
+            console.log(res)
+            const videourl = URL.createObjectURL(res.data)
+            source.src = videourl;
+            video.load();
+        }catch(err)
+        {
+            console.log(err)
+        }
+    }
     useEffect( ()=>{
-    const video = document.getElementById("video") as HTMLVideoElement;
-    video.style.visibility = "hidden";
     const input = inputRef.current;
     
     function handleDragOver(event:DragEvent) {
@@ -36,7 +52,8 @@ function Video()
     }
     function handleDrop(event : DragEvent) {
         input.style.transform = 'scale(1.0)';
-        setLoading(prev => !prev)
+        setShow(false);
+        setLoading(true)
         event.preventDefault();
         DropVideo(event);
     }
@@ -44,7 +61,7 @@ function Video()
     {
         if(event.dataTransfer)
         {
-            const source = document.getElementById("source") as HTMLVideoElement
+            setDrop(true)
             const preload = document.querySelectorAll<HTMLElement>('.preload')
             preload.forEach( (preload) => preload.style.display="none")
             console.log(event.dataTransfer.files[0]);
@@ -53,21 +70,22 @@ function Video()
             formData.append("video", f);
             try{
                 const response = await videoupload(formData)
+                console.log(response)
                 setDatas(response.data[3])
-                dispatch(getId(response.data[0].video_id))
-                const copylabel = Counter(response.data)
+                console.log(response.data[0].video_id)
+                dispatch(getid(response.data[0].video_id))
+                const copylabel = VideoCounter(response.data[3])
                 setLabel(copylabel);
-                //미리보기
-                const res = await previewvideo(id)
-                const videourl = URL.createObjectURL(res.data)
-                source.src = videourl;
-                video.load();
             }catch(err)
             {
                 console.log(err);
             }
             finally{
-                setLoading(prev => !prev)
+                setLoading(false)
+                setShow(true)
+                setTimeout(() => {
+                    setDrop(false)
+                  }, 2000);
             }
         }
     }
@@ -85,6 +103,12 @@ function Video()
      },[dispatch,id])
     return(
         <Layer>
+        {drop ? ( loading ? 
+          <DownButton message="로딩중" /> : 
+          <DownButton 
+          message="로딩완료" 
+          isfadeout={true}/>) 
+          : null}
         <UploadBox>
             <BoldText1>동영상을 업로드 해주세요</BoldText1>
             <form>
@@ -97,9 +121,9 @@ function Video()
         <DisabledBox>
         <ButtonLayer>
         <BoldText>블러처리된 영상 미리보기</BoldText>
-        {(!loading && datas.length !== 0) && <><CancelBtn onClick={HandleCancel}>취소</CancelBtn></>}
+        {(!loading && datas.length !== 0) && <><CancelBtn onClick={HandleCancel}>취소</CancelBtn><DownloadBtn onClick={PreviewHandler}><Icon />영상보기</DownloadBtn></> }
         </ButtonLayer>
-        {!loading ? (<VideoBox controls id="video">
+        {!loading ? (<VideoBox controls id="video" $isflex={show}>
         <source id ="source" src="">
         </source>
         </VideoBox>) : null}
@@ -132,8 +156,10 @@ flex-wrap: wrap;
 gap : 27px;
 position: relative;
 `
-const VideoBox  = styled.video`
-display: flex;
+const VideoBox  = styled.video<{$isflex : boolean}>`
+display: ${props => props.$isflex ? 'flex' : 'none'} ;
+width : 752px;
+height : 398px;
 max-width: 752px;
 max-height: 398px;
 `;
@@ -231,4 +257,21 @@ font-style: normal;
 font-weight: 400;
 line-height: 135%; /* 32.4px */
 letter-spacing: -0.24px;
+`
+const DownloadBtn = styled.button`
+width: 158px;
+height: 40px;
+border-radius: 35px;
+background: #000;
+color: #FFF;
+text-align: center;
+font-family: Pretendard;
+font-size: 22px;
+font-style: normal;
+font-weight: 600;
+display : flex;
+align-items: center;
+justify-content: center;
+gap : 8px;
+padding : 0px;
 `
