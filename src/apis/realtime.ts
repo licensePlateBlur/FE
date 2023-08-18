@@ -1,7 +1,7 @@
 import { api } from "./core"
 
-export const videoupload = async(formdata: FormData)=>{
-    const response = await api.post("detect_video",formdata)
+export const realtimeshooting = async()=>{
+    const response = await api.post("detect_realtime")
     return response
 }
 

@@ -4,9 +4,9 @@ import { ReactComponent as DragImage} from "../../svg/upload-box-group.svg"
 import { ReactComponent as Icon} from "../../svg/icon.svg"
 import { canvassave, photoupload } from '../../apis/photo';
 import PhotoCounter from './hook/PhotoCounter';
-import ResizeImage from '../../hook/ResizeImage';
+import ResizeImage from './hook/ResizeImage';
 import FindXY from './hook/FindXY';
-import FindClass from './hook/FindClass';
+import FindClass from '../../hook/FindClass'
 import DownButton from '../../component/Button';
 import TransferCanvastoJpg from './hook/TransferCanvastoJpg';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,10 +26,10 @@ function Photo(){
     const file = useSelector((store: RootState)=>store.file.filename)
     const dispatch = useDispatch();
     // ref
-    const canvasRef = useRef<HTMLCanvasElement>(null);
     const inputRef = useRef<HTMLLabelElement>(null);
-    const blurRef = useRef<HTMLCanvasElement>(null);
-    const hoverRef = useRef<HTMLCanvasElement>(null);
+    const canvasRef = useRef<any>(null); //canvashtml로 정의
+    const blurRef = useRef<any>(null);
+    const hoverRef = useRef<any>(null);
     function HandleCancel()
     {
         window.location.reload();
@@ -53,7 +53,7 @@ function Photo(){
         setDownloading(false);
         setTimeout(() => {
           setClick(false)
-        }, 2000);
+        }, 1999);
       }
       }
     }
@@ -62,25 +62,25 @@ function Photo(){
         const canvas = canvasRef.current;
         const blur=blurRef.current;
         const hover=hoverRef.current;
-        const context = canvas.getContext('2d',{ willReadFrequently: true });
+        const context = canvas.getContext('2d',{ willReadFrequently: true })
         const blurctx = blur.getContext('2d',{ willReadFrequently: true });
         const hoverctx = hover.getContext('2d',{ willReadFrequently: true });
         // Handle dragover event
         function handleDragOver(event:DragEvent) {
             event.preventDefault();
-            input.style.transform = 'scale(1.03)';
+            if(input) input.style.transform = 'scale(1.03)';
         }
         function handleDragLeave(event:DragEvent){
             event.preventDefault();
-            input.style.transform = 'scale(1.0)';
+            if(input) input.style.transform = 'scale(1.0)';
         }
         function handleDrop(event : DragEvent) {
-            input.style.transform = 'scale(1.0)';
+          if(input) input.style.transform = 'scale(1.0)';
             setLoading(prev => !prev)
             event.preventDefault();
             DrawImage(event);
         }
-        const DrawImage = async(event : DragEvent) =>{
+        const DrawImage = async(event : DragEvent ) =>{
             if(context !==null)
             {
               canvas.style.display="none"
@@ -246,17 +246,17 @@ function Photo(){
     }
         
         //리스너생성
-        input.addEventListener('dragover', handleDragOver); //이게 있어야 drop 이 작동됨
-        input.addEventListener('dragleave', handleDragLeave);
-        input.addEventListener('drop', handleDrop);
+        if(input) input.addEventListener('dragover', handleDragOver); //이게 있어야 drop 이 작동됨
+        if(input) input.addEventListener('dragleave', handleDragLeave);
+        if(input) input.addEventListener('drop', handleDrop);
         hover.addEventListener('click',ClickHandler);
         hover.addEventListener('mousemove',MouseMoveHandler);
         hover.addEventListener('mouseout',MouseOutHandler);
         return () => {
         //리스너삭제
-        input.removeEventListener('dragover', handleDragOver);
-        input.addEventListener('dragleave', handleDragLeave);
-        input.removeEventListener('drop', handleDrop);
+        if(input) input.removeEventListener('dragover', handleDragOver);
+        if(input) input.addEventListener('dragleave', handleDragLeave);
+        if(input) input.removeEventListener('drop', handleDrop);
         hover.removeEventListener('click',ClickHandler);
         hover.removeEventListener('mousemove',MouseMoveHandler);
         hover.removeEventListener('mouseout',MouseOutHandler);

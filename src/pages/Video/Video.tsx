@@ -2,7 +2,7 @@ import React,{useState,useRef,useEffect } from 'react'
 import styled from 'styled-components';
 import VideoCounter from './hook/VideoCounter';
 import FindXY from './hook/FindXY';
-import FindClass from './hook/FindClass';
+import FindClass from '../../hook/FindClass'
 import { ReactComponent as DragImage} from "../../svg/upload-box-group.svg"
 import { ReactComponent as Icon} from "../../svg/icon.svg"
 import { previewvideo, videoupload } from '../../apis/video';
@@ -34,7 +34,8 @@ function Video()
             console.log(res)
             const videourl = URL.createObjectURL(res.data)
             source.src = videourl;
-            video.load();
+            video.load()
+            video.play()
         }catch(err)
         {
             console.log(err)
@@ -86,7 +87,7 @@ function Video()
                 setShow(true)
                 setTimeout(() => {
                     setDrop(false)
-                  }, 2000);
+                  }, 1999);
             }
         }
     }
@@ -124,7 +125,7 @@ function Video()
         </UploadBox>
         <DisabledBox>
         <ButtonLayer>
-        <BoldText>블러처리된 영상 미리보기</BoldText>
+        <BoldText>블러처리된 영상 보기</BoldText>
         {(!loading && datas.length !== 0) && <><CancelBtn onClick={HandleCancel}>취소</CancelBtn><DownloadBtn onClick={PreviewHandler}><Icon />영상보기</DownloadBtn></> }
         </ButtonLayer>
         {!loading ? (<VideoBox controls id="video" $isflex={show}>

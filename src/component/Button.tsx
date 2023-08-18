@@ -31,10 +31,10 @@ font-style: normal;
 font-weight: 400;
 line-height: 160%; /* 35.2px */
 letter-spacing: -0.22px;
-position : absolute;
+position : fixed;
 top : 1111px;
 left: 50%;
-transform: translate(-50%, -50%);
+transform: translate(-50%, 0);
 display : flex;
 align-items: center;
 justify-content: center;
