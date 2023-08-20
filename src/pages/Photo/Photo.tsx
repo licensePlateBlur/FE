@@ -100,6 +100,7 @@ function Photo(){
                 try{
                     const response = await photoupload(formData);
                     setDatas(response.data)
+                    console.log(response)
                     dispatch(getfilename(f.name))
                     const copylabel = PhotoCounter(response.data)
                     setLabel(copylabel);

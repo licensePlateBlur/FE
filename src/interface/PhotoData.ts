@@ -1,4 +1,5 @@
 export interface PhotoData{
+    name : string
     class : string,
     confidence : number,
     xmax : number,

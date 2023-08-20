@@ -5,12 +5,15 @@ import reportWebVitals from './reportWebVitals';
 import router from "./router/Router"
 import { Provider } from 'react-redux';
 import store from './store/store';
+import { GalleryContexFC } from './context/GalleryContex';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <Provider store={store}>
+    <GalleryContexFC>
     <RouterProvider router={router}></RouterProvider>
+    </GalleryContexFC>
     </Provider>
 );
 

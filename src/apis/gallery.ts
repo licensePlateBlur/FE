@@ -1,7 +1,7 @@
 import { api } from "./core"
 
-export const getfiles = async()=>{
-    const response = await api.get("files")
+export const getfiles = async(page : number)=>{
+    const response = await api.get(`files?page=${page}`)
     return response
 }
 

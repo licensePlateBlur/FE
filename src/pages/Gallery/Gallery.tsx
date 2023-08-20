@@ -1,27 +1,36 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useRef, useState,useCallback} from 'react'
 import styled from 'styled-components';
 import UploadBtn from '../../component/UploadBtn';
 import GalleryItem from './GalleryItem';
 import { GalleryData } from '../../interface/GalleryData';
-import { getfiles } from '../../apis/gallery';
 import DownButton from '../../component/Button';
+import {useGallery,useGalleryChange} from '../../context/GalleryContex'
+
 function Gallery()
 {
-    const [datas,setDatas]=useState<GalleryData[]>([]);
+    const loader = useRef<HTMLDivElement | null>(null);
+    const datas = useGallery()
+    const {addPage}:any = useGalleryChange() //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
     const [downloading,setDownloading]=useState<boolean>(false);
     const [click,setClick]=useState<boolean>(false);
-    useEffect( ()=>{
-        const GetFiles = async() =>{
-            try{
-                const response = await getfiles()
-                setDatas(response.data)
-            }catch(err)
-            {
-                console.log(err)
-            }
+
+    const handleObserver = useCallback((entries : IntersectionObserverEntry[]) => {
+        // console.log(entries)
+        // console.log( "call observerapi")
+        const target = entries[0];
+        if (target.isIntersecting) {
+          addPage()
         }
-        GetFiles()
-    },[])
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []);
+      useEffect(() => {
+        const option = {
+          threshold: 0.1,
+        };
+        const observer = new IntersectionObserver(handleObserver, option);
+        if (loader.current) observer.observe(loader.current);
+      }, [handleObserver]);
+
     const DownloadHandler = (id:number, event : React.MouseEvent<HTMLDivElement>) =>{
         setClick(true)
         setDownloading(true)
@@ -34,6 +43,10 @@ function Gallery()
         setTimeout(() => {
             setClick(false)
         }, 1999);
+    }
+    if(datas === null)
+    {
+        return <div>loading</div>
     }
     return(
     <>
@@ -70,6 +83,7 @@ function Gallery()
                     />
                 ))}
             </ListItemLayer>
+            <Title ref={loader}>Loading...</Title>
     </ListLayer>
     </>
     )

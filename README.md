@@ -49,6 +49,7 @@ $ npm start
 - react-router-dom
 - reduxjs/toolkit / react-redux
 - Canvas
+- react-image-file-resizer
 
 ## ✅ 프로젝트 구조
 ```

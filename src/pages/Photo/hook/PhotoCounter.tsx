@@ -1,8 +1,10 @@
-function PhotoCounter(props : any)
+import { PhotoData } from "../../../interface/PhotoData";
+
+function PhotoCounter(props : PhotoData[])
 {
     const label =[0,0,0,0]
     // eslint-disable-next-line array-callback-return
-    props.map( (data : any) =>
+    props.map( (data : PhotoData) =>
           {
             if(data.name === '0')
             {
