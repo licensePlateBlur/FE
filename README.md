@@ -48,6 +48,7 @@ $ npm start
 - axios
 - react-router-dom
 - reduxjs/toolkit / react-redux
+- contextapi
 - Canvas
 - react-image-file-resizer
 
@@ -56,6 +57,7 @@ $ npm start
 📦 src
 ├── 📂 apis
 │── 📂 component
+│── 📂 context
 │── 📂 hook
 │── 📂 interface
 │── 📂 pages
