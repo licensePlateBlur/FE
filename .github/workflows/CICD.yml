@@ -1,9 +1,9 @@
 name: CI/CD-groot # 이름
 
 on:
-  # push:
-  #   branches:
-  #     - main # 메인브랜치에 푸시가 됬을때 할꺼야
+  push:
+    branches:
+      - main # 메인브랜치에 푸시가 됬을때 할꺼야
   workflow_dispatch: ##직접 실행시킬수는 버튼이 생긴다.
 jobs:
   cicd: # 하나의 job
@@ -13,7 +13,7 @@ jobs:
         with:
           ref: 'main'
       - run: npm ci #npm clean install  새로운 운영체제 까는것이기때문에 install부터 해줘야한다
-      # - run: npm run test      #ci
+
       - run: npm run build #cd
       - name: deploy to s3
         uses: jakejarvis/s3-sync-action@master
