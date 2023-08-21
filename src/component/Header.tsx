@@ -4,7 +4,7 @@ function Header()
 {
     return(
         <HeaderLayer>
-        <NavLink className='Logo'to="/">Groot</NavLink>
+        <NavLink className='Logo'to="/">Grootee</NavLink>
         <ul>
         <NavLink to="/photo"><li>사진</li></NavLink>
         <NavLink to="/video"><li >동영상</li></NavLink>
