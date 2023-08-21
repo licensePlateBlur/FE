@@ -43,7 +43,7 @@ $ npm start
 
 
 ## ✅ 사용기술
-- React typeScript
+- React TypeScript
 - Styled Compoents
 - axios
 - react-router-dom
