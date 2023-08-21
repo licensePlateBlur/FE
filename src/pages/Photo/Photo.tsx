@@ -23,9 +23,10 @@ function Photo(){
     const [downloading,setDownloading]=useState<boolean>(false);
     const [click,setClick]=useState<boolean>(false);
     const [drop,setDrop]=useState<boolean>(false);
+    const [datashow,setDataShow]=useState<boolean>(false);
     const file = useSelector((store: RootState)=>store.file.filename)
     const dispatch = useDispatch();
-    // ref
+
     const inputRef = useRef<HTMLLabelElement>(null);
     const canvasRef = useRef<any>(null); //canvashtml로 정의
     const blurRef = useRef<any>(null);
@@ -58,6 +59,7 @@ function Photo(){
       }
     }
     useEffect(()=>{
+
         const input = inputRef.current; //어떤 객체가 만들어진다고 했는데 이게 이벤트 리스너랑 같은 역활을 한다.
         const canvas = canvasRef.current;
         const blur=blurRef.current;
@@ -76,7 +78,6 @@ function Photo(){
         }
         function handleDrop(event : DragEvent) {
           if(input) input.style.transform = 'scale(1.0)';
-            setLoading(prev => !prev)
             event.preventDefault();
             DrawImage(event);
         }
@@ -89,17 +90,21 @@ function Photo(){
             }
             if(event.dataTransfer)
             {
-                setDrop(true)
-                const preload = document.querySelectorAll<HTMLElement>('.preload')
-                preload.forEach( (preload) => preload.style.display="none")
+    
                 console.log(event.dataTransfer.files[0]);
                 const f = event.dataTransfer.files[0];
+                try{
                 const resizedImage = await ResizeImage(f, 752, 398);
+                const preload = document.querySelectorAll<HTMLElement>('.preload')
+                preload.forEach( (preload) => preload.style.display="none")
                 const formData = new FormData();
                 formData.append("image", resizedImage);
                 try{
+                    setDrop(true)
+                    setLoading(prev => !prev)
                     const response = await photoupload(formData);
                     setDatas(response.data)
+                    setDataShow(true)
                     console.log(response)
                     dispatch(getfilename(f.name))
                     const copylabel = PhotoCounter(response.data)
@@ -108,6 +113,7 @@ function Photo(){
                     canvas.style.display="flex"
                     blur.style.display="flex"
                     hover.style.display="flex"
+                    
                 }
         catch(err)
         {
@@ -130,7 +136,13 @@ function Photo(){
           context.drawImage(img, 0, 0,canvas.width, canvas.height); //원본
           blurctx.drawImage(img, 0, 0,canvas.width, canvas.height); //블라인드도 원본으로 초기화
         };
-        }
+      }catch(err)
+      {
+        if (err instanceof Error) alert(err.message);
+        window.location.reload();
+      }
+      }
+
         setTimeout(() => {
           setDrop(false)
         }, 2000);
@@ -289,7 +301,7 @@ function Photo(){
         <DisabledBox>
         <ButtonLayer>
         <BoldText>클릭해서 블러처리를 on/off 하세요</BoldText>
-        {(!loading && datas.length !== 0) && <><CancelBtn onClick={HandleCancel}>취소</CancelBtn><DownloadBtn onClick={SaveHandler}><Icon />저장하기</DownloadBtn></> }
+        {(!loading && datashow) && <><CancelBtn onClick={HandleCancel}>취소</CancelBtn><DownloadBtn onClick={SaveHandler}><Icon />저장하기</DownloadBtn></> }
         </ButtonLayer>
         <canvas id ="canvas" ref={canvasRef} />
         <canvas id= "blur" ref={blurRef}/>
@@ -301,13 +313,13 @@ function Photo(){
             <BoldText1>탐색된 좌표</BoldText1>
             <DisabledInfoRectangle className='preload'>사진을 먼저 업로드해주세요.</DisabledInfoRectangle>
             { loading && <DisabledInfoRectangle>로딩중 입니다. 기다려주세요</DisabledInfoRectangle>}
-            { (!loading && datas.length !== 0) && <FindXY datas={datas}/> }
+            { (!loading && datashow) && <FindXY datas={datas}/> }
         </DisabledInfoBox>
         <DisabledInfoBox>
             <BoldText1>탐색된 클래스</BoldText1>
             <DisabledInfoRectangle className='preload'>사진을 먼저 업로드해주세요.</DisabledInfoRectangle>
             { loading && <DisabledInfoRectangle>로딩중 입니다. 기다려주세요</DisabledInfoRectangle>}
-            { (!loading && datas.length !== 0) && <FindClass label={label}/> }
+            { (!loading &&  datashow) && <FindClass label={label}/> }
         </DisabledInfoBox>
         </Layer>
     )

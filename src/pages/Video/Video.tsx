@@ -73,18 +73,23 @@ function Video()
             try{
                 const response = await videoupload(formData)
                 console.log(response)
-                setDatas(response.data[3])
-                console.log(response.data[0].video_id)
-                dispatch(getid(response.data[0].video_id))
-                const copylabel = VideoCounter(response.data[3])
-                setLabel(copylabel);
+                if(response.data === '첨부한 파일이 동영상 형식이 맞는지 확인해주세요.')
+                {
+                    alert("동영상 파일만 업로드해주세요")
+                }
+                else{
+                    setDatas(response.data[3])
+                    dispatch(getid(response.data[0].video_id))
+                    const copylabel = VideoCounter(response.data[3])
+                    setLabel(copylabel);
+                    setShow(true)
+                }
             }catch(err)
             {
                 console.log(err);
             }
             finally{
                 setLoading(false)
-                setShow(true)
                 setTimeout(() => {
                     setDrop(false)
                   }, 1999);
@@ -126,7 +131,7 @@ function Video()
         <DisabledBox>
         <ButtonLayer>
         <BoldText>블러처리된 영상 보기</BoldText>
-        {(!loading && datas.length !== 0) && <><CancelBtn onClick={HandleCancel}>취소</CancelBtn><DownloadBtn onClick={PreviewHandler}><Icon />영상보기</DownloadBtn></> }
+        {(!loading && id !==0) && <><CancelBtn onClick={HandleCancel}>취소</CancelBtn><DownloadBtn onClick={PreviewHandler}><Icon />영상보기</DownloadBtn></> }
         </ButtonLayer>
         {!loading ? (<VideoBox controls id="video" $isflex={show}>
         <source id ="source" src="">
@@ -139,13 +144,13 @@ function Video()
             <BoldText1>탐색된 좌표</BoldText1>
             <DisabledInfoRectangle className='preload'>동영상을 먼저 업로드해주세요.</DisabledInfoRectangle>
             { loading && <DisabledInfoRectangle>로딩중 입니다. 기다려주세요</DisabledInfoRectangle>}
-            { (!loading && datas.length !== 0) && <FindXY data={datas}/> }
+            { (!loading && id !==0) && <FindXY data={datas}/> }
         </DisabledInfoBox>
         <DisabledInfoBox>
             <BoldText1>탐색된 클래스</BoldText1>
             <DisabledInfoRectangle className='preload'>동영상을 먼저 업로드해주세요.</DisabledInfoRectangle>
             { loading && <DisabledInfoRectangle>로딩중 입니다. 기다려주세요</DisabledInfoRectangle>}
-            { (!loading && datas.length !== 0) && <FindClass label={label}/> }
+            { (!loading && id !==0) && <FindClass label={label}/> }
         </DisabledInfoBox>
         </Layer>
 

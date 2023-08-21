@@ -120,7 +120,7 @@ function Realtime()
         <DisabledBox>
         <ButtonLayer>
         <BoldText>블러처리된 영상 보기</BoldText>
-        {(!loading && datas.length !== 0) && <><CancelBtn onClick={HandleCancel}>취소</CancelBtn><DownloadBtn onClick={PreviewHandler}><Icon />영상보기</DownloadBtn></> }
+        {(!loading && id !==0) && <><CancelBtn onClick={HandleCancel}>취소</CancelBtn><DownloadBtn onClick={PreviewHandler}><Icon />영상보기</DownloadBtn></> }
         </ButtonLayer>
         {!loading ? (<VideoBox controls id="video" $isflex={show}>
         <source id ="source" src="">
@@ -133,13 +133,13 @@ function Realtime()
             <BoldText1>탐색된 좌표</BoldText1>
             <DisabledInfoRectangle className='preload'>촬영을 시작해주세요</DisabledInfoRectangle>
             { loading && <DisabledInfoRectangle>로딩중 입니다. 기다려주세요</DisabledInfoRectangle>}
-            { (!loading && datas.length !== 0) && <FindXY data={datas}/> }
+            { (!loading && id !==0) && <FindXY data={datas}/> }
         </DisabledInfoBox>
         <DisabledInfoBox>
             <BoldText1>탐색된 클래스</BoldText1>
             <DisabledInfoRectangle className='preload'>촬영을 시작해주세요</DisabledInfoRectangle>
             { loading && <DisabledInfoRectangle>로딩중 입니다. 기다려주세요</DisabledInfoRectangle>}
-            { (!loading && datas.length !== 0) && <FindClass label={label}/> }
+            { (!loading && id !==0) && <FindClass label={label}/> }
         </DisabledInfoBox>
         </Layer>
 
