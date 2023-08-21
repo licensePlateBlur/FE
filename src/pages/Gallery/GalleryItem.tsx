@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Download } from '../../svg/download.svg';
 import { GalleryData } from '../../interface/GalleryData';

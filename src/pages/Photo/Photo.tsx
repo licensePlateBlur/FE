@@ -134,13 +134,13 @@ function Photo() {
       }, 2000);
     };
     function SetBlindCheck(i: number) {
-      let copy = [...checkm];
+      const copy = [...checkm];
       copy[i] = !copy[i];
       setCheckm(copy);
     }
     function BlurOn(x1: number, y1: number, width1: number, height1: number) {
       console.log('on');
-      var imageData = context.getImageData(x1, y1, width1, height1); //원하는 좌표가 될것
+      let imageData = context.getImageData(x1, y1, width1, height1); //원하는 좌표가 될것
       console.log(imageData.data);
 
       const pixels = imageData.data;
@@ -184,7 +184,7 @@ function Photo() {
     }
     function BlurOff(x: number, y: number, width: number, height: number) {
       console.log('off');
-      var imageData = context.getImageData(x, y, width, height); //원하는 좌표가 될것
+      let imageData = context.getImageData(x, y, width, height); //원하는 좌표가 될것
       console.log(imageData);
       blurctx.putImageData(imageData, x, y); //블라인드를 매꾼다.
     }
