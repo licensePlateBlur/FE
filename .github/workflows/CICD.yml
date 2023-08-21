@@ -1,10 +1,10 @@
-name: CI/CD-11th # 이름
+name: CI/CD-groot # 이름
 
 on:
-  push:
-    branches:
-      - main # 메인브랜치에 푸시가 됬을때 할꺼야
-  workflow_dispatch:                               ##직접 실행시킬수는 버튼이 생긴다.
+  # push:
+  #   branches:
+  #     - main # 메인브랜치에 푸시가 됬을때 할꺼야
+  workflow_dispatch: ##직접 실행시킬수는 버튼이 생긴다.
 jobs:
   cicd: # 하나의 job
     runs-on: ubuntu-latest # 이 환경에서 실행시킬꺼야
@@ -12,5 +12,16 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: 'main'
-      - run: ls
-      - run: npm ci #npm clean install
+      - run: npm ci #npm clean install  새로운 운영체제 까는것이기때문에 install부터 해줘야한다
+      # - run: npm run test      #ci
+      - run: npm run build #cd
+      - name: deploy to s3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }} # 깃허브에 저장된 이름에서 값을 가져옴
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'ap-northeast-2'
+          SOURCE_DIR: 'build'
