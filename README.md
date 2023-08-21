@@ -9,7 +9,7 @@ $ npm start
 ```
 ## ✅ 배포
 
-### 배포링크 아직입니다
+### 배포링크 http://groot-capstonedesign-project.s3-website.ap-northeast-2.amazonaws.com
 
 ### AWS S3 : 빌드
 
