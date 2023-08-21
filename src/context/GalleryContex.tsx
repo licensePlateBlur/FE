@@ -23,8 +23,8 @@ export const GalleryContexFC = ({ children }: { children: ReactNode }) => {
   const [page, setPage] = useState(1);
   const addPage = () => setPage(prev => prev + 1);
   const GetFiles = useCallback(async () => {
-      const response = await getfiles(page);
-      setDatas(prev => [...prev, ...response.data]);
+    const response = await getfiles(page);
+    setDatas(prev => [...prev, ...response.data]);
   }, [page]);
   useEffect(() => {
     GetFiles();

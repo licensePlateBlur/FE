@@ -20,6 +20,7 @@ function Gallery() {
     if (target.isIntersecting) {
       addPage();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     const option = {
