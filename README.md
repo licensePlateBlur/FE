@@ -1,12 +1,14 @@
 # AI 영상편집을 통한 실시간 개인정보 보호 시스템 FE
 
 ## ✅ 실행방법
+
 ```
 git clone https://github.com/licensePlateBlur/FE.git
 cd FE
 $ npm install
 $ npm start
 ```
+
 ## ✅ 배포
 
 ### 배포링크 http://groot-capstonedesign-project.s3-website.ap-northeast-2.amazonaws.com
@@ -41,8 +43,8 @@ $ npm start
 
 - commit message를 자주 실수하는데, 메세지를 실수했을때 커밋이 안되도록 정하면 좀더 깔끔한 협업을 할 수 있을것 같다
 
-
 ## ✅ 사용기술
+
 - React TypeScript
 - Styled Compoents
 - axios
@@ -53,6 +55,7 @@ $ npm start
 - react-image-file-resizer
 
 ## ✅ 프로젝트 구조
+
 ```
 📦 src
 ├── 📂 apis
@@ -74,5 +77,7 @@ $ npm start
 │── 📂 store
 └── 📂 svg
 ```
+
 ## ✅ 에러사항
- resizer 라이브러리에서 편집된 사진에 대한 크기조절 과정에서 이미지가 깨진다
+
+resizer 라이브러리에서 편집된 사진에 대한 크기조절 과정에서 이미지가 깨진다

@@ -1,20 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {RouterProvider} from "react-router-dom"
+import { RouterProvider } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
-import router from "./router/Router"
+import router from './router/Router';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import { GalleryContexFC } from './context/GalleryContex';
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <Provider store={store}>
     <GalleryContexFC>
-    <RouterProvider router={router}></RouterProvider>
+      <RouterProvider router={router}></RouterProvider>
     </GalleryContexFC>
-    </Provider>
+  </Provider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

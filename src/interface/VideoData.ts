@@ -1,4 +1,4 @@
-export interface VideoData{
-    class : string
-    time : string
-  }
+export interface VideoData {
+  class: string;
+  time: string;
+}

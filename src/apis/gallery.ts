@@ -1,11 +1,11 @@
-import { api } from "./core"
+import { api } from './core';
 
-export const getfiles = async(page : number)=>{
-    const response = await api.get(`files?page=${page}`)
-    return response
-}
+export const getfiles = async (page: number) => {
+  const response = await api.get(`files?page=${page}`);
+  return response;
+};
 
-export const downloadfile =async (id : number) => {
-    const response = await api.get(`download_file/${id}`)
-    return response
-}
+export const downloadfile = async (id: number) => {
+  const response = await api.get(`download_file/${id}`);
+  return response;
+};

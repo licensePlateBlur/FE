@@ -1,52 +1,52 @@
-body{
+body {
   width: 1920px;
   height: 1567px;
-  background: #FFF;
+  background: #fff;
   margin: 0 auto;
 }
-.Logo{
+.Logo {
   color: #000;
-text-align: center;
-font-family: SB Aggro;
-font-size: 36px;
-font-weight: 700;
-line-height: 135%; /* 48.6px */
-letter-spacing: -0.36px;
-text-decoration: none;
-margin-left: 53.25px;
+  text-align: center;
+  font-family: SB Aggro;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 135%; /* 48.6px */
+  letter-spacing: -0.36px;
+  text-decoration: none;
+  margin-left: 53.25px;
 }
-ul{
+ul {
   display: flex;
   flex-direction: row;
   padding: 0px;
   gap: 50px;
-  list-style:none;
+  list-style: none;
   margin: 0px;
   margin-left: 61px;
 }
-ul li{
+ul li {
   color: #000;
-text-align: center;
-font-family: Pretendard;
-font-size: 24px;
-font-style: normal;
-font-weight: 400;
-line-height: 135%; /* 32.4px */
-letter-spacing: -0.24px;
-  }
-  a{
-    text-decoration: none;
-  }
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 135%; /* 32.4px */
+  letter-spacing: -0.24px;
+}
+a {
+  text-decoration: none;
+}
 
-  canvas {
-    max-width: 752px;
-    max-height: 398px;
-    display: flex;
-    position: absolute;
-    }
-  #blur{
-     z-index: 2;
-  }
-  #hover{
-     z-index: 3;
-  }
+canvas {
+  max-width: 752px;
+  max-height: 398px;
+  display: flex;
+  position: absolute;
+}
+#blur {
+  z-index: 2;
+}
+#hover {
+  z-index: 3;
+}
