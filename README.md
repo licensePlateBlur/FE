@@ -9,7 +9,7 @@ $ npm start
 ```
 ## ✅ 배포
 
-### 배포링크 아직입니다
+### 배포링크 http://groot-capstonedesign-project.s3-website.ap-northeast-2.amazonaws.com
 
 ### AWS S3 : 빌드
 
@@ -43,11 +43,12 @@ $ npm start
 
 
 ## ✅ 사용기술
-- React typeScript
+- React TypeScript
 - Styled Compoents
 - axios
 - react-router-dom
 - reduxjs/toolkit / react-redux
+- Context API
 - Canvas
 - react-image-file-resizer
 
@@ -56,6 +57,7 @@ $ npm start
 📦 src
 ├── 📂 apis
 │── 📂 component
+│── 📂 context
 │── 📂 hook
 │── 📂 interface
 │── 📂 pages
@@ -71,3 +73,6 @@ $ npm start
 │── 📂 rotuer
 │── 📂 store
 └── 📂 svg
+```
+## ✅ 에러사항
+ resizer 라이브러리에서 편집된 사진에 대한 크기조절 과정에서 이미지가 깨진다
