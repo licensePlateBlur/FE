@@ -41,23 +41,10 @@ function Realtime() {
   useEffect(() => {
     const input = inputRef.current;
 
-    function handleDragOver(event: DragEvent) {
-      event.preventDefault();
-      if (input) input.style.transform = 'scale(1.03)';
-    }
-    function handleDragLeave(event: DragEvent) {
-      event.preventDefault();
-      if (input) input.style.transform = 'scale(1.0)';
-    }
-    function handleDrop(event: DragEvent) {
-      if (input) input.style.transform = 'scale(1.0)';
-      setShow(false);
-      setLoading(true);
-      event.preventDefault();
-      DropVideo(event);
-    }
-    const DropVideo = async (event: DragEvent) => {
-      if (event.dataTransfer) {
+   
+   const RealtimePlay= async () => {
+        setShow(false);
+        setLoading(true);
         setDrop(true);
         const preload = document.querySelectorAll<HTMLElement>('.preload');
         preload.forEach(preload => (preload.style.display = 'none'));
@@ -76,20 +63,15 @@ function Realtime() {
             setDrop(false);
           }, 1999);
         }
-      }
     };
     //리스너생성
     if (input) {
-      input.addEventListener('dragover', handleDragOver); //이게 있어야 drop 이 작동됨
-      input.addEventListener('dragleave', handleDragLeave);
-      input.addEventListener('drop', handleDrop);
+      input.addEventListener('click', RealtimePlay);
     }
     return () => {
       //리스너삭제
       if (input) {
-        input.removeEventListener('dragover', handleDragOver);
-        input.addEventListener('dragleave', handleDragLeave);
-        input.removeEventListener('drop', handleDrop);
+        input.removeEventListener('click', RealtimePlay);
       }
     };
   }, [dispatch, id]);
@@ -105,7 +87,6 @@ function Realtime() {
       <UploadBox>
         <BoldText1>클릭시 촬영을 시작합니다.</BoldText1>
         <form>
-          <Input type="file" id="input-file-upload" multiple={true} />
           <Label ref={inputRef} htmlFor="input-file-upload">
             <DragImage />
           </Label>
@@ -130,18 +111,18 @@ function Realtime() {
           </VideoBox>
         ) : null}
         <DisabledRectangle className="preload">촬영을 시작해주세요</DisabledRectangle>
-        {loading && <DisabledRectangle>로딩중 입니다. 기다려주세요</DisabledRectangle>}
+        {loading && <DisabledRectangle>촬영중 입니다. 기다려주세요</DisabledRectangle>}
       </DisabledBox>
       <DisabledInfoBox>
         <BoldText1>탐색된 좌표</BoldText1>
         <DisabledInfoRectangle className="preload">촬영을 시작해주세요</DisabledInfoRectangle>
-        {loading && <DisabledInfoRectangle>로딩중 입니다. 기다려주세요</DisabledInfoRectangle>}
+        {loading && <DisabledInfoRectangle>촬영중 입니다. 기다려주세요</DisabledInfoRectangle>}
         {!loading && id !== 0 && <FindXY data={datas} />}
       </DisabledInfoBox>
       <DisabledInfoBox>
         <BoldText1>탐색된 클래스</BoldText1>
         <DisabledInfoRectangle className="preload">촬영을 시작해주세요</DisabledInfoRectangle>
-        {loading && <DisabledInfoRectangle>로딩중 입니다. 기다려주세요</DisabledInfoRectangle>}
+        {loading && <DisabledInfoRectangle>촬영중 입니다. 기다려주세요</DisabledInfoRectangle>}
         {!loading && id !== 0 && <FindClass label={label} />}
       </DisabledInfoBox>
     </Layer>
@@ -186,9 +167,6 @@ const BoldText1 = styled.div`
   font-weight: 700;
   letter-spacing: -0.32px;
   margin-bottom: 31px;
-`;
-const Input = styled.input`
-  display: none;
 `;
 const Label = styled.label`
   width: 100%;
