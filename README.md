@@ -16,14 +16,13 @@ $ npm start
 ## ✅ CI/CD 자동화
 
 - GitHub Action 사용
-- AWS Sync 를 통해 action 과 aws3 연결 
+- AWS Sync 를 통해 action 과 aws3 연결
 
 ## ✅ 개발 규칙
 
 - Prettier
 - Eslint
 - Husky
-
 
 ### 현재 규칙
 
@@ -89,5 +88,6 @@ $ npm start
 ```
 
 ## ✅ 에러사항
+
 - 편집된(포토샵 등으로 가공된) 사진에 대한 크기조절 과정에서 이미지가 깨진다
   - 2,3번 사진을 넣으면 가끔 될때가 있다.

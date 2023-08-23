@@ -83,7 +83,7 @@ function Video() {
           setLoading(false);
           setTimeout(() => {
             setDrop(false);
-          }, 1999);
+          }, 1800);
         }
       }
     };

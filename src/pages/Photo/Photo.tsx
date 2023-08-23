@@ -131,7 +131,7 @@ function Photo() {
 
       setTimeout(() => {
         setDrop(false);
-      }, 2000);
+      }, 1800);
     };
     function SetBlindCheck(i: number) {
       const copy = [...checkm];

@@ -41,28 +41,27 @@ function Realtime() {
   useEffect(() => {
     const input = inputRef.current;
 
-   
-   const RealtimePlay= async () => {
-        setShow(false);
-        setLoading(true);
-        setDrop(true);
-        const preload = document.querySelectorAll<HTMLElement>('.preload');
-        preload.forEach(preload => (preload.style.display = 'none'));
-        try {
-          const response = await realtimeshooting();
-          setDatas(response.data[3]);
-          dispatch(getid(response.data[0].video_id));
-          const copylabel = VideoCounter(response.data[3]);
-          setLabel(copylabel);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          setLoading(false);
-          setShow(true);
-          setTimeout(() => {
-            setDrop(false);
-          }, 1999);
-        }
+    const RealtimePlay = async () => {
+      setShow(false);
+      setLoading(true);
+      setDrop(true);
+      const preload = document.querySelectorAll<HTMLElement>('.preload');
+      preload.forEach(preload => (preload.style.display = 'none'));
+      try {
+        const response = await realtimeshooting();
+        setDatas(response.data[3]);
+        dispatch(getid(response.data[0].video_id));
+        const copylabel = VideoCounter(response.data[3]);
+        setLabel(copylabel);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+        setShow(true);
+        setTimeout(() => {
+          setDrop(false);
+        }, 1800);
+      }
     };
     //리스너생성
     if (input) {
@@ -174,6 +173,10 @@ const Label = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  &:hover{
+    transform:scale(1.03);
+  }
 `;
 const DisabledBox = styled.div`
   margin-top: 111px;

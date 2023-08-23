@@ -32,7 +32,7 @@ const ButtonLayer = styled.div<{ $isfadeout: boolean }>`
   line-height: 160%; /* 35.2px */
   letter-spacing: -0.22px;
   position: fixed;
-  top: 1111px;
+  top: 80%;
   left: 50%;
   transform: translate(-50%, 0);
   display: flex;
