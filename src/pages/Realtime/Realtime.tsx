@@ -174,8 +174,8 @@ const Label = styled.label`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  &:hover{
-    transform:scale(1.03);
+  &:hover {
+    transform: scale(1.03);
   }
 `;
 const DisabledBox = styled.div`

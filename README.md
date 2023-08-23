@@ -16,7 +16,7 @@ $ npm start
 ## ✅ CI/CD 자동화
 
 - GitHub Action 사용
-- AWS Sync 를 통해 action 과 aws3 연결
+- AWS Sync 를 통해 action 과 AWS S3 연결 
 
 ## ✅ 개발 규칙
 
