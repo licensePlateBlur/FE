@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { PhotoData } from '../../../interface/PhotoData';
+import ClassNameTransfer from '../../../hook/ClassNameTransfer';
 function FindXY(props: { datas: PhotoData[] }) {
   const datas = props.datas;
   return (
@@ -14,7 +15,7 @@ function FindXY(props: { datas: PhotoData[] }) {
       </AbledInfoRectange>
       {datas.map((data: PhotoData, id: number) => (
         <AbledInfoRectange key={id}>
-          <ClassName>{data.class}</ClassName>
+          <ClassName>{ClassNameTransfer(data.name)}</ClassName>
           <Info>{Math.round(data.confidence * 100)}%</Info>
           <Info>{Math.floor(data.xmax)}</Info>
           <Info>{Math.floor(data.xmin)}</Info>
