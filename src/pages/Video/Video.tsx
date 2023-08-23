@@ -70,6 +70,7 @@ function Video() {
           console.log(response);
           if (response.data === '첨부한 파일이 동영상 형식이 맞는지 확인해주세요.') {
             alert('동영상 파일만 업로드해주세요');
+            window.location.reload();
           } else {
             setDatas(response.data[3]);
             dispatch(getid(response.data[0].video_id));
