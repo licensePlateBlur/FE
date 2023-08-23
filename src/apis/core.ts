@@ -7,6 +7,7 @@ const instance = (url: string) => {
   return axios.create({
     baseURL: url,
     headers: { 'Content-Type': 'multipart/form-data' },
+    withCredentials: true,
   });
 };
 
