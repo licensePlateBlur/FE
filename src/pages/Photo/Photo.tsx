@@ -85,6 +85,7 @@ function Photo() {
         const f = event.dataTransfer.files[0];
         try {
           const resizedImage = await ResizeImage(f, 752, 398);
+          console.log(resizedImage)
           const preload = document.querySelectorAll<HTMLElement>('.preload');
           preload.forEach(preload => (preload.style.display = 'none'));
           const formData = new FormData();
@@ -96,7 +97,7 @@ function Photo() {
             setDatas(response.data);
             setDataShow(true);
             console.log(response);
-            dispatch(getfilename(f.name));
+            dispatch(getfilename(resizedImage.name));
             const copylabel = PhotoCounter(response.data);
             setLabel(copylabel);
             setLoading(prev => !prev);

@@ -1,18 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Download } from '../../svg/download.svg';
+import { ReactComponent as Trash } from '../../svg/trash.svg';
 import { GalleryData } from '../../interface/GalleryData';
 import formatBytes from './hook/FormatByte';
 import FormatData from './hook/FormatDate';
 interface ItemProps {
   file: GalleryData;
   DownloadHandler: (id: number, event: React.MouseEvent<HTMLDivElement>) => void;
+  DeleteHandler : (id : number) => void;
 }
 
-function GalleryItem({ file, DownloadHandler }: ItemProps) {
+function GalleryItem({ file, DownloadHandler,DeleteHandler }: ItemProps) {
   return (
     <ListItemBox>
-      <Name $size="60%">{file.ORIGINAL_FILE_NAME}</Name>
+      <Name $size="50%">{file.ORIGINAL_FILE_NAME}</Name>
       <Text $size="10%">{FormatData(file.CREATED_DATE)}</Text>
       <Text $size="10%">{file.FILE_TYPE}</Text>
       <Text $size="10%">{formatBytes(file.FILE_SIZE)}</Text>
@@ -21,6 +23,12 @@ function GalleryItem({ file, DownloadHandler }: ItemProps) {
         onClick={(event: React.MouseEvent<HTMLDivElement>) => DownloadHandler(file.ID, event)}
       >
         <Download />
+      </Text>
+      <Text
+        $size="10%"
+        onClick={(event: React.MouseEvent<HTMLDivElement>) => DeleteHandler(file.ID)}
+      >
+        <Trash/>
       </Text>
     </ListItemBox>
   );

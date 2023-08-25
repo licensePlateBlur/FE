@@ -6,11 +6,10 @@ import { GalleryData } from '../../interface/GalleryData';
 import DownButton from '../../component/Button';
 import { useGallery, useGalleryChange } from '../../context/GalleryContex';
 
-
 function Gallery() {
   const loader = useRef<HTMLDivElement | null>(null);
-  const {datas,endpoint} : any = useGallery();
-  const { addPage }: any = useGalleryChange(); //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
+  const { datas, endpoint }: any = useGallery();
+  const { addPage,DeleteHandler }: any = useGalleryChange(); //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
   const [downloading, setDownloading] = useState<boolean>(false);
   const [click, setClick] = useState<boolean>(false);
 
@@ -26,7 +25,7 @@ function Gallery() {
   }, []);
   useEffect(() => {
     const option = {
-      threshold: 1.0,
+      threshold: 0.9,
     };
     const observer = new IntersectionObserver(handleObserver, option);
     if (loader.current) observer.observe(loader.current);
@@ -45,6 +44,7 @@ function Gallery() {
       setClick(false);
     }, 1999);
   };
+
   if (datas === null) {
     return <div>loading</div>;
   }
@@ -69,18 +69,19 @@ function Gallery() {
       </TitleLayer>
       <ListLayer>
         <ListTitle>
-          <Name $size="60%">파일 이름</Name>
+          <Name $size="50%">파일 이름</Name>
           <Text $size="10%">생성일</Text>
           <Text $size="10%">파일타입</Text>
           <Text $size="10%">파일크기</Text>
           <Text $size="10%">다운로드</Text>
+          <Text $size="10%">삭제</Text>
         </ListTitle>
         <ListItemLayer>
           {datas.map((data: GalleryData, id: number) => (
-            <GalleryItem key={data.ID} file={data} DownloadHandler={DownloadHandler} />
+            <GalleryItem key={data.ID} file={data} DownloadHandler={DownloadHandler} DeleteHandler={DeleteHandler}/>
           ))}
         </ListItemLayer>
-        {endpoint ? null :  <Title ref={loader}>Loading...</Title>}
+        {endpoint ? null : <Title ref={loader}>Loading...</Title>}
       </ListLayer>
     </>
   );
