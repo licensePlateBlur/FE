@@ -6,9 +6,10 @@ import { GalleryData } from '../../interface/GalleryData';
 import DownButton from '../../component/Button';
 import { useGallery, useGalleryChange } from '../../context/GalleryContex';
 
+
 function Gallery() {
   const loader = useRef<HTMLDivElement | null>(null);
-  const datas = useGallery();
+  const {datas,endpoint} : any = useGallery();
   const { addPage }: any = useGalleryChange(); //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
   const [downloading, setDownloading] = useState<boolean>(false);
   const [click, setClick] = useState<boolean>(false);
@@ -20,11 +21,12 @@ function Gallery() {
     if (target.isIntersecting) {
       addPage();
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     const option = {
-      threshold: 0.1,
+      threshold: 1.0,
     };
     const observer = new IntersectionObserver(handleObserver, option);
     if (loader.current) observer.observe(loader.current);
@@ -78,7 +80,7 @@ function Gallery() {
             <GalleryItem key={data.ID} file={data} DownloadHandler={DownloadHandler} />
           ))}
         </ListItemLayer>
-        <Title ref={loader}>Loading...</Title>
+        {endpoint ? null :  <Title ref={loader}>Loading...</Title>}
       </ListLayer>
     </>
   );

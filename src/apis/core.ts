@@ -10,4 +10,4 @@ const instance = (url: string) => {
   });
 };
 
-export const api = instance(MyNotebook);
+export const api = instance(BASE_URL);
