@@ -8,10 +8,10 @@ import FormatData from './hook/FormatDate';
 interface ItemProps {
   file: GalleryData;
   DownloadHandler: (id: number, event: React.MouseEvent<HTMLDivElement>) => void;
-  DeleteHandler : (id : number) => void;
+  DeleteHandler: (id: number) => void;
 }
 
-function GalleryItem({ file, DownloadHandler,DeleteHandler }: ItemProps) {
+function GalleryItem({ file, DownloadHandler, DeleteHandler }: ItemProps) {
   return (
     <ListItemBox>
       <Name $size="50%">{file.ORIGINAL_FILE_NAME}</Name>
@@ -28,7 +28,7 @@ function GalleryItem({ file, DownloadHandler,DeleteHandler }: ItemProps) {
         $size="10%"
         onClick={(event: React.MouseEvent<HTMLDivElement>) => DeleteHandler(file.ID)}
       >
-        <Trash/>
+        <Trash />
       </Text>
     </ListItemBox>
   );

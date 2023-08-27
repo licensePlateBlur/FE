@@ -5,13 +5,18 @@ import GalleryItem from './GalleryItem';
 import { GalleryData } from '../../interface/GalleryData';
 import DownButton from '../../component/Button';
 import { useGallery, useGalleryChange } from '../../context/GalleryContex';
+import SwitchLayer from '../../component/SwitchLayer';
 
 function Gallery() {
   const loader = useRef<HTMLDivElement | null>(null);
   const { datas, endpoint }: any = useGallery();
-  const { addPage,DeleteHandler }: any = useGalleryChange(); //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
+  const { addPage, DeleteHandler }: any = useGalleryChange(); //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
   const [downloading, setDownloading] = useState<boolean>(false);
   const [click, setClick] = useState<boolean>(false);
+  const [change,setChange]= useState<boolean>(true)
+    const ChangeHandler = () =>{
+        setChange(prev => !prev)
+    }
 
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
     // console.log(entries)
@@ -64,6 +69,10 @@ function Gallery() {
             <UploadBtn message="사진 업로드" href="/photo"></UploadBtn>
             <UploadBtn message="영상 업로드" href="/video"></UploadBtn>
             <UploadBtn message="실시간 촬영" href="/realtime"></UploadBtn>
+            <SwitchLayer
+            change={change}
+            ChangeHandler={ChangeHandler}
+            />
           </UploadLayer>
         </TitleBox>
       </TitleLayer>
@@ -78,7 +87,12 @@ function Gallery() {
         </ListTitle>
         <ListItemLayer>
           {datas.map((data: GalleryData, id: number) => (
-            <GalleryItem key={data.ID} file={data} DownloadHandler={DownloadHandler} DeleteHandler={DeleteHandler}/>
+            <GalleryItem
+              key={data.ID}
+              file={data}
+              DownloadHandler={DownloadHandler}
+              DeleteHandler={DeleteHandler}
+            />
           ))}
         </ListItemLayer>
         {endpoint ? null : <Title ref={loader}>Loading...</Title>}
@@ -143,3 +157,9 @@ const ListItemLayer = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
+
+// const GridItemLayer = styled.div`
+// display: flex;
+// flex-wrap: wrap;
+// gap : 15px;
+// `

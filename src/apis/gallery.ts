@@ -10,7 +10,12 @@ export const downloadfile = async (id: number) => {
   return response;
 };
 
-export const deletefile = async(id : number) =>{
-  const response = await api.get(`delete/${id}`)
+export const deletefile = async (id: number) => {
+  const response = await api.get(`delete/${id}`);
+  return response;
+};
+
+export const getfile =async (id : number) => {
+  const response = await api.get(`file/${id}`)
   return response
 }

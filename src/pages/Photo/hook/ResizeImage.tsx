@@ -10,7 +10,7 @@ const ResizeImage = async (file: File, maxWidth: number, maxHeight: number): Pro
       file,
       maxWidth,
       maxHeight,
-      'JPEG',
+      'jpeg',
       100,
       0,
       resizedImage => {

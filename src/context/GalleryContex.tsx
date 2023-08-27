@@ -11,7 +11,7 @@ import { deletefile, getfiles } from '../apis/gallery';
 
 interface GalleryChangeContextType {
   addPage: () => void;
-  DeleteHandler : (id: number) => void;
+  DeleteHandler: (id: number) => void;
 }
 interface GalleryValue {
   datas: GalleryData[];
@@ -30,24 +30,26 @@ export const GalleryContexFC = ({ children }: { children: ReactNode }) => {
   const addPage = () => setPage(prev => prev + 1);
   const GetFiles = useCallback(async () => {
     const response = await getfiles(page);
-    console.log(response)
+    console.log(response);
     if (response.data.length === 0) setEndpoint(true);
     else {
       setDatas(prev => [...prev, ...response.data]);
       setEndpoint(false);
     }
   }, [page]);
-  const DeleteHandler = (id : number)=>{
-    console.log("delete")
+  const DeleteHandler = (id: number) => {
+    console.log('delete');
     deletefile(id);
-    setDatas( (prev)=> prev.filter((todo)=> todo.ID !== id))
- }
+    setDatas(prev => prev.filter(todo => todo.ID !== id));
+  };
   useEffect(() => {
     GetFiles();
   }, [GetFiles]);
   return (
     <GalleryContex.Provider value={{ datas, endpoint }}>
-      <GalleryChangeContext.Provider value={{ addPage,DeleteHandler }}>{children}</GalleryChangeContext.Provider>
+      <GalleryChangeContext.Provider value={{ addPage, DeleteHandler }}>
+        {children}
+      </GalleryChangeContext.Provider>
     </GalleryContex.Provider>
   );
 };
