@@ -13,10 +13,10 @@ function Gallery() {
   const { addPage, DeleteHandler }: any = useGalleryChange(); //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
   const [downloading, setDownloading] = useState<boolean>(false);
   const [click, setClick] = useState<boolean>(false);
-  const [change,setChange]= useState<boolean>(true)
-    const ChangeHandler = () =>{
-        setChange(prev => !prev)
-    }
+  const [change, setChange] = useState<boolean>(true);
+  const ChangeHandler = () => {
+    setChange(prev => !prev);
+  };
 
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
     // console.log(entries)
@@ -69,10 +69,7 @@ function Gallery() {
             <UploadBtn message="사진 업로드" href="/photo"></UploadBtn>
             <UploadBtn message="영상 업로드" href="/video"></UploadBtn>
             <UploadBtn message="실시간 촬영" href="/realtime"></UploadBtn>
-            <SwitchLayer
-            change={change}
-            ChangeHandler={ChangeHandler}
-            />
+            <SwitchLayer change={change} ChangeHandler={ChangeHandler} />
           </UploadLayer>
         </TitleBox>
       </TitleLayer>

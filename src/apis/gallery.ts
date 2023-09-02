@@ -15,7 +15,7 @@ export const deletefile = async (id: number) => {
   return response;
 };
 
-export const getfile =async (id : number) => {
-  const response = await api.get(`file/${id}`)
-  return response
-}
+export const getfile = async (id: number) => {
+  const response = await api.get(`file/${id}`);
+  return response;
+};

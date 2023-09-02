@@ -11,6 +11,8 @@ import { RootState } from '../../store/store';
 import { getid } from '../../store/video';
 import DownButton from '../../component/Button';
 import { VideoData } from '../../interface/VideoData';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Video() {
   const [datas, setDatas] = useState<VideoData[]>([]);
   const [label, setLabel] = useState<number[]>([0, 0, 0, 0]);
@@ -58,7 +60,6 @@ function Video() {
     }
     const DropVideo = async (event: DragEvent) => {
       if (event.dataTransfer) {
-        setDrop(true);
         const preload = document.querySelectorAll<HTMLElement>('.preload');
         preload.forEach(preload => (preload.style.display = 'none'));
         console.log(event.dataTransfer.files[0]);
@@ -69,9 +70,12 @@ function Video() {
           const response = await videoupload(formData);
           console.log(response);
           if (response.data === '첨부한 파일이 동영상 형식이 맞는지 확인해주세요.') {
-            alert('동영상 파일만 업로드해주세요');
-            window.location.reload();
+            toast.warn('동영상 형식을 확인해 주세요',{
+            position: toast.POSITION.TOP_CENTER,
+            onClose: () => window.location.reload()
+          })
           } else {
+            setDrop(true);
             setDatas(response.data[3]);
             dispatch(getid(response.data[0].video_id));
             const copylabel = VideoCounter(response.data[3]);

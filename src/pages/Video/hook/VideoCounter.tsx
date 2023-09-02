@@ -1,12 +1,11 @@
 import { VideoData } from '../../../interface/VideoData';
 function VideoCounter(props: VideoData[]) {
   const label: number[] = [0, 0, 0, 0];
-  // eslint-disable-next-line array-callback-return
-  props.map((data: VideoData) => {
+  
+  props.forEach((data: VideoData) => {
     const deepcopy = JSON.parse(JSON.stringify(data)) as VideoData; //깊은복사
     const Classes = deepcopy.class.split('/');
-    // eslint-disable-next-line array-callback-return
-    Classes.map((Class: string) => {
+    Classes.forEach((Class: string) => {
       if (Class === '0') {
         label[0] += 1;
       } else if (Class === 'Mobile phone') {

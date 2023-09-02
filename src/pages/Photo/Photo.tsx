@@ -13,7 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getfilename } from '../../store/photo';
 import { RootState } from '../../store/store';
 import { PhotoData } from '../../interface/PhotoData';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Photo() {
   const [checkm, setCheckm] = useState([true, true, true]);
   const [datas, setDatas] = useState<PhotoData[]>([]);
@@ -125,8 +126,10 @@ function Photo() {
             blurctx.drawImage(img, 0, 0, canvas.width, canvas.height); //블라인드도 원본으로 초기화
           };
         } catch (err) {
-          if (err instanceof Error) alert(err.message);
-          window.location.reload();
+          if (err instanceof Error) toast.warn(err.message,{
+            position: toast.POSITION.TOP_CENTER,
+            onClose: () => window.location.reload()
+          });
         }
       }
 
