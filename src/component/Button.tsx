@@ -1,14 +1,25 @@
 import styled, { css, keyframes } from 'styled-components';
 import { ReactComponent as Check } from '../svg/check.svg';
+import CircularProgress from '@mui/material/CircularProgress';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 function Button({ message, isfadeout = false }: { message: string; isfadeout?: boolean }) {
   return (
+    <ThemeProvider theme={theme}>
     <ButtonLayer $isfadeout={isfadeout}>
-      <Check /> {message}
+       {isfadeout ? <Check /> : <CircularProgress color='primary'/>} {message}
     </ButtonLayer>
+    </ThemeProvider>
   );
 }
 
 export default Button;
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#fedd33'
+    }
+  },
+});
 
 const Fadeout = keyframes`
     from {
