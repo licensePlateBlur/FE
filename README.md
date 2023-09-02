@@ -62,6 +62,7 @@ $ npm start
 - Context API
 - Canvas
 - react-image-file-resizer
+- react-toastify
 
 ## ✅ 프로젝트 구조
 
