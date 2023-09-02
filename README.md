@@ -62,6 +62,7 @@ $ npm start
 - Context API
 - Canvas
 - react-image-file-resizer
+- react-toastify
 
 ## ✅ 프로젝트 구조
 
@@ -92,3 +93,4 @@ $ npm start
 - 편집된(포토샵 등으로 가공된) 사진에 대한 크기조절 과정에서 이미지가 깨진다
   - 2,3번 사진을 넣으면 가끔 될때가 있다.
 - network error 예외처리를 진행하지 않음
+- Grid 버전을 추가할 수 있으나 서버 병렬처리가 안되어 에러가 남
