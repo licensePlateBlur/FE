@@ -39,7 +39,7 @@ const ButtonLayer = styled.div<{ $isfadeout: boolean }>`
   align-items: center;
   justify-content: center;
   gap: 12px;
-  z-index : 5;
+  z-index: 5;
   animation: ${props =>
     props.$isfadeout
       ? css`

@@ -70,10 +70,10 @@ function Video() {
           const response = await videoupload(formData);
           console.log(response);
           if (response.data === '첨부한 파일이 동영상 형식이 맞는지 확인해주세요.') {
-            toast.warn('동영상 형식을 확인해 주세요',{
-            position: toast.POSITION.TOP_CENTER,
-            onClose: () => window.location.reload()
-          })
+            toast.warn('동영상 형식을 확인해 주세요', {
+              position: toast.POSITION.TOP_CENTER,
+              onClose: () => window.location.reload(),
+            });
           } else {
             setDrop(true);
             setDatas(response.data[3]);

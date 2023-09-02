@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { VideoData } from '../../../interface/VideoData';
 import VideoClass from './VideoClass';
-function FindXY( props: { data: VideoData[] }) {
+function FindXY(props: { data: VideoData[] }) {
   const datas = props.data;
   return (
     <>
@@ -11,7 +11,7 @@ function FindXY( props: { data: VideoData[] }) {
       </AbledInfoRectange>
       {datas.map((data: VideoData, id: number) => (
         <AbledInfoRectange key={id}>
-          <VideoClass data={data.class}/>
+          <VideoClass data={data.class} />
           <Info>{data.time}</Info>
         </AbledInfoRectange>
       ))}

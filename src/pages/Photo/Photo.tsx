@@ -126,10 +126,11 @@ function Photo() {
             blurctx.drawImage(img, 0, 0, canvas.width, canvas.height); //블라인드도 원본으로 초기화
           };
         } catch (err) {
-          if (err instanceof Error) toast.warn(err.message,{
-            position: toast.POSITION.TOP_CENTER,
-            onClose: () => window.location.reload()
-          });
+          if (err instanceof Error)
+            toast.warn(err.message, {
+              position: toast.POSITION.TOP_CENTER,
+              onClose: () => window.location.reload(),
+            });
         }
       }
 

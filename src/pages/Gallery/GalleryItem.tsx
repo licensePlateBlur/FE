@@ -51,6 +51,9 @@ letter-spacing: -0.21px;
 padding : 23px;
 display : flex;
 flex-direction: row;
+&:hover{
+  transform: scale(1.01);
+}
 `;
 const Text = styled.div<{ $size: string }>`
   width: ${props => props.$size};
