@@ -5,9 +5,9 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 function Button({ message, isfadeout = false }: { message: string; isfadeout?: boolean }) {
   return (
     <ThemeProvider theme={theme}>
-    <ButtonLayer $isfadeout={isfadeout}>
-       {isfadeout ? <Check /> : <CircularProgress color='primary'/>} {message}
-    </ButtonLayer>
+      <ButtonLayer $isfadeout={isfadeout}>
+        {isfadeout ? <Check /> : <CircularProgress color="primary" />} {message}
+      </ButtonLayer>
     </ThemeProvider>
   );
 }
@@ -16,8 +16,8 @@ export default Button;
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#fedd33'
-    }
+      main: '#fedd33',
+    },
   },
 });
 

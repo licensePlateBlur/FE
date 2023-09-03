@@ -31,4 +31,8 @@ const ButtonLayer = styled.button`
   font-weight: 400;
   line-height: 135%; /* 27px */
   letter-spacing: -0.2px;
+  &:hover{
+    transform: scale(1.05);
+  }
+  cursor : pointer;
 `;

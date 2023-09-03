@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect} from 'react';
 import styled from 'styled-components';
 import { ReactComponent as DragImage } from '../../svg/upload-box-group.svg';
 import { ReactComponent as Icon } from '../../svg/icon.svg';
@@ -28,6 +28,7 @@ function Photo() {
   const dispatch = useDispatch();
 
   const inputRef = useRef<HTMLLabelElement>(null);
+  const changeRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<any>(null); //canvashtml로 정의
   const blurRef = useRef<any>(null);
   const hoverRef = useRef<any>(null);
@@ -58,9 +59,19 @@ function Photo() {
     const canvas = canvasRef.current;
     const blur = blurRef.current;
     const hover = hoverRef.current;
+    const changeinput = changeRef.current;
     const context = canvas.getContext('2d', { willReadFrequently: true });
     const blurctx = blur.getContext('2d', { willReadFrequently: true });
     const hoverctx = hover.getContext('2d', { willReadFrequently: true });
+    //changeHandler
+    function InputOnchange(event : Event){
+      const target = event.target as HTMLInputElement
+      if(target.files)
+      {
+        console.log(target.files[0])
+        DrawImage(target.files[0])
+      }
+    }
     // Handle dragover event
     function handleDragOver(event: DragEvent) {
       event.preventDefault();
@@ -73,17 +84,19 @@ function Photo() {
     function handleDrop(event: DragEvent) {
       if (input) input.style.transform = 'scale(1.0)';
       event.preventDefault();
-      DrawImage(event);
+      if(event.dataTransfer)
+      {
+        console.log(event.dataTransfer.files[0]);
+        const f = event.dataTransfer.files[0];
+        DrawImage(f);
+      }
     }
-    const DrawImage = async (event: DragEvent) => {
+    const DrawImage = async (f : File) => {
       if (context !== null) {
         canvas.style.display = 'none';
         blur.style.display = 'none';
         hover.style.display = 'none';
       }
-      if (event.dataTransfer) {
-        console.log(event.dataTransfer.files[0]);
-        const f = event.dataTransfer.files[0];
         try {
           const resizedImage = await ResizeImage(f, 752, 398);
           console.log(resizedImage);
@@ -132,7 +145,6 @@ function Photo() {
               onClose: () => window.location.reload(),
             });
         }
-      }
 
       setTimeout(() => {
         setDrop(false);
@@ -201,7 +213,7 @@ function Photo() {
       // eslint-disable-next-line array-callback-return
       datas.map((data: any, i) => {
         if (x >= data.xmin && x <= data.xmax && y >= data.ymin && y <= data.ymax) {
-          console.log(i);
+          // console.log(i);
           if (checkm[i]) {
             //true는 블라인드를 할수 있다.
             BlurOn(data.xmin, data.ymin, data.xmax - data.xmin, data.ymax - data.ymin);
@@ -221,10 +233,10 @@ function Photo() {
       const y = event.offsetY;
       // eslint-disable-next-line array-callback-return
       datas.map((data: any) => {
-        console.log(y);
+        // console.log(y);
         if (x >= data.xmin && x <= data.xmax && y >= data.ymin && y <= data.ymax) {
           hoverctx.strokeStyle = 'red';
-          console.log(Math.floor(data.ymax) - Math.floor(data.ymin));
+          // console.log(Math.floor(data.ymax) - Math.floor(data.ymin));
           hoverctx.strokeRect(
             data.xmin,
             data.ymin,
@@ -253,6 +265,7 @@ function Photo() {
     if (input) input.addEventListener('dragover', handleDragOver); //이게 있어야 drop 이 작동됨
     if (input) input.addEventListener('dragleave', handleDragLeave);
     if (input) input.addEventListener('drop', handleDrop);
+    if(changeinput) changeinput.addEventListener('change',InputOnchange);
     hover.addEventListener('click', ClickHandler);
     hover.addEventListener('mousemove', MouseMoveHandler);
     hover.addEventListener('mouseout', MouseOutHandler);
@@ -261,6 +274,7 @@ function Photo() {
       if (input) input.removeEventListener('dragover', handleDragOver);
       if (input) input.addEventListener('dragleave', handleDragLeave);
       if (input) input.removeEventListener('drop', handleDrop);
+      if(changeinput) changeinput.removeEventListener('change',InputOnchange);
       hover.removeEventListener('click', ClickHandler);
       hover.removeEventListener('mousemove', MouseMoveHandler);
       hover.removeEventListener('mouseout', MouseOutHandler);
@@ -285,7 +299,7 @@ function Photo() {
       <UploadBox>
         <BoldText1>사진을 업로드 해주세요</BoldText1>
         <form>
-          <Input type="file" id="input-file-upload" multiple={true} />
+          <Input ref={changeRef}type="file" id="input-file-upload" multiple={true}/>
           <Label ref={inputRef} htmlFor="input-file-upload">
             <DragImage />
           </Label>
