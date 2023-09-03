@@ -23,6 +23,7 @@ function Video() {
   const dispatch = useDispatch();
   //ref
   const inputRef = useRef<HTMLLabelElement>(null);
+  const changeRef = useRef<HTMLInputElement>(null);
   function HandleCancel() {
     window.location.reload();
   }
@@ -42,7 +43,19 @@ function Video() {
   };
   useEffect(() => {
     const input = inputRef.current;
-
+    const changeinput = changeRef.current;
+    //input change listener function
+    function InputOnchange(event: Event) {
+      const target = event.target as HTMLInputElement;
+      if(target.files)
+      {
+        if(target.files.length > 0) //undefined를 막는 가장 좋은 방법이라고 했다~
+        {
+          console.log(target.files[0])
+          DropVideo(target.files[0])
+        }
+      }
+    }
     function handleDragOver(event: DragEvent) {
       event.preventDefault();
       if (input) input.style.transform = 'scale(1.03)';
@@ -55,16 +68,17 @@ function Video() {
       if (input) input.style.transform = 'scale(1.0)';
       setShow(false);
       event.preventDefault();
-      DropVideo(event);
-    }
-    const DropVideo = async (event: DragEvent) => {
       if (event.dataTransfer) {
+        console.log(event.dataTransfer.files[0]);
+        const f = event.dataTransfer.files[0];
+        DropVideo(f);
+      }
+    }
+    const DropVideo = async (f : File) => {
         setDrop(true);
         setLoading(true);
         const preload = document.querySelectorAll<HTMLElement>('.preload');
         preload.forEach(preload => (preload.style.display = 'none'));
-        console.log(event.dataTransfer.files[0]);
-        const f = event.dataTransfer.files[0];
         const formData = new FormData();
         formData.append('video', f);
         try {
@@ -91,7 +105,6 @@ function Video() {
             setDrop(false);
           }, 1800);
         }
-      }
     };
     //리스너생성
     if (input) {
@@ -99,6 +112,7 @@ function Video() {
       input.addEventListener('dragleave', handleDragLeave);
       input.addEventListener('drop', handleDrop);
     }
+    if (changeinput) changeinput.addEventListener('change', InputOnchange);
     return () => {
       //리스너삭제
       if (input) {
@@ -106,6 +120,7 @@ function Video() {
         input.addEventListener('dragleave', handleDragLeave);
         input.removeEventListener('drop', handleDrop);
       }
+      if (changeinput) changeinput.removeEventListener('change', InputOnchange);
     };
   }, [dispatch, id]);
   return (
@@ -120,7 +135,7 @@ function Video() {
       <UploadBox>
         <BoldText1>동영상을 업로드 해주세요</BoldText1>
         <form>
-          <Input type="file" id="input-file-upload" multiple={true} />
+          <Input ref={changeRef} type="file" id="input-file-upload" multiple={false} />
           <Label ref={inputRef} htmlFor="input-file-upload">
             <DragImage />
           </Label>

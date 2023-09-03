@@ -68,8 +68,11 @@ function Photo() {
       const target = event.target as HTMLInputElement
       if(target.files)
       {
-        console.log(target.files[0])
-        DrawImage(target.files[0])
+        if(target.files.length > 0)
+        {
+          console.log(target.files[0])
+          DrawImage(target.files[0])
+        }
       }
     }
     // Handle dragover event
@@ -299,7 +302,7 @@ function Photo() {
       <UploadBox>
         <BoldText1>사진을 업로드 해주세요</BoldText1>
         <form>
-          <Input ref={changeRef}type="file" id="input-file-upload" multiple={true}/>
+          <Input ref={changeRef}type="file" id="input-file-upload" multiple={false}/>
           <Label ref={inputRef} htmlFor="input-file-upload">
             <DragImage />
           </Label>
