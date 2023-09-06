@@ -47,12 +47,11 @@ function Video() {
     //input change listener function
     function InputOnchange(event: Event) {
       const target = event.target as HTMLInputElement;
-      if(target.files)
-      {
-        if(target.files.length > 0) //undefined를 막는 가장 좋은 방법이라고 했다~
-        {
-          console.log(target.files[0])
-          DropVideo(target.files[0])
+      if (target.files) {
+        if (target.files.length > 0) {
+          //undefined를 막는 가장 좋은 방법이라고 했다~
+          console.log(target.files[0]);
+          DropVideo(target.files[0]);
         }
       }
     }
@@ -74,37 +73,37 @@ function Video() {
         DropVideo(f);
       }
     }
-    const DropVideo = async (f : File) => {
-        setDrop(true);
-        setLoading(true);
-        const preload = document.querySelectorAll<HTMLElement>('.preload');
-        preload.forEach(preload => (preload.style.display = 'none'));
-        const formData = new FormData();
-        formData.append('video', f);
-        try {
-          const response = await videoupload(formData);
-          console.log(response);
-          if (response.data === '첨부한 파일이 동영상 형식이 맞는지 확인해주세요.') {
-            setDrop(false);
-            toast.warn('동영상 형식을 확인해 주세요', {
-              position: toast.POSITION.TOP_CENTER,
-              onClose: () => window.location.reload(),
-            });
-          } else {
-            setDatas(response.data[3]);
-            dispatch(getid(response.data[0].video_id));
-            const copylabel = VideoCounter(response.data[3]);
-            setLabel(copylabel);
-            setShow(true);
-          }
-        } catch (err) {
-          console.log(err);
-        } finally {
-          setLoading(false);
-          setTimeout(() => {
-            setDrop(false);
-          }, 1800);
+    const DropVideo = async (f: File) => {
+      setDrop(true);
+      setLoading(true);
+      const preload = document.querySelectorAll<HTMLElement>('.preload');
+      preload.forEach(preload => (preload.style.display = 'none'));
+      const formData = new FormData();
+      formData.append('video', f);
+      try {
+        const response = await videoupload(formData);
+        console.log(response);
+        if (response.data === '첨부한 파일이 동영상 형식이 맞는지 확인해주세요.') {
+          setDrop(false);
+          toast.warn('동영상 형식을 확인해 주세요', {
+            position: toast.POSITION.TOP_CENTER,
+            onClose: () => window.location.reload(),
+          });
+        } else {
+          setDatas(response.data[3]);
+          dispatch(getid(response.data[0].video_id));
+          const copylabel = VideoCounter(response.data[3]);
+          setLabel(copylabel);
+          setShow(true);
         }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+        setTimeout(() => {
+          setDrop(false);
+        }, 1800);
+      }
     };
     //리스너생성
     if (input) {

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as DragImage } from '../../svg/upload-box-group.svg';
 import { ReactComponent as Icon } from '../../svg/icon.svg';
@@ -64,14 +64,12 @@ function Photo() {
     const blurctx = blur.getContext('2d', { willReadFrequently: true });
     const hoverctx = hover.getContext('2d', { willReadFrequently: true });
     //changeHandler
-    function InputOnchange(event : Event){
-      const target = event.target as HTMLInputElement
-      if(target.files)
-      {
-        if(target.files.length > 0)
-        {
-          console.log(target.files[0])
-          DrawImage(target.files[0])
+    function InputOnchange(event: Event) {
+      const target = event.target as HTMLInputElement;
+      if (target.files) {
+        if (target.files.length > 0) {
+          console.log(target.files[0]);
+          DrawImage(target.files[0]);
         }
       }
     }
@@ -87,67 +85,66 @@ function Photo() {
     function handleDrop(event: DragEvent) {
       if (input) input.style.transform = 'scale(1.0)';
       event.preventDefault();
-      if(event.dataTransfer)
-      {
+      if (event.dataTransfer) {
         console.log(event.dataTransfer.files[0]);
         const f = event.dataTransfer.files[0];
         DrawImage(f);
       }
     }
-    const DrawImage = async (f : File) => {
+    const DrawImage = async (f: File) => {
       if (context !== null) {
         canvas.style.display = 'none';
         blur.style.display = 'none';
         hover.style.display = 'none';
       }
+      try {
+        const resizedImage = await ResizeImage(f, 752, 398);
+        console.log(resizedImage);
+        const preload = document.querySelectorAll<HTMLElement>('.preload');
+        preload.forEach(preload => (preload.style.display = 'none'));
+        const formData = new FormData();
+        formData.append('image', resizedImage);
         try {
-          const resizedImage = await ResizeImage(f, 752, 398);
-          console.log(resizedImage);
-          const preload = document.querySelectorAll<HTMLElement>('.preload');
-          preload.forEach(preload => (preload.style.display = 'none'));
-          const formData = new FormData();
-          formData.append('image', resizedImage);
-          try {
-            setDrop(true);
-            setLoading(prev => !prev);
-            const response = await photoupload(formData);
-            setDatas(response.data);
-            setDataShow(true);
-            console.log(response);
-            dispatch(getfilename(resizedImage.name));
-            const copylabel = PhotoCounter(response.data);
-            setLabel(copylabel);
-            setLoading(prev => !prev);
-            canvas.style.display = 'flex';
-            blur.style.display = 'flex';
-            hover.style.display = 'flex';
-          } catch (err) {
-            console.log(err);
-          }
-          ////////////////////////////////////////좌표값을 받아오고 진행
-          const img = new Image();
-          img.src = URL.createObjectURL(resizedImage);
-          img.onload = () => {
-            canvas.width = img.naturalWidth;
-            canvas.height = img.naturalHeight;
-            blur.width = img.naturalWidth;
-            blur.height = img.naturalHeight;
-            hover.width = img.naturalWidth;
-            hover.height = img.naturalHeight;
-
-            //이미지가 로딩되면 한번 초기화 시키고
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            //이미지를 로딩
-            context.drawImage(img, 0, 0, canvas.width, canvas.height); //원본
-            blurctx.drawImage(img, 0, 0, canvas.width, canvas.height); //블라인드도 원본으로 초기화
-          };
+          setDrop(true);
+          setLoading(prev => !prev);
+          const response = await photoupload(formData);
+          setDatas(response.data);
+          setDataShow(true);
+          console.log(response);
+          dispatch(getfilename(resizedImage.name));
+          const copylabel = PhotoCounter(response.data);
+          setLabel(copylabel);
+          setLoading(prev => !prev);
+          canvas.style.display = 'flex';
+          blur.style.display = 'flex';
+          hover.style.display = 'flex';
         } catch (err) {
-          if (err instanceof Error)
-            toast.warn(err.message, {
-              position: toast.POSITION.TOP_CENTER,
-              onClose: () => window.location.reload(),
-            });
+          console.log(err);
         }
+        ////////////////////////////////////////좌표값을 받아오고 진행
+        const img = new Image();
+        img.src = URL.createObjectURL(resizedImage);
+        img.onload = () => {
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          blur.width = img.naturalWidth;
+          blur.height = img.naturalHeight;
+          hover.width = img.naturalWidth;
+          hover.height = img.naturalHeight;
+
+          //이미지가 로딩되면 한번 초기화 시키고
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          //이미지를 로딩
+          context.drawImage(img, 0, 0, canvas.width, canvas.height); //원본
+          blurctx.drawImage(img, 0, 0, canvas.width, canvas.height); //블라인드도 원본으로 초기화
+        };
+      } catch (err) {
+        if (err instanceof Error)
+          toast.warn(err.message, {
+            position: toast.POSITION.TOP_CENTER,
+            onClose: () => window.location.reload(),
+          });
+      }
 
       setTimeout(() => {
         setDrop(false);
@@ -268,7 +265,7 @@ function Photo() {
     if (input) input.addEventListener('dragover', handleDragOver); //이게 있어야 drop 이 작동됨
     if (input) input.addEventListener('dragleave', handleDragLeave);
     if (input) input.addEventListener('drop', handleDrop);
-    if(changeinput) changeinput.addEventListener('change',InputOnchange);
+    if (changeinput) changeinput.addEventListener('change', InputOnchange);
     hover.addEventListener('click', ClickHandler);
     hover.addEventListener('mousemove', MouseMoveHandler);
     hover.addEventListener('mouseout', MouseOutHandler);
@@ -277,7 +274,7 @@ function Photo() {
       if (input) input.removeEventListener('dragover', handleDragOver);
       if (input) input.addEventListener('dragleave', handleDragLeave);
       if (input) input.removeEventListener('drop', handleDrop);
-      if(changeinput) changeinput.removeEventListener('change',InputOnchange);
+      if (changeinput) changeinput.removeEventListener('change', InputOnchange);
       hover.removeEventListener('click', ClickHandler);
       hover.removeEventListener('mousemove', MouseMoveHandler);
       hover.removeEventListener('mouseout', MouseOutHandler);
@@ -302,7 +299,7 @@ function Photo() {
       <UploadBox>
         <BoldText1>사진을 업로드 해주세요</BoldText1>
         <form>
-          <Input ref={changeRef}type="file" id="input-file-upload" multiple={false}/>
+          <Input ref={changeRef} type="file" id="input-file-upload" multiple={false} />
           <Label ref={inputRef} htmlFor="input-file-upload">
             <DragImage />
           </Label>

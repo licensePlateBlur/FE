@@ -8,6 +8,9 @@ const ClassNameTransfer = (name: string) => {
   } else if (name === 'license-plate') {
     return '번호판';
   }
+  else{
+   return false; 
+  }
 };
 
 export default ClassNameTransfer;

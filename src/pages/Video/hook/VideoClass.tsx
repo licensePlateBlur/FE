@@ -3,9 +3,10 @@ import ClassNameTransfer from '../../../hook/ClassNameTransfer';
 const VideoClass = (props: { data: string }) => {
   const deepcopy = JSON.parse(JSON.stringify(props.data)) as string;
   const Classes = deepcopy.split('/');
+  const filtetClass = Classes.filter(ClassNameTransfer)
   return (
     <>
-      {Classes.map((Class: string, index: number) => (
+      {filtetClass.map((Class: string, index: number) => (
         <ClassName key={index}>{ClassNameTransfer(Class)}</ClassName>
       ))}
     </>
