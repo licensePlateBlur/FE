@@ -7,9 +7,8 @@ const ClassNameTransfer = (name: string) => {
     return '카드';
   } else if (name === 'license-plate') {
     return '번호판';
-  }
-  else{
-   return false; 
+  } else {
+    return false;
   }
 };
 

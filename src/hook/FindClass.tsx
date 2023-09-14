@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 function FindClass({ label }: { label: number[] }) {
   return (
@@ -24,7 +25,7 @@ function FindClass({ label }: { label: number[] }) {
   );
 }
 
-export default FindClass;
+export default React.memo(FindClass);
 const AbledInfoRectange1 = styled.div`
   width: 100%;
   height: 86px;

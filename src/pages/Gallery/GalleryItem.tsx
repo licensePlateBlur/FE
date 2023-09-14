@@ -34,7 +34,7 @@ function GalleryItem({ file, DownloadHandler, DeleteHandler }: ItemProps) {
   );
 }
 
-export default GalleryItem;
+export default React.memo(GalleryItem);
 
 const ListItemBox = styled.div`
 width : 100%

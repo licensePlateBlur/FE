@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { PhotoData } from '../../../interface/PhotoData';
 import ClassNameTransfer from '../../../hook/ClassNameTransfer';
@@ -26,7 +27,7 @@ function FindXY(props: { datas: PhotoData[] }) {
     </>
   );
 }
-export default FindXY;
+export default React.memo(FindXY);
 
 const AbledInfoRectange = styled.div`
   width: 100%;
