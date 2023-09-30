@@ -1,5 +1,14 @@
 # AI 영상편집을 통한 실시간 개인정보 보호 시스템 FE
 
+## ✅ 실행영상
+
+### 사진
+![ezgif com-video-to-gif (3)](https://github.com/licensePlateBlur/FE/assets/42410000/d3c226ca-29e3-4c27-a96c-48d2e4a68e62)
+
+### 영상
+![ezgif com-video-to-gif (4)](https://github.com/licensePlateBlur/FE/assets/42410000/4d4025b8-0624-40ee-aba0-6a2d90359e93)
+
+
 ## ✅ 실행방법
 
 ```
