@@ -14,7 +14,7 @@ jobs:
           ref: 'main'
       - name: generate Environment Variables
         run: |
-          echo "REACT_APP_DOMAIN=$REACT_APP_PORT_FORWARD_IP" >> .env.production
+          echo "REACT_APP_PORT_FORWARD_IP=${{ secrets.REACT_APP_PORT_FORWARD_IP }}" >> .env
         env:
           REACT_APP_PORT_FORWARD_IP: ${{ secrets.REACT_APP_PORT_FORWARD_IP }}
       - run: npm ci #npm clean install  새로운 운영체제 까는것이기때문에 install부터 해줘야한다
