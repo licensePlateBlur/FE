@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const LOCAL_URL = 'http://localhost:5000/python/';
-export const SERVER_URL = 'http://13.125.245.232:5000/python/';
+export const SERVER_URL = `${process.env.REACT_APP_PORT_FORWARD_IP}/python/`;
 //axios instance
 const instance = (url: string) => {
   return axios.create({
