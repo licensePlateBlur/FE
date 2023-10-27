@@ -6,6 +6,7 @@ import Main from '../pages/Main';
 import Video from '../pages/Video/Video';
 import Gallery from '../pages/Gallery/Gallery';
 import Realtime from '../pages/Realtime/Realtime';
+import Signup from '../pages/Signup/Signup';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
         path: 'realtime',
         element: <Realtime />,
       },
+      {
+        path : 'signup',
+        element : <Signup/>
+      }
     ],
     errorElement: <NotFound />,
   },

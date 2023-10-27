@@ -26,7 +26,7 @@ function Header() {
         <Link to="/login">
           <Login>로그인</Login>
         </Link>
-        <Link to="/join">
+        <Link to="/signup">
           <Signup>회원가입</Signup>
         </Link>
       </SubTitle>
