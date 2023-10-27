@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 function Header() {
@@ -33,7 +34,7 @@ function Header() {
   );
 }
 
-export default Header;
+export default React.memo(Header);
 
 const HeaderLayer = styled.div`
   width: 100%;
