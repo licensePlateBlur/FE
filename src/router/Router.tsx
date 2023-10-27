@@ -7,6 +7,7 @@ import Video from '../pages/Video/Video';
 import Gallery from '../pages/Gallery/Gallery';
 import Realtime from '../pages/Realtime/Realtime';
 import Signup from '../pages/Signup/Signup';
+import Signin from '../pages/Signin/Signin';
 
 const router = createBrowserRouter([
   {
@@ -34,9 +35,13 @@ const router = createBrowserRouter([
         element: <Realtime />,
       },
       {
-        path : 'signup',
-        element : <Signup/>
-      }
+        path: 'signup',
+        element: <Signup />,
+      },
+      {
+        path: 'signin',
+        element: <Signin />,
+      },
     ],
     errorElement: <NotFound />,
   },

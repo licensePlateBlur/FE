@@ -23,7 +23,7 @@ function Header() {
       </ul>
 
       <SubTitle>
-        <Link to="/login">
+        <Link to="/signin">
           <Login>로그인</Login>
         </Link>
         <Link to="/signup">

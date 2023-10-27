@@ -6,7 +6,7 @@ export const signup = async (userData: User) => {
   return response;
 };
 
-export const login = async (userid: string, password: string) => {
+export const signin = async (userid: string, password: string) => {
   const response = await Authapi.post('login', { userid, password });
   return response;
 };

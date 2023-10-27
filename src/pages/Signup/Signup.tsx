@@ -26,7 +26,7 @@ const Signup = () => {
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     //정상 회원가입
     e.preventDefault();
-    // const response = await signup();
+    // const response = await signup({username,email,userid,password,re_password});
   };
   return (
     <>
