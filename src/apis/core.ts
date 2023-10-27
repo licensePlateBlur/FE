@@ -9,12 +9,11 @@ const instance = (url: string) => {
   });
 };
 
-const Authinstacne=(url : string) =>{
+const Authinstacne = (url: string) => {
   return axios.create({
-    baseURL : url,
-    headers : {'Content-Type': 'application/json'}
-  })
-}
+    baseURL: url,
+    headers: { 'Content-Type': 'application/json' },
+  });
+};
 export const api = instance(LOCAL_URL);
 export const Authapi = Authinstacne(LOCAL_URL);
-
