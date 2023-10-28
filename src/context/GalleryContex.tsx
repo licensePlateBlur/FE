@@ -29,12 +29,17 @@ export const GalleryContexFC = ({ children }: { children: ReactNode }) => {
   const [endpoint, setEndpoint] = useState<boolean>(false);
   const addPage = () => setPage(prev => prev + 1);
   const GetFiles = useCallback(async () => {
-    const response = await getfiles(page);
-    console.log(response);
+
+    try {
+      const response = await getfiles(page);
+      console.log(response);
     if (response.data.length === 0) setEndpoint(true);
     else {
       setDatas(prev => [...prev, ...response.data]);
       setEndpoint(false);
+    }
+    }catch (err) {
+      console.log(err);
     }
   }, [page]);
   const DeleteHandler = (id: number) => {

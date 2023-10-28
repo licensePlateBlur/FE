@@ -1,12 +1,11 @@
 import { ChangeEvent, useState } from 'react';
 import { signup } from '../../apis/auth';
-import { setLocalStorage } from '../../utils/LocalStorage';
 import styled from 'styled-components';
 import { checkEmail, checkMissInPut, comparePassword } from '../../utils/validation';
 
 const Signup = () => {
   const [username, setUsername] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
+  const [email, setEmail] = useState<string>('@');
   const [userid, setUserid] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [re_password, setRepassword] = useState<string>('');
@@ -27,11 +26,10 @@ const Signup = () => {
     setRepassword(e.target.value);
   };
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
-    alert('전송');
     e.preventDefault();
     try {
       const response = await signup({ username, email, userid, password });
-      setLocalStorage(response.data);
+      console.log(response)
     } catch (err) {
       console.log(err);
     }
@@ -72,7 +70,22 @@ const Signup = () => {
           />
           {!comparePassword(password, re_password) && <span>비밀번호가 일치하지 않습니다.</span>}
         </GapLayer>
-        <SignUpButton disabled={ (!checkEmail(email) || !comparePassword(password,re_password) || !checkMissInPut({email,password,userid,username})) ? true:false } $disabled={(!checkEmail(email) || !comparePassword(password,re_password) || !checkMissInPut({email,password,userid,username})) ? true:false}>
+        <SignUpButton
+          disabled={
+            !checkEmail(email) ||
+            !comparePassword(password, re_password) ||
+            !checkMissInPut({ email, password, userid, username })
+              ? true
+              : false
+          }
+          $disabled={
+            !checkEmail(email) ||
+            !comparePassword(password, re_password) ||
+            !checkMissInPut({ email, password, userid, username })
+              ? true
+              : false
+          }
+        >
           회원가입
         </SignUpButton>
       </FormLayout>

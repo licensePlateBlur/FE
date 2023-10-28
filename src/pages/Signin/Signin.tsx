@@ -1,23 +1,101 @@
+import { ChangeEvent, useState } from 'react';
+import styled from 'styled-components';
+import { signin } from '../../apis/auth';
 const Signin = () => {
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
+  const [userid, setUserid] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const handleUserid = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserid(e.target.value);
+  };
+  const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+  const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await signin(userid,password);
+      console.log(response);
+      alert("아이디 비밀번호를 입력하세요")
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
-    <>
-      <h2>로그인페이지</h2>
-      {/* <form onSubmit={handleSubmit}>
-        <label htmlFor="userid">아이디</label>
-        <input id="userid" onChange={handleEmailchange} placeholder="아이디를 입력해주세요" />
-        <br />
-        <label htmlFor="password">비밀번호</label>
-        <input id="password" onChange={handlePasswordChange} placeholder="8자리이상" />
-        <br />
-        <button disabled={true}>
+    <SignInLayout>
+      <Title>로그인페이지</Title>
+      <FormLayout onSubmit={handleSubmit}>
+        <GapLayer>
+          <LabelLayer htmlFor="userid">아이디</LabelLayer>
+          <InputLayer id="userid" onChange={handleUserid} placeholder="아이디를 입력해주세요" />
+        </GapLayer>
+        <GapLayer>
+          <LabelLayer htmlFor="password">비밀번호</LabelLayer>
+          <InputLayer
+            id="passwrod"
+            onChange={handlePassword}
+            placeholder="비밀번호를 입력해주세요"
+            type="password"
+          />
+        </GapLayer>
+        <SignUpButton>
           로그인
-        </button>
-      </form> */}
-    </>
+        </SignUpButton>
+      </FormLayout>
+    </SignInLayout>
   );
 };
 
 export default Signin;
+
+const SignInLayout = styled.div`
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  margin-top: 50px;
+`;
+const FormLayout = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+`;
+const Title = styled.div`
+  color: #000;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e4e4e4;
+  margin-bottom: 20px;
+`;
+const InputLayer = styled.input`
+  height: 28px;
+  padding: 16px 5px;
+  background: #f9f9fd;
+  border: 0.5px solid #c9c6e1;
+  border-radius: 5px;
+  font-size: 20px;
+`;
+
+const LabelLayer = styled.label`
+  font-size: 28px;
+`;
+
+const GapLayer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const SignUpButton = styled.button`
+  height: 62px;
+  font-size: 28px;
+  border-radius: 7px;
+  border: none;
+  background: #fedd33;
+  color: #000;
+  cursor: pointer;
+`;
