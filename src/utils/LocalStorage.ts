@@ -4,3 +4,7 @@ export const getLocalStorageToken = () => {
 export const setLocalStorageToken = (acess_token: string) => {
   localStorage.setItem('acess_token', acess_token);
 };
+
+export const removeLocalStorageToken = () => {
+  localStorage.removeItem('acess_token');
+};
