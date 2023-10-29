@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-const MyPage = () =>{
-    return(
+const MyPage = () => {
+  return (
     <MyPageLayout>
-        <Title>권성민님 마이페이지</Title>
-        <UserLayout>
+      <Title>권성민님 마이페이지</Title>
+      <UserLayout>
         <GapLayer>
           <UserTitle>이름 : </UserTitle>
           <Content> 권성민</Content>
@@ -17,15 +17,13 @@ const MyPage = () =>{
           <UserTitle> 다운로드 한 개수 : </UserTitle>
           <Content> 45개</Content>
         </GapLayer>
-        <SignUpButton>
-            회원탈퇴
-        </SignUpButton>
-        </UserLayout>
-    </MyPageLayout>);
-}
+        <SignUpButton>회원탈퇴</SignUpButton>
+      </UserLayout>
+    </MyPageLayout>
+  );
+};
 
 export default MyPage;
-
 
 const MyPageLayout = styled.div`
   width: 500px;
@@ -52,7 +50,7 @@ const UserLayout = styled.div`
   justify-content: center;
 `;
 
-const Content= styled.div`
+const Content = styled.div`
   height: 28px;
   border-radius: 5px;
   font-size: 28px;
@@ -75,4 +73,4 @@ const SignUpButton = styled.button`
   border: none;
   background: #fedd33;
   color: #000;
-`
+`;

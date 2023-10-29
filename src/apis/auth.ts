@@ -1,5 +1,5 @@
 import { User } from '../interface/User';
-import {api } from './core';
+import { api } from './core';
 
 export const signup = async (userData: User) => {
   const response = await api.post('register', userData);

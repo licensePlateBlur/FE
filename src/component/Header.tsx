@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import { getLocalStorageToken } from '../utils/LocalStorage';
 function Header() {
   return (
     <HeaderLayer>
@@ -23,12 +24,21 @@ function Header() {
       </ul>
 
       <SubTitle>
-        <Link to="/signin">
-          <Login>로그인</Login>
+        {getLocalStorageToken() ? <>
+          <Link to="/mypage">
+          <Login>마이페이지</Login>
+        </Link>
+          <Signup>로그아웃</Signup></>
+        :
+        <>
+        <Link to="/signin"> 
+        <Login>로그인</Login>
         </Link>
         <Link to="/signup">
           <Signup>회원가입</Signup>
         </Link>
+        </>
+        }
       </SubTitle>
     </HeaderLayer>
   );
