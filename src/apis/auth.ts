@@ -1,12 +1,12 @@
 import { User } from '../interface/User';
-import { Authapi } from './core';
+import {api } from './core';
 
 export const signup = async (userData: User) => {
-  const response = await Authapi.post('register', userData);
+  const response = await api.post('register', userData);
   return response;
 };
 
 export const signin = async (userid: string, password: string) => {
-  const response = await Authapi.post('login', { userid, password });
+  const response = await api.post('login', { userid, password });
   return response;
 };

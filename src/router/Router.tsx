@@ -8,6 +8,7 @@ import Gallery from '../pages/Gallery/Gallery';
 import Realtime from '../pages/Realtime/Realtime';
 import Signup from '../pages/Signup/Signup';
 import Signin from '../pages/Signin/Signin';
+import MyPage from '../pages/Mypage/MyPage';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: 'signin',
         element: <Signin />,
+      },
+      {
+        path: 'mypage',
+        element: <MyPage />,
       },
     ],
     errorElement: <NotFound />,

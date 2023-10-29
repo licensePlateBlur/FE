@@ -1,6 +1,6 @@
-export const getLocalStorage = () => {
-  return localStorage.getItem('username');
+export const getLocalStorageToken = () => {
+  return localStorage.getItem('acess_token');
 };
-export const setLocalStorage = (username: string) => {
-  localStorage.setItem('username', username);
+export const setLocalStorageToken = (acess_token: string) => {
+  localStorage.setItem('acess_token', acess_token);
 };

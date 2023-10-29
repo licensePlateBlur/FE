@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { signin } from '../../apis/auth';
+import { setLocalStorageToken } from '../../utils/LocalStorage';
 const Signin = () => {
   const [userid, setUserid] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -14,9 +15,10 @@ const Signin = () => {
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await signin(userid,password);
+      const response = await signin(userid, password);
       console.log(response);
-      alert("아이디 비밀번호를 입력하세요")
+      //로그인 성공시 일단 토큰을 localstorage에 저장
+      setLocalStorageToken(response.data.access_token);
     } catch (err) {
       console.log(err);
     }
@@ -39,9 +41,7 @@ const Signin = () => {
             type="password"
           />
         </GapLayer>
-        <SignUpButton>
-          로그인
-        </SignUpButton>
+        <SignUpButton>로그인</SignUpButton>
       </FormLayout>
     </SignInLayout>
   );

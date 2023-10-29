@@ -28,8 +28,9 @@ const Signup = () => {
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      console.log({ username, email, userid, password });
       const response = await signup({ username, email, userid, password });
-      console.log(response)
+      console.log(response);
     } catch (err) {
       console.log(err);
     }

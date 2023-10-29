@@ -1,7 +1,7 @@
-import { api } from './core';
+import { Authapi, api } from './core';
 
 export const getfiles = async (page: number) => {
-  const response = await api.get(`files?page=${page}`);
+  const response = await Authapi.get(`files?page=${page}`);
   return response;
 };
 
