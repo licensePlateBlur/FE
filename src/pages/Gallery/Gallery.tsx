@@ -6,10 +6,11 @@ import { GalleryData } from '../../interface/GalleryData';
 import DownButton from '../../component/Button';
 import { useGallery, useGalleryChange } from '../../context/GalleryContex';
 import SwitchLayer from '../../component/SwitchLayer';
+import Loading from '../../component/Loading';
 
 function Gallery() {
   const loader = useRef<HTMLDivElement | null>(null);
-  const { datas, endpoint }: any = useGallery();
+  const { datas, endpoint,isError }: any = useGallery();
   const { addPage, DeleteHandler }: any = useGalleryChange(); //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
   const [downloading, setDownloading] = useState<boolean>(false);
   const [click, setClick] = useState<boolean>(false);
@@ -50,6 +51,7 @@ function Gallery() {
     }, 1999);
   };
 
+  if(isError) return(<><Loading/></>)
   if (datas === null) {
     return <div>loading</div>;
   }
