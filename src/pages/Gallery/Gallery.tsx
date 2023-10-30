@@ -57,7 +57,7 @@ function Gallery() {
         download.setAttribute('download', filename);
         download.click();
       } else {
-        console.error('Failed to download the file');
+        console.log('Failed to download the file');
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {

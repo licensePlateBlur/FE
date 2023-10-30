@@ -5,37 +5,35 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { removeLocalStorageToken } from '../../utils/LocalStorage';
 interface ModalProps {
-    handleModal: () => void;
-  }
-const Modal : React.FC<ModalProps> = (
-    {
-        handleModal
+  handleModal: () => void;
+}
+const Modal: React.FC<ModalProps> = ({ handleModal }) => {
+  const navigate = useNavigate();
+  const handleSignOut = async () => {
+    try {
+      const response = await signout();
+      if (response.status === 200) {
+        alert('성공적으로 탈퇴되었습니다');
+        removeLocalStorageToken();
+        navigate('/');
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        console.log(err);
+      }
     }
-) => {
-    const navigate = useNavigate();
-    const handleSignOut = async()=>{
-        try{
-            const response = await signout();
-            if(response.status ===200){
-                alert("성공적으로 탈퇴되었습니다");
-                removeLocalStorageToken();
-                navigate('/');
-            };
-        }catch(err)
-        {
-            if(axios.isAxiosError(err))
-            {
-                console.log(err);
-            }
-        }
-    }
+  };
   return (
     <ModalLayout>
       <ModalContext>
         <Title>정말로 탈퇴하시겠습니까?</Title>
         <ButtonLayer>
-          <ModalButton $iscolor={true} onClick={handleSignOut}>예</ModalButton>
-          <ModalButton $iscolor={false} onClick={handleModal}>아니오</ModalButton>
+          <ModalButton $iscolor={true} onClick={handleSignOut}>
+            예
+          </ModalButton>
+          <ModalButton $iscolor={false} onClick={handleModal}>
+            아니오
+          </ModalButton>
         </ButtonLayer>
       </ModalContext>
     </ModalLayout>

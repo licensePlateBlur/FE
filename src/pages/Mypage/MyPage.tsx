@@ -11,7 +11,7 @@ interface UserInfo {
 const MyPage = () => {
   const [user, setUser] = useState<UserInfo>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const handleModal = () => setIsModalOpen( prev => !prev);
+  const handleModal = () => setIsModalOpen(prev => !prev);
   const getUserHandler = async () => {
     try {
       const response = await getuser();
@@ -41,7 +41,7 @@ const MyPage = () => {
         </GapLayer>
         <SignUpButton onClick={handleModal}>회원탈퇴</SignUpButton>
       </UserLayout>
-      {isModalOpen ? <Modal handleModal={handleModal}/> : null}
+      {isModalOpen ? <Modal handleModal={handleModal} /> : null}
     </MyPageLayout>
   );
 };

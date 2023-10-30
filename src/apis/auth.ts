@@ -11,7 +11,7 @@ export const signin = async (userid: string, password: string) => {
   return response;
 };
 
-export const signout = async () =>{
+export const signout = async () => {
   const response = await Authapi.get('unregister');
   return response;
-}
+};
