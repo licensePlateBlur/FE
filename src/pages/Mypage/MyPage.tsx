@@ -11,8 +11,8 @@ interface UserInfo {
 const MyPage = () => {
   const [user, setUser] = useState<UserInfo>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const handleModal = () => setIsModalOpen(prev => !prev);
-  const getUserHandler = async () => {
+  const HandleModal = () => setIsModalOpen(prev => !prev);
+  const GetUserHandler = async () => {
     try {
       const response = await getuser();
       setUser(response.data);
@@ -21,7 +21,7 @@ const MyPage = () => {
     }
   };
   useEffect(() => {
-    getUserHandler();
+    GetUserHandler();
   }, []);
   return (
     <MyPageLayout>
@@ -39,9 +39,9 @@ const MyPage = () => {
           <UserTitle> 다운로드 한 개수 : </UserTitle>
           <Content> {user?.FILECOUNT}개</Content>
         </GapLayer>
-        <SignUpButton onClick={handleModal}>회원탈퇴</SignUpButton>
+        <SignUpButton onClick={HandleModal}>회원탈퇴</SignUpButton>
       </UserLayout>
-      {isModalOpen ? <Modal handleModal={handleModal} /> : null}
+      {isModalOpen ? <Modal HandleModal={HandleModal} /> : null}
     </MyPageLayout>
   );
 };
