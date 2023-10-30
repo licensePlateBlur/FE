@@ -9,11 +9,15 @@ import Realtime from '../pages/Realtime/Realtime';
 import Signup from '../pages/Signup/Signup';
 import Signin from '../pages/Signin/Signin';
 import MyPage from '../pages/Mypage/MyPage';
+import TokenRedirect from '../component/TokenRedirect';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    children : [
+    {
+    element : <TokenRedirect/>,
     children: [
       {
         path: '',
@@ -48,6 +52,7 @@ const router = createBrowserRouter([
         element: <MyPage />,
       },
     ],
+  },],
     errorElement: <NotFound />,
   },
 ]);
