@@ -10,8 +10,8 @@ export const comparePassword = (password: string, re_password: string) => {
 
 export const checkMissInPut = (user: User) => {
   if (user.email === '') return false;
-  if (user.password === '') return false;
-  if (user.userid === '') return false;
-  if (user.username === '') return false;
-  return true;
+  else if (user.password === '') return false;
+  else if (user.userid === '') return false;
+  else if (user.username === '') return false;
+  else return true;
 };
