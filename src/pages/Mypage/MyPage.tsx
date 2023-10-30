@@ -10,7 +10,8 @@ interface UserInfo {
 }
 const MyPage = () => {
   const [user, setUser] = useState<UserInfo>();
-  const [isModalOpen,setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const handleModal = () => setIsModalOpen( prev => !prev);
   const getUserHandler = async () => {
     try {
       const response = await getuser();
@@ -38,9 +39,9 @@ const MyPage = () => {
           <UserTitle> 다운로드 한 개수 : </UserTitle>
           <Content> {user?.FILECOUNT}개</Content>
         </GapLayer>
-        <SignUpButton>회원탈퇴</SignUpButton>
+        <SignUpButton onClick={handleModal}>회원탈퇴</SignUpButton>
       </UserLayout>
-      {isModalOpen ? <Modal /> : null}
+      {isModalOpen ? <Modal handleModal={handleModal}/> : null}
     </MyPageLayout>
   );
 };

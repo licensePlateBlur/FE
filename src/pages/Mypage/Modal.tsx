@@ -1,12 +1,41 @@
+import React from 'react';
 import styled from 'styled-components';
-const Modal = () => {
+import { signout } from '../../apis/auth';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { removeLocalStorageToken } from '../../utils/LocalStorage';
+interface ModalProps {
+    handleModal: () => void;
+  }
+const Modal : React.FC<ModalProps> = (
+    {
+        handleModal
+    }
+) => {
+    const navigate = useNavigate();
+    const handleSignOut = async()=>{
+        try{
+            const response = await signout();
+            if(response.status ===200){
+                alert("성공적으로 탈퇴되었습니다");
+                removeLocalStorageToken();
+                navigate('/');
+            };
+        }catch(err)
+        {
+            if(axios.isAxiosError(err))
+            {
+                console.log(err);
+            }
+        }
+    }
   return (
     <ModalLayout>
       <ModalContext>
         <Title>정말로 탈퇴하시겠습니까?</Title>
         <ButtonLayer>
-            <ModalButton $iscolor={true}>예</ModalButton>
-            <ModalButton $iscolor={false}>아니오</ModalButton>
+          <ModalButton $iscolor={true} onClick={handleSignOut}>예</ModalButton>
+          <ModalButton $iscolor={false} onClick={handleModal}>아니오</ModalButton>
         </ButtonLayer>
       </ModalContext>
     </ModalLayout>
@@ -50,24 +79,24 @@ const Title = styled.div`
   margin-bottom: 20px;
 `;
 const ButtonLayer = styled.div`
-display : flex;
-flex-direction: row;
-justify-content: space-around;
-`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+`;
 const ModalButton = styled.button<{ $iscolor: boolean }>`
   width: 200px;
   height: 58px;
   border-radius: 35px;
   background: ${props => (props.$iscolor ? '#fedd33' : '#D9D9D9')};
   color: #000;
-  border : none;
+  border: none;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
   line-height: 135%; /* 32.4px */
   letter-spacing: -0.24px;
-  &:hover{
-    transform:scale(1.03); 
-    cursor : pointer;
+  &:hover {
+    transform: scale(1.03);
+    cursor: pointer;
   }
-`
+`;
