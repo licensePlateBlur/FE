@@ -46,10 +46,9 @@ function Realtime() {
     const input = inputRef.current;
 
     const RealtimePlay = async () => {
-      if(!getLocalStorageToken())
-      {
-        alert("로그인 권한이 없습니다");
-        navigate('/signin', {state : { from: location }})
+      if (!getLocalStorageToken()) {
+        alert('로그인 권한이 없습니다');
+        navigate('/signin', { state: { from: location } });
       }
       setShow(false);
       setLoading(true);
@@ -82,7 +81,7 @@ function Realtime() {
         input.removeEventListener('click', RealtimePlay);
       }
     };
-  }, [dispatch, id,location,navigate]);
+  }, [dispatch, id, location, navigate]);
   return (
     <Layer>
       {drop ? (

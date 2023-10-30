@@ -74,13 +74,11 @@ function Video() {
       if (event.dataTransfer) {
         console.log(event.dataTransfer.files[0]);
         const f = event.dataTransfer.files[0];
-        if(getLocalStorageToken())
-        {
+        if (getLocalStorageToken()) {
           DropVideo(f);
-        }
-        else{
-          alert("로그인 권한이 없습니다");
-          navigate('/signin', {state : { from: location }})
+        } else {
+          alert('로그인 권한이 없습니다');
+          navigate('/signin', { state: { from: location } });
         }
       }
     }
@@ -132,7 +130,7 @@ function Video() {
       }
       if (changeinput) changeinput.removeEventListener('change', InputOnchange);
     };
-  }, [dispatch, id,location,navigate]);
+  }, [dispatch, id, location, navigate]);
   return (
     <Layer>
       {drop ? (

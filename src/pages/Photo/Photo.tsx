@@ -91,12 +91,11 @@ function Photo() {
       if (event.dataTransfer) {
         console.log(event.dataTransfer.files[0]);
         const f = event.dataTransfer.files[0];
-        if(getLocalStorageToken())
-        {
+        if (getLocalStorageToken()) {
           DrawImage(f);
-        }else{
-          alert("로그인 권한이 없습니다");
-          navigate('/signin', {state : { from: location }})
+        } else {
+          alert('로그인 권한이 없습니다');
+          navigate('/signin', { state: { from: location } });
         }
       }
     }
@@ -285,7 +284,7 @@ function Photo() {
       hover.removeEventListener('mousemove', MouseMoveHandler);
       hover.removeEventListener('mouseout', MouseOutHandler);
     };
-  }, [datas, label, checkm, dispatch,location,navigate]);
+  }, [datas, label, checkm, dispatch, location, navigate]);
   return (
     <Layer>
       {drop ? (
