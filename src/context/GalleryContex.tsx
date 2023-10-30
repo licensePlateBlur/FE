@@ -57,8 +57,7 @@ export const GalleryContexFC = ({ children }: { children: ReactNode }) => {
     setDatas(prev => prev.filter(todo => todo.ID !== id));
   };
   useEffect(() => {
-    if(getLocalStorageToken())
-    {
+    if (getLocalStorageToken()) {
       GetFiles();
     }
   }, [GetFiles]);

@@ -7,8 +7,8 @@ const TokenRedirect = () => {
 
   if (!Token && location.pathname === '/gallery')
     return <Navigate to="/signin" state={{ from: location }} />;
-    if(Token && location.pathname ==='/signup' || location.pathname ==='/signin')
-    return <Navigate to="/photo"/>;
+  if (Token && (location.pathname === '/signup' || location.pathname === '/signin'))
+    return <Navigate to="/photo" />;
   return <Outlet />;
 };
 export default TokenRedirect;

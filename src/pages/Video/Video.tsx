@@ -13,6 +13,8 @@ import DownButton from '../../component/Button';
 import { VideoData } from '../../interface/VideoData';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getLocalStorageToken } from '../../utils/LocalStorage';
+import { useLocation, useNavigate } from 'react-router-dom';
 function Video() {
   const [datas, setDatas] = useState<VideoData[]>([]);
   const [label, setLabel] = useState<number[]>([0, 0, 0, 0]);
@@ -20,6 +22,8 @@ function Video() {
   const [show, setShow] = useState<boolean>(false);
   const [drop, setDrop] = useState<boolean>(false);
   const id = useSelector((store: RootState) => store.video.id);
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   //ref
   const inputRef = useRef<HTMLLabelElement>(null);
@@ -70,7 +74,14 @@ function Video() {
       if (event.dataTransfer) {
         console.log(event.dataTransfer.files[0]);
         const f = event.dataTransfer.files[0];
-        DropVideo(f);
+        if(getLocalStorageToken())
+        {
+          DropVideo(f);
+        }
+        else{
+          alert("로그인 권한이 없습니다");
+          navigate('/signin', {state : { from: location }})
+        }
       }
     }
     const DropVideo = async (f: File) => {
@@ -121,7 +132,7 @@ function Video() {
       }
       if (changeinput) changeinput.removeEventListener('change', InputOnchange);
     };
-  }, [dispatch, id]);
+  }, [dispatch, id,location,navigate]);
   return (
     <Layer>
       {drop ? (

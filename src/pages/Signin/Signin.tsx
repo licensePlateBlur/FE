@@ -9,7 +9,7 @@ const Signin = () => {
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
   const loaction = useLocation();
-  console.log(loaction)
+  console.log(loaction);
   const handleUserid = (e: ChangeEvent<HTMLInputElement>) => {
     setUserid(e.target.value);
   };
@@ -22,11 +22,9 @@ const Signin = () => {
       const response = await signin(userid, password);
       if (response.status === 200) {
         setLocalStorageToken(response.data.access_token);
-        if(loaction.state)
-        {
+        if (loaction.state) {
           navigate(loaction.state.from.pathname);
-        }
-        else navigate('/photo');
+        } else navigate('/photo');
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {

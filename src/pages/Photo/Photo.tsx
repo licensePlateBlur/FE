@@ -15,6 +15,8 @@ import { RootState } from '../../store/store';
 import { PhotoData } from '../../interface/PhotoData';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getLocalStorageToken } from '../../utils/LocalStorage';
+import { useLocation, useNavigate } from 'react-router-dom';
 function Photo() {
   const [checkm, setCheckm] = useState([true, true, true]);
   const [datas, setDatas] = useState<PhotoData[]>([]);
@@ -26,12 +28,13 @@ function Photo() {
   const [datashow, setDataShow] = useState<boolean>(false);
   const file = useSelector((store: RootState) => store.file.filename);
   const dispatch = useDispatch();
-
   const inputRef = useRef<HTMLLabelElement>(null);
   const changeRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<any>(null); //canvashtml로 정의
   const blurRef = useRef<any>(null);
   const hoverRef = useRef<any>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
   function HandleCancel() {
     window.location.reload();
   }
@@ -88,7 +91,13 @@ function Photo() {
       if (event.dataTransfer) {
         console.log(event.dataTransfer.files[0]);
         const f = event.dataTransfer.files[0];
-        DrawImage(f);
+        if(getLocalStorageToken())
+        {
+          DrawImage(f);
+        }else{
+          alert("로그인 권한이 없습니다");
+          navigate('/signin', {state : { from: location }})
+        }
       }
     }
     const DrawImage = async (f: File) => {
@@ -231,12 +240,9 @@ function Photo() {
       event.preventDefault();
       const x = event.offsetX;
       const y = event.offsetY;
-      // eslint-disable-next-line array-callback-return
-      datas.map((data: any) => {
-        // console.log(y);
+      datas.forEach((data: any) => {
         if (x >= data.xmin && x <= data.xmax && y >= data.ymin && y <= data.ymax) {
           hoverctx.strokeStyle = 'red';
-          // console.log(Math.floor(data.ymax) - Math.floor(data.ymin));
           hoverctx.strokeRect(
             data.xmin,
             data.ymin,
@@ -279,7 +285,7 @@ function Photo() {
       hover.removeEventListener('mousemove', MouseMoveHandler);
       hover.removeEventListener('mouseout', MouseOutHandler);
     };
-  }, [datas, label, checkm, dispatch]);
+  }, [datas, label, checkm, dispatch,location,navigate]);
   return (
     <Layer>
       {drop ? (

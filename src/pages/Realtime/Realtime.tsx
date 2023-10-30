@@ -12,6 +12,8 @@ import { getid } from '../../store/video';
 import DownButton from '../../component/Button';
 import { VideoData } from '../../interface/VideoData';
 import { realtimeshooting } from '../../apis/realtime';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getLocalStorageToken } from '../../utils/LocalStorage';
 function Realtime() {
   const [datas, setDatas] = useState<VideoData[]>([]);
   const [label, setLabel] = useState<number[]>([0, 0, 0, 0]);
@@ -19,6 +21,8 @@ function Realtime() {
   const [show, setShow] = useState<boolean>(false);
   const [drop, setDrop] = useState<boolean>(false);
   const id = useSelector((store: RootState) => store.video.id);
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   //ref
   const inputRef = useRef<HTMLLabelElement>(null);
@@ -42,6 +46,11 @@ function Realtime() {
     const input = inputRef.current;
 
     const RealtimePlay = async () => {
+      if(!getLocalStorageToken())
+      {
+        alert("로그인 권한이 없습니다");
+        navigate('/signin', {state : { from: location }})
+      }
       setShow(false);
       setLoading(true);
       setDrop(true);
@@ -73,7 +82,7 @@ function Realtime() {
         input.removeEventListener('click', RealtimePlay);
       }
     };
-  }, [dispatch, id]);
+  }, [dispatch, id,location,navigate]);
   return (
     <Layer>
       {drop ? (
