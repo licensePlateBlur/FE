@@ -9,6 +9,7 @@ import React, {
 import { GalleryData } from '../interface/GalleryData';
 import { deletefile, getfiles } from '../apis/gallery';
 import axios from 'axios';
+import { getLocalStorageToken } from '../utils/LocalStorage';
 
 interface GalleryChangeContextType {
   addPage: () => void;
@@ -56,7 +57,10 @@ export const GalleryContexFC = ({ children }: { children: ReactNode }) => {
     setDatas(prev => prev.filter(todo => todo.ID !== id));
   };
   useEffect(() => {
-    GetFiles();
+    if(getLocalStorageToken())
+    {
+      GetFiles();
+    }
   }, [GetFiles]);
   return (
     <GalleryContex.Provider value={{ datas, endpoint, isError }}>

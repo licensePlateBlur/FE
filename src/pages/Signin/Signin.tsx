@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import { signin } from '../../apis/auth';
 import { setLocalStorageToken } from '../../utils/LocalStorage';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 const Signin = () => {
   const [userid, setUserid] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
+  const loaction = useLocation();
+  console.log(loaction)
   const handleUserid = (e: ChangeEvent<HTMLInputElement>) => {
     setUserid(e.target.value);
   };
@@ -20,7 +22,11 @@ const Signin = () => {
       const response = await signin(userid, password);
       if (response.status === 200) {
         setLocalStorageToken(response.data.access_token);
-        navigate('/photo');
+        if(loaction.state)
+        {
+          navigate(loaction.state.from.pathname);
+        }
+        else navigate('/photo');
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {

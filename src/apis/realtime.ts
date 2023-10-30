@@ -1,4 +1,4 @@
-import { Authapi  } from './core';
+import { Authapi } from './core';
 
 export const realtimeshooting = async () => {
   const response = await Authapi.post('detect_realtime');

@@ -15,44 +15,45 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    children : [
-    {
-    element : <TokenRedirect/>,
     children: [
       {
-        path: '',
-        element: <Main />,
-      },
-      {
-        path: 'photo',
-        element: <Photo />,
-      },
-      {
-        path: 'video',
-        element: <Video />,
-      },
-      {
-        path: 'gallery',
-        element: <Gallery />,
-      },
-      {
-        path: 'realtime',
-        element: <Realtime />,
-      },
-      {
-        path: 'signup',
-        element: <Signup />,
-      },
-      {
-        path: 'signin',
-        element: <Signin />,
-      },
-      {
-        path: 'mypage',
-        element: <MyPage />,
+        element: <TokenRedirect />,
+        children: [
+          {
+            path: '',
+            element: <Main />,
+          },
+          {
+            path: 'photo',
+            element: <Photo />,
+          },
+          {
+            path: 'video',
+            element: <Video />,
+          },
+          {
+            path: 'gallery',
+            element: <Gallery />,
+          },
+          {
+            path: 'realtime',
+            element: <Realtime />,
+          },
+          {
+            path: 'signup',
+            element: <Signup />,
+          },
+          {
+            path: 'signin',
+            element: <Signin />,
+          },
+          {
+            path: 'mypage',
+            element: <MyPage />,
+          },
+        ],
       },
     ],
-  },],
     errorElement: <NotFound />,
   },
 ]);
