@@ -291,7 +291,7 @@ function Photo() {
       ) : null}
       {click ? (
         downloading ? (
-          <DownButton message="다운로드중" />
+          <DownButton message="다운중" />
         ) : (
           <DownButton message="다운완료" isfadeout={true} />
         )

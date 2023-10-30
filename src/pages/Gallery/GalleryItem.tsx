@@ -7,7 +7,7 @@ import formatBytes from './hook/FormatByte';
 import FormatData from './hook/FormatDate';
 interface ItemProps {
   file: GalleryData;
-  DownloadHandler: (id: number, event: React.MouseEvent<HTMLDivElement>) => void;
+  DownloadHandler: (id: number, filename : string, event: React.MouseEvent<HTMLDivElement>) => void;
   DeleteHandler: (id: number) => void;
 }
 
@@ -20,7 +20,7 @@ function GalleryItem({ file, DownloadHandler, DeleteHandler }: ItemProps) {
       <Text $size="10%">{formatBytes(file.FILE_SIZE)}</Text>
       <Text
         $size="10%"
-        onClick={(event: React.MouseEvent<HTMLDivElement>) => DownloadHandler(file.ID, event)}
+        onClick={(event: React.MouseEvent<HTMLDivElement>) => DownloadHandler(file.ID, file.ORIGINAL_FILE_NAME, event)}
       >
         <Download />
       </Text>

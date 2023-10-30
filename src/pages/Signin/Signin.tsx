@@ -2,10 +2,12 @@ import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { signin } from '../../apis/auth';
 import { setLocalStorageToken } from '../../utils/LocalStorage';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const Signin = () => {
   const [userid, setUserid] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
+  const navigate = useNavigate();
   const handleUserid = (e: ChangeEvent<HTMLInputElement>) => {
     setUserid(e.target.value);
   };
@@ -16,11 +18,22 @@ const Signin = () => {
     e.preventDefault();
     try {
       const response = await signin(userid, password);
-      console.log(response);
-      //로그인 성공시 일단 토큰을 localstorage에 저장
-      setLocalStorageToken(response.data.access_token);
+      if(response.status === 200)
+      {
+        setLocalStorageToken(response.data.access_token);
+        navigate('/photo');
+      }
     } catch (err) {
-      console.log(err);
+      if(axios.isAxiosError(err))
+      {
+        if(err.response?.status === 401)alert("아이디 비밀번호를 확인해주세요")
+        else if (err.code === 'ERR_NETWORK') {
+          alert("502 BAD GATEWAY");
+        } else{
+          console.log(err)
+          alert('알수 없는 에러 발생');
+        }
+      }
     }
   };
 

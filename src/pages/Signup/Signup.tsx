@@ -31,19 +31,21 @@ const Signup = () => {
     e.preventDefault();
     try {
       const response = await signup({ username, email, userid, password });
-      if(response.status===200)
-      {
-        alert("회원가입을 성공했습니다.");
+      if (response.status === 200) {
+        alert('회원가입을 성공했습니다.');
         navigate('/signin');
       }
     } catch (err) {
-      if(axios.isAxiosError(err))
-      {
-        if(err.response?.status === 400)
-        {
-          alert(err.response.data.message)
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 400) {
+          alert(err.response.data.message);
         }
-        else alert("알수 없는 에러 발생")
+        else if (err.code === 'ERR_NETWORK') {
+          alert("502 BAD GATEWAY");
+        } else{
+          console.log(err)
+          alert('알수 없는 에러 발생');
+        }
       }
     }
   };

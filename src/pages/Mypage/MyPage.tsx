@@ -1,24 +1,46 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-
+import { getuser } from '../../apis/mypage';
+import Modal from './Modal';
+interface UserInfo{
+  ID : string,
+  USERNAME : string,
+  EMAIL : string,
+  FILECOUNT : number
+}
 const MyPage = () => {
+  const [user,setUser]=useState<UserInfo>();
+  const getUserHandler = async()=>{
+    try{
+      const response = await getuser();
+      setUser(response.data)
+    }catch(err)
+    {
+      console.log(err)
+    }
+  }
+  useEffect( ()=>{
+    getUserHandler();
+  },[])
   return (
     <MyPageLayout>
-      <Title>권성민님 마이페이지</Title>
+      <Title>{user?.USERNAME}님 마이페이지</Title>
       <UserLayout>
         <GapLayer>
           <UserTitle>이름 : </UserTitle>
-          <Content> 권성민</Content>
+          <Content>{user?.USERNAME}</Content>
         </GapLayer>
         <GapLayer>
           <UserTitle>이메일 : </UserTitle>
-          <Content> snna58@naver.com</Content>
+          <Content>{user?.EMAIL}</Content>
         </GapLayer>
         <GapLayer>
           <UserTitle> 다운로드 한 개수 : </UserTitle>
-          <Content> 45개</Content>
+          <Content> {user?.FILECOUNT}개</Content>
         </GapLayer>
         <SignUpButton>회원탈퇴</SignUpButton>
       </UserLayout>
+      <Modal/>
     </MyPageLayout>
   );
 };
@@ -73,4 +95,5 @@ const SignUpButton = styled.button`
   border: none;
   background: #fedd33;
   color: #000;
+  cursor : pointer;
 `;

@@ -17,7 +17,7 @@ interface GalleryChangeContextType {
 interface GalleryValue {
   datas: GalleryData[];
   endpoint: boolean;
-  isError : boolean;
+  isError: boolean;
 }
 const GalleryContex = createContext<GalleryValue | null>(null);
 const GalleryChangeContext = createContext<GalleryChangeContextType | null>(null);
@@ -29,7 +29,7 @@ export const GalleryContexFC = ({ children }: { children: ReactNode }) => {
   const [datas, setDatas] = useState<GalleryData[]>([]);
   const [page, setPage] = useState(1);
   const [endpoint, setEndpoint] = useState<boolean>(false);
-  const [isError,setIsError]=useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
   const addPage = () => setPage(prev => prev + 1);
   const GetFiles = useCallback(async () => {
     try {
@@ -41,15 +41,12 @@ export const GalleryContexFC = ({ children }: { children: ReactNode }) => {
         setEndpoint(false);
       }
     } catch (err) {
-      if (axios.isAxiosError(err)){
-        if(err.code === "ERR_NETWORK")
-        {
+      if (axios.isAxiosError(err)) {
+        if (err.code === 'ERR_NETWORK') {
           setIsError(true);
-        }
-        else console.log(err);
-      }
-      else{
-        console.log(err)
+        } else console.log(err);
+      } else {
+        console.log(err);
       }
     }
   }, [page]);

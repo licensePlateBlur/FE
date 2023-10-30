@@ -7,10 +7,12 @@ import DownButton from '../../component/Button';
 import { useGallery, useGalleryChange } from '../../context/GalleryContex';
 import SwitchLayer from '../../component/SwitchLayer';
 import Loading from '../../component/Loading';
+import { downloadfile } from '../../apis/gallery';
+import axios from 'axios';
 
 function Gallery() {
   const loader = useRef<HTMLDivElement | null>(null);
-  const { datas, endpoint,isError }: any = useGallery();
+  const { datas, endpoint, isError }: any = useGallery();
   const { addPage, DeleteHandler }: any = useGalleryChange(); //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
   const [downloading, setDownloading] = useState<boolean>(false);
   const [click, setClick] = useState<boolean>(false);
@@ -37,21 +39,43 @@ function Gallery() {
     if (loader.current) observer.observe(loader.current);
   }, [handleObserver]);
 
-  const DownloadHandler = (id: number, event: React.MouseEvent<HTMLDivElement>) => {
+  const DownloadHandler = async(id: number, filename : string,event: React.MouseEvent<HTMLDivElement>) => {
     setClick(true);
     setDownloading(true);
     event.preventDefault();
-    const download = document.createElement('a');
-    download.href = `http://localhost:5000/python/download_file/${id}`;
-    download.setAttribute('download', '다운로드');
-    download.click();
-    setDownloading(false);
-    setTimeout(() => {
+    try{
+      const response = await downloadfile(id);
+      if (response.status === 200) {
+        const blob = new Blob([response.data], { type: response.headers['content-type']});
+        const url = URL.createObjectURL(blob);
+        const download = document.createElement('a');
+        download.href = url;
+        download.setAttribute('download', filename);
+        download.click();
+      } else {
+        console.error('Failed to download the file');
+      }
+    }catch(err)
+    {
+      if(axios.isAxiosError(err))
+      {
+        console.log(err)
+      }
+    }
+    finally{
+      setDownloading(false);
+      setTimeout(() => {
       setClick(false);
     }, 1999);
+  }
   };
 
-  if(isError) return(<><Loading/></>)
+  if (isError)
+    return (
+      <>
+        <Loading />
+      </>
+    );
   if (datas === null) {
     return <div>loading</div>;
   }
@@ -60,7 +84,7 @@ function Gallery() {
       <TitleLayer>
         {click ? (
           downloading ? (
-            <DownButton message="다운로드중" />
+            <DownButton message="다운중" />
           ) : (
             <DownButton message="다운완료" isfadeout={true} />
           )
