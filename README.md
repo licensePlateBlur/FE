@@ -31,6 +31,7 @@ $ npm start
 ## ✅ 배포 AWS S3
 
 ### 배포링크 http://groot-capstonedesign-project.s3-website.ap-northeast-2.amazonaws.com
+※ PC 서버를 사용하기때문에 서버가 꺼져있을수도 있습니다 
 
 ## ✅ CI/CD 자동화
 
