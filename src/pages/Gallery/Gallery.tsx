@@ -78,7 +78,7 @@ function Gallery() {
       </>
     );
   if (datas === null) {
-    return (<div>loading</div>);
+    return <div>loading</div>;
   }
   return (
     <>
