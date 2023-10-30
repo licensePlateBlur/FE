@@ -2,13 +2,15 @@ import { ChangeEvent, useState } from 'react';
 import { signup } from '../../apis/auth';
 import styled from 'styled-components';
 import { checkEmail, checkMissInPut, comparePassword } from '../../utils/validation';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const Signup = () => {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('@');
   const [userid, setUserid] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [re_password, setRepassword] = useState<string>('');
+  const navigate = useNavigate();
 
   const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -28,11 +30,21 @@ const Signup = () => {
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      console.log({ username, email, userid, password });
       const response = await signup({ username, email, userid, password });
-      console.log(response);
+      if(response.status===200)
+      {
+        alert("회원가입을 성공했습니다.");
+        navigate('/signin');
+      }
     } catch (err) {
-      console.log(err);
+      if(axios.isAxiosError(err))
+      {
+        if(err.response?.status === 400)
+        {
+          alert(err.response.data.message)
+        }
+        else alert("알수 없는 에러 발생")
+      }
     }
   };
   return (
