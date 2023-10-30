@@ -1,14 +1,18 @@
 import styled from 'styled-components';
-const Modal = () =>{
-
-    return(<ModalLayout>
-        <ModalContext>
-            <Title>정말로 탈퇴하시겠습니까?</Title>
-        </ModalContext>
-    </ModalLayout>);
-}
-export default Modal
-
+const Modal = () => {
+  return (
+    <ModalLayout>
+      <ModalContext>
+        <Title>정말로 탈퇴하시겠습니까?</Title>
+        <ButtonLayer>
+            <ModalButton $iscolor={true}>예</ModalButton>
+            <ModalButton $iscolor={false}>아니오</ModalButton>
+        </ButtonLayer>
+      </ModalContext>
+    </ModalLayout>
+  );
+};
+export default Modal;
 
 const ModalLayout = styled.div`
   position: fixed;
@@ -20,7 +24,7 @@ const ModalLayout = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const ModalContext = styled.div`
   width: 500px;
@@ -29,19 +33,41 @@ const ModalContext = styled.div`
   background: #fff;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display : flex;
-`
+  display: flex;
+  flex-direction: column;
+`;
 
 const Title = styled.div`
-  width : 100%;
+  width: 100%;
   color: #000;
   font-size: 32px;
-  text-align : center;
+  text-align: center;
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.32px;
   padding-bottom: 20px;
   border-bottom: 1px solid #e4e4e4;
   margin-bottom: 20px;
+`;
+const ButtonLayer = styled.div`
+display : flex;
+flex-direction: row;
+justify-content: space-around;
 `
-
+const ModalButton = styled.button<{ $iscolor: boolean }>`
+  width: 200px;
+  height: 58px;
+  border-radius: 35px;
+  background: ${props => (props.$iscolor ? '#fedd33' : '#D9D9D9')};
+  color: #000;
+  border : none;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 135%; /* 32.4px */
+  letter-spacing: -0.24px;
+  &:hover{
+    transform:scale(1.03); 
+    cursor : pointer;
+  }
+`

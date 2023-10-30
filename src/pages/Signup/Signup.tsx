@@ -39,11 +39,10 @@ const Signup = () => {
       if (axios.isAxiosError(err)) {
         if (err.response?.status === 400) {
           alert(err.response.data.message);
-        }
-        else if (err.code === 'ERR_NETWORK') {
-          alert("502 BAD GATEWAY");
-        } else{
-          console.log(err)
+        } else if (err.code === 'ERR_NETWORK') {
+          alert('502 BAD GATEWAY');
+        } else {
+          console.log(err);
           alert('알수 없는 에러 발생');
         }
       }

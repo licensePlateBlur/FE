@@ -2,26 +2,26 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getuser } from '../../apis/mypage';
 import Modal from './Modal';
-interface UserInfo{
-  ID : string,
-  USERNAME : string,
-  EMAIL : string,
-  FILECOUNT : number
+interface UserInfo {
+  ID: string;
+  USERNAME: string;
+  EMAIL: string;
+  FILECOUNT: number;
 }
 const MyPage = () => {
-  const [user,setUser]=useState<UserInfo>();
-  const getUserHandler = async()=>{
-    try{
+  const [user, setUser] = useState<UserInfo>();
+  const [isModalOpen,setIsModalOpen] = useState<boolean>(false);
+  const getUserHandler = async () => {
+    try {
       const response = await getuser();
-      setUser(response.data)
-    }catch(err)
-    {
-      console.log(err)
+      setUser(response.data);
+    } catch (err) {
+      console.log(err);
     }
-  }
-  useEffect( ()=>{
+  };
+  useEffect(() => {
     getUserHandler();
-  },[])
+  }, []);
   return (
     <MyPageLayout>
       <Title>{user?.USERNAME}님 마이페이지</Title>
@@ -40,7 +40,7 @@ const MyPage = () => {
         </GapLayer>
         <SignUpButton>회원탈퇴</SignUpButton>
       </UserLayout>
-      <Modal/>
+      {isModalOpen ? <Modal /> : null}
     </MyPageLayout>
   );
 };
@@ -95,5 +95,5 @@ const SignUpButton = styled.button`
   border: none;
   background: #fedd33;
   color: #000;
-  cursor : pointer;
+  cursor: pointer;
 `;

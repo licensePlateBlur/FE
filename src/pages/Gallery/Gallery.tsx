@@ -39,14 +39,18 @@ function Gallery() {
     if (loader.current) observer.observe(loader.current);
   }, [handleObserver]);
 
-  const DownloadHandler = async(id: number, filename : string,event: React.MouseEvent<HTMLDivElement>) => {
+  const DownloadHandler = async (
+    id: number,
+    filename: string,
+    event: React.MouseEvent<HTMLDivElement>,
+  ) => {
     setClick(true);
     setDownloading(true);
     event.preventDefault();
-    try{
+    try {
       const response = await downloadfile(id);
       if (response.status === 200) {
-        const blob = new Blob([response.data], { type: response.headers['content-type']});
+        const blob = new Blob([response.data], { type: response.headers['content-type'] });
         const url = URL.createObjectURL(blob);
         const download = document.createElement('a');
         download.href = url;
@@ -55,19 +59,16 @@ function Gallery() {
       } else {
         console.error('Failed to download the file');
       }
-    }catch(err)
-    {
-      if(axios.isAxiosError(err))
-      {
-        console.log(err)
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        console.log(err);
       }
-    }
-    finally{
+    } finally {
       setDownloading(false);
       setTimeout(() => {
-      setClick(false);
-    }, 1999);
-  }
+        setClick(false);
+      }, 1999);
+    }
   };
 
   if (isError)

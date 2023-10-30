@@ -18,19 +18,17 @@ const Signin = () => {
     e.preventDefault();
     try {
       const response = await signin(userid, password);
-      if(response.status === 200)
-      {
+      if (response.status === 200) {
         setLocalStorageToken(response.data.access_token);
         navigate('/photo');
       }
     } catch (err) {
-      if(axios.isAxiosError(err))
-      {
-        if(err.response?.status === 401)alert("아이디 비밀번호를 확인해주세요")
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 401) alert('아이디 비밀번호를 확인해주세요');
         else if (err.code === 'ERR_NETWORK') {
-          alert("502 BAD GATEWAY");
-        } else{
-          console.log(err)
+          alert('502 BAD GATEWAY');
+        } else {
+          console.log(err);
           alert('알수 없는 에러 발생');
         }
       }

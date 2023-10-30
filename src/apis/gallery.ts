@@ -6,7 +6,7 @@ export const getfiles = async (page: number) => {
 };
 
 export const downloadfile = async (id: number) => {
-  const response = await Authapi.get(`download_file/${id}`,{ responseType: 'blob' });
+  const response = await Authapi.get(`download_file/${id}`, { responseType: 'blob' });
   return response;
 };
 
