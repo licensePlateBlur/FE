@@ -9,7 +9,6 @@ const Signin = () => {
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
   const loaction = useLocation();
-  console.log(loaction);
   const handleUserid = (e: ChangeEvent<HTMLInputElement>) => {
     setUserid(e.target.value);
   };

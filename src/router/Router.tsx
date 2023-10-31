@@ -2,7 +2,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import NotFound from '../component/NotFound';
 import Photo from '../pages/Photo/Photo';
-import Main from '../pages/Main';
 import Video from '../pages/Video/Video';
 import Gallery from '../pages/Gallery/Gallery';
 import Realtime from '../pages/Realtime/Realtime';
@@ -21,7 +20,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <Main />,
+            element: <Photo />,
           },
           {
             path: 'photo',

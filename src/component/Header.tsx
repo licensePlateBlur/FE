@@ -6,7 +6,7 @@ function Header() {
   const navigate = useNavigate();
   const handleLogout = () => {
     removeLocalStorageToken();
-    navigate('/');
+    navigate('/photo');
   };
   return (
     <HeaderLayer>
