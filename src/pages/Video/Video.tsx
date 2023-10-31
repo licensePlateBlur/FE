@@ -53,9 +53,15 @@ function Video() {
       const target = event.target as HTMLInputElement;
       if (target.files) {
         if (target.files.length > 0) {
-          //undefined를 막는 가장 좋은 방법이라고 했다~
-          console.log(target.files[0]);
-          DropVideo(target.files[0]);
+          if(getLocalStorageToken())
+          {
+            DropVideo(target.files[0]);
+          }
+          else
+          {
+            alert('로그인 권한이 없습니다');
+            navigate('/signin', { state: { from: location } });
+          }
         }
       }
     }

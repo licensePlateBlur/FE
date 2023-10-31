@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { checkEmail, checkMissInPut, comparePassword } from '../../utils/validation';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 const Signup = () => {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('@');
@@ -32,18 +33,27 @@ const Signup = () => {
     try {
       const response = await signup({ username, email, userid, password });
       if (response.status === 200) {
-        alert('회원가입을 성공했습니다.');
-        navigate('/signin');
+        toast.success("회원가입에 성공했습니다", {
+          theme: "dark",
+          position: toast.POSITION.TOP_CENTER,
+          onClose: () => navigate('/signin')
+        })
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err.response?.status === 400) {
-          alert(err.response.data.message);
+          toast.warn(err.response.data.message, {
+            position: toast.POSITION.TOP_CENTER
+          });
         } else if (err.code === 'ERR_NETWORK') {
-          alert('502 BAD GATEWAY');
+          toast.warn("502 Bad GateWay !", {
+            position: toast.POSITION.TOP_CENTER
+          });
         } else {
           console.log(err);
-          alert('알수 없는 에러 발생');
+          toast.error("알수없는 에러 발생!", {
+            position: toast.POSITION.TOP_CENTER
+          });
         }
       }
     }
