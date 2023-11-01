@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import VideoCounter from './hook/VideoCounter';
 import FindXY from './hook/FindXY';
@@ -15,12 +15,14 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getLocalStorageToken } from '../../utils/LocalStorage';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { CheckModel, modelOptions } from '../Photo/hook/CheckModel';
 function Video() {
   const [datas, setDatas] = useState<VideoData[]>([]);
   const [label, setLabel] = useState<number[]>([0, 0, 0, 0]);
   const [loading, setLoading] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [drop, setDrop] = useState<boolean>(false);
+  const [model, setModel] = useState<string>('얼굴');
   const id = useSelector((store: RootState) => store.video.id);
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,6 +33,10 @@ function Video() {
   function HandleCancel() {
     window.location.reload();
   }
+  const HandleModel = (e: ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.target.value);
+    setModel(e.target.value);
+  };
   const PreviewHandler = async () => {
     const video = document.getElementById('video') as HTMLVideoElement;
     const source = document.getElementById('source') as HTMLVideoElement;
@@ -91,7 +97,9 @@ function Video() {
       const preload = document.querySelectorAll<HTMLElement>('.preload');
       preload.forEach(preload => (preload.style.display = 'none'));
       const formData = new FormData();
+      const modelNumber = CheckModel(model);
       formData.append('video', f);
+      formData.append('model', modelNumber);
       try {
         const response = await videoupload(formData);
         console.log(response);
@@ -144,7 +152,19 @@ function Video() {
         )
       ) : null}
       <UploadBox>
+      <TitleLayer>
         <BoldText1>동영상을 업로드 해주세요</BoldText1>
+        <ModelLayer>
+            <ModelLabel>모델 : </ModelLabel>
+            <ModelSelect value={model} onChange={HandleModel}>
+              {modelOptions.map((model, index) => (
+                <option key={index} value={model}>
+                  {model}
+                </option>
+              ))}
+            </ModelSelect>
+          </ModelLayer>
+          </TitleLayer>
         <form>
           <Input ref={changeRef} type="file" id="input-file-upload" multiple={false} />
           <Label ref={inputRef} htmlFor="input-file-upload">
@@ -319,4 +339,31 @@ const DownloadBtn = styled.button`
   justify-content: center;
   gap: 8px;
   padding: 0px;
+`;
+const TitleLayer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const ModelLabel = styled.label``;
+
+const ModelLayer = styled.div`
+  color: #000;
+  font-family: Pretendard;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.32px;
+  margin-bottom: 31px;
+  margin-left: auto;
+`;
+
+const ModelSelect = styled.select`
+  color: #000;
+  font-family: Pretendard;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.32px;
 `;

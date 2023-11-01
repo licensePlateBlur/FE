@@ -1,4 +1,4 @@
-import React, { ChangeEvent,useState, useRef, useEffect } from 'react';
+import React, { ChangeEvent, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as DragImage } from '../../svg/upload-box-group.svg';
 import { ReactComponent as Icon } from '../../svg/icon.svg';
@@ -27,7 +27,7 @@ function Photo() {
   const [click, setClick] = useState<boolean>(false);
   const [drop, setDrop] = useState<boolean>(false);
   const [datashow, setDataShow] = useState<boolean>(false);
-  const [model,setModel]=useState<string>("얼굴");
+  const [model, setModel] = useState<string>('얼굴');
   const file = useSelector((store: RootState) => store.file.filename);
   const dispatch = useDispatch();
   const inputRef = useRef<HTMLLabelElement>(null);
@@ -40,10 +40,10 @@ function Photo() {
   function HandleCancel() {
     window.location.reload();
   }
-  const HandleModel = (e : ChangeEvent<HTMLSelectElement>) =>{
+  const HandleModel = (e: ChangeEvent<HTMLSelectElement>) => {
     console.log(e.target.value);
     setModel(e.target.value);
-  }
+  };
   const SaveHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
     setClick(true);
     setDownloading(true);
@@ -298,7 +298,7 @@ function Photo() {
       hover.removeEventListener('mousemove', MouseMoveHandler);
       hover.removeEventListener('mouseout', MouseOutHandler);
     };
-  }, [datas, label, checkm, dispatch, location, navigate,model]);
+  }, [datas, label, checkm, dispatch, location, navigate, model]);
   return (
     <Layer>
       {drop ? (
@@ -317,17 +317,17 @@ function Photo() {
       ) : null}
       <UploadBox>
         <TitleLayer>
-        <BoldText1>사진을 업로드 해주세요</BoldText1>
-        <ModelLayer>
-        <ModelLabel>모델 : </ModelLabel>
-       <ModelSelect value={model} onChange={HandleModel}>
-        {modelOptions.map((model, index) => (
-          <option key={index} value={model}>
-            {model}
-          </option>
-        ))}
-      </ModelSelect>
-  </ModelLayer>
+          <BoldText1>사진을 업로드 해주세요</BoldText1>
+          <ModelLayer>
+            <ModelLabel>모델 : </ModelLabel>
+            <ModelSelect value={model} onChange={HandleModel}>
+              {modelOptions.map((model, index) => (
+                <option key={index} value={model}>
+                  {model}
+                </option>
+              ))}
+            </ModelSelect>
+          </ModelLayer>
         </TitleLayer>
         <form>
           <Input ref={changeRef} type="file" id="input-file-upload" multiple={false} />
@@ -497,14 +497,13 @@ const DisabledInfoRectangle = styled.div`
   letter-spacing: -0.24px;
 `;
 
-const TitleLayer= styled.div`
-display: flex;
-flex-direction: row;
-align-items: center;
-`
+const TitleLayer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 
-const ModelLabel = styled.label`
-`
+const ModelLabel = styled.label``;
 
 const ModelLayer = styled.div`
   color: #000;
@@ -514,8 +513,8 @@ const ModelLayer = styled.div`
   font-weight: 700;
   letter-spacing: -0.32px;
   margin-bottom: 31px;
-margin-left : auto;
-`
+  margin-left: auto;
+`;
 
 const ModelSelect = styled.select`
   color: #000;
@@ -524,4 +523,4 @@ const ModelSelect = styled.select`
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.32px;
-`
+`;
