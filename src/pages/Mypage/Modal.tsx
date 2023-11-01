@@ -20,12 +20,12 @@ const Modal: React.FC<ModalProps> = ({ HandleModal }) => {
           onClose: () => {
             removeLocalStorageToken();
             navigate('/');
-          }
+          },
         });
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
-          if (err.code === 'ERR_NETWORK') {
+        if (err.code === 'ERR_NETWORK') {
           toast.warn('502 Bad GateWay !', {
             position: toast.POSITION.TOP_CENTER,
           });

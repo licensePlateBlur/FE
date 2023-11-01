@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { ChangeEvent,useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as DragImage } from '../../svg/upload-box-group.svg';
 import { ReactComponent as Icon } from '../../svg/icon.svg';
@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getLocalStorageToken } from '../../utils/LocalStorage';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { CheckModel, modelOptions } from './hook/CheckModel';
 function Photo() {
   const [checkm, setCheckm] = useState([true, true, true]);
   const [datas, setDatas] = useState<PhotoData[]>([]);
@@ -26,6 +27,7 @@ function Photo() {
   const [click, setClick] = useState<boolean>(false);
   const [drop, setDrop] = useState<boolean>(false);
   const [datashow, setDataShow] = useState<boolean>(false);
+  const [model,setModel]=useState<string>("얼굴");
   const file = useSelector((store: RootState) => store.file.filename);
   const dispatch = useDispatch();
   const inputRef = useRef<HTMLLabelElement>(null);
@@ -37,6 +39,10 @@ function Photo() {
   const location = useLocation();
   function HandleCancel() {
     window.location.reload();
+  }
+  const HandleModel = (e : ChangeEvent<HTMLSelectElement>) =>{
+    console.log(e.target.value);
+    setModel(e.target.value);
   }
   const SaveHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
     setClick(true);
@@ -115,8 +121,11 @@ function Photo() {
         console.log(resizedImage);
         const preload = document.querySelectorAll<HTMLElement>('.preload');
         preload.forEach(preload => (preload.style.display = 'none'));
+        const modelNumber = CheckModel(model);
+        console.log(modelNumber);
         const formData = new FormData();
         formData.append('image', resizedImage);
+        formData.append('model', modelNumber);
         try {
           setDrop(true);
           setLoading(prev => !prev);
@@ -289,7 +298,7 @@ function Photo() {
       hover.removeEventListener('mousemove', MouseMoveHandler);
       hover.removeEventListener('mouseout', MouseOutHandler);
     };
-  }, [datas, label, checkm, dispatch, location, navigate]);
+  }, [datas, label, checkm, dispatch, location, navigate,model]);
   return (
     <Layer>
       {drop ? (
@@ -307,7 +316,19 @@ function Photo() {
         )
       ) : null}
       <UploadBox>
+        <TitleLayer>
         <BoldText1>사진을 업로드 해주세요</BoldText1>
+        <ModelLayer>
+        <ModelLabel>모델 : </ModelLabel>
+       <ModelSelect value={model} onChange={HandleModel}>
+        {modelOptions.map((model, index) => (
+          <option key={index} value={model}>
+            {model}
+          </option>
+        ))}
+      </ModelSelect>
+  </ModelLayer>
+        </TitleLayer>
         <form>
           <Input ref={changeRef} type="file" id="input-file-upload" multiple={false} />
           <Label ref={inputRef} htmlFor="input-file-upload">
@@ -475,3 +496,32 @@ const DisabledInfoRectangle = styled.div`
   line-height: 135%; /* 32.4px */
   letter-spacing: -0.24px;
 `;
+
+const TitleLayer= styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+`
+
+const ModelLabel = styled.label`
+`
+
+const ModelLayer = styled.div`
+  color: #000;
+  font-family: Pretendard;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.32px;
+  margin-bottom: 31px;
+margin-left : auto;
+`
+
+const ModelSelect = styled.select`
+  color: #000;
+  font-family: Pretendard;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.32px;
+`
