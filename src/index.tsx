@@ -15,7 +15,7 @@ const StyledContainer = styled(ToastContainer)`
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <Provider store={store}>
-    <StyledContainer autoClose={3000} />
+    <StyledContainer autoClose={3000}/>
     <GalleryContexFC>
       <RouterProvider router={router}></RouterProvider>
     </GalleryContexFC>

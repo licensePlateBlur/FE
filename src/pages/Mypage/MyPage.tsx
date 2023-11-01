@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getuser } from '../../apis/mypage';
 import Modal from './Modal';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 interface UserInfo {
   ID: string;
   USERNAME: string;
@@ -17,7 +19,25 @@ const MyPage = () => {
       const response = await getuser();
       setUser(response.data);
     } catch (err) {
-      console.log(err);
+      if(axios.isAxiosError(err))
+      {
+        if(err.response?.status === 401)
+        {
+            toast.warn('토큰이 만료되었습니다. 다시 로그인 해주세요', {
+            position: toast.POSITION.TOP_CENTER,
+          })
+        }
+        else if (err.code === 'ERR_NETWORK') {
+          toast.warn('502 Bad GateWay !', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        } else {
+          console.log(err);
+          toast.error('알수없는 에러 발생!', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      }
     }
   };
   useEffect(() => {

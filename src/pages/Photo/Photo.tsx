@@ -319,7 +319,7 @@ function Photo() {
         <TitleLayer>
           <BoldText1>사진을 업로드 해주세요</BoldText1>
           <ModelLayer>
-            <ModelLabel>모델 : </ModelLabel> 
+            <ModelLabel>모델 : </ModelLabel>
             <ModelSelect value={model} onChange={HandleModel}>
               {modelOptions.map((model, index) => (
                 <option key={index} value={model}>
@@ -504,16 +504,16 @@ const TitleLayer = styled.div`
 `;
 
 const ModelLabel = styled.label`
-font-size: 21px;
-background: #f3f3f3;
-border-radius: 15px;
-padding : 10px;
-border : none;
+  font-size: 21px;
+  background: #f3f3f3;
+  border-radius: 15px;
+  padding: 10px;
+  border: none;
 `;
 
 const ModelLayer = styled.div`
-  display : flex;
-  gap : 5px;
+  display: flex;
+  gap: 5px;
   color: #000;
   font-family: Pretendard;
   font-size: 30px;
