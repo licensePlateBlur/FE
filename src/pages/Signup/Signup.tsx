@@ -33,26 +33,26 @@ const Signup = () => {
     try {
       const response = await signup({ username, email, userid, password });
       if (response.status === 200) {
-        toast.success("회원가입에 성공했습니다", {
-          theme: "dark",
+        toast.success('회원가입에 성공했습니다', {
+          theme: 'dark',
           position: toast.POSITION.TOP_CENTER,
-          onClose: () => navigate('/signin')
-        })
+          onClose: () => navigate('/signin'),
+        });
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err.response?.status === 400) {
           toast.warn(err.response.data.message, {
-            position: toast.POSITION.TOP_CENTER
+            position: toast.POSITION.TOP_CENTER,
           });
         } else if (err.code === 'ERR_NETWORK') {
-          toast.warn("502 Bad GateWay !", {
-            position: toast.POSITION.TOP_CENTER
+          toast.warn('502 Bad GateWay !', {
+            position: toast.POSITION.TOP_CENTER,
           });
         } else {
           console.log(err);
-          toast.error("알수없는 에러 발생!", {
-            position: toast.POSITION.TOP_CENTER
+          toast.error('알수없는 에러 발생!', {
+            position: toast.POSITION.TOP_CENTER,
           });
         }
       }

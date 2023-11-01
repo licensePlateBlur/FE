@@ -22,32 +22,30 @@ const Signin = () => {
       const response = await signin(userid, password);
       if (response.status === 200) {
         setLocalStorageToken(response.data.access_token);
-        toast.success("로그인에 성공했습니다", {
-          theme: "dark",
+        toast.success('로그인에 성공했습니다', {
+          theme: 'dark',
           position: toast.POSITION.TOP_CENTER,
           onClose: () => {
             if (loaction.state) {
               navigate(loaction.state.from.pathname);
             } else navigate('/photo');
-          }
-        })
+          },
+        });
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        if (err.response?.status === 401)
-        {
+        if (err.response?.status === 401) {
           toast.warn('아이디 비밀번호를 확인해주세요', {
-            position: toast.POSITION.TOP_CENTER
+            position: toast.POSITION.TOP_CENTER,
           });
-        }
-        else if (err.code === 'ERR_NETWORK') {
-          toast.warn("502 Bad GateWay !", {
-            position: toast.POSITION.TOP_CENTER
+        } else if (err.code === 'ERR_NETWORK') {
+          toast.warn('502 Bad GateWay !', {
+            position: toast.POSITION.TOP_CENTER,
           });
         } else {
           console.log(err);
-          toast.error("알수없는 에러 발생!", {
-            position: toast.POSITION.TOP_CENTER
+          toast.error('알수없는 에러 발생!', {
+            position: toast.POSITION.TOP_CENTER,
           });
         }
       }

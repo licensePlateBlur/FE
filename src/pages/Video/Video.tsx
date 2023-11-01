@@ -53,12 +53,9 @@ function Video() {
       const target = event.target as HTMLInputElement;
       if (target.files) {
         if (target.files.length > 0) {
-          if(getLocalStorageToken())
-          {
+          if (getLocalStorageToken()) {
             DropVideo(target.files[0]);
-          }
-          else
-          {
+          } else {
             alert('로그인 권한이 없습니다');
             navigate('/signin', { state: { from: location } });
           }
