@@ -4,6 +4,7 @@ import { signout } from '../../apis/auth';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { removeLocalStorageToken } from '../../utils/LocalStorage';
+import { toast } from 'react-toastify';
 interface ModalProps {
   HandleModal: () => void;
 }
@@ -13,13 +14,27 @@ const Modal: React.FC<ModalProps> = ({ HandleModal }) => {
     try {
       const response = await signout();
       if (response.status === 200) {
-        alert('성공적으로 탈퇴되었습니다');
-        removeLocalStorageToken();
-        navigate('/');
+        toast.success('성공적으로 탈퇴되었습니다', {
+          theme: 'dark',
+          position: toast.POSITION.TOP_CENTER,
+          onClose: () => {
+            removeLocalStorageToken();
+            navigate('/');
+          }
+        });
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        console.log(err);
+          if (err.code === 'ERR_NETWORK') {
+          toast.warn('502 Bad GateWay !', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        } else {
+          console.log(err);
+          toast.error('알수없는 에러 발생!', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
       }
     }
   };
