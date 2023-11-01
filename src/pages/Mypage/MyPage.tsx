@@ -4,6 +4,8 @@ import { getuser } from '../../apis/mypage';
 import Modal from './Modal';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { removeLocalStorageToken } from '../../utils/LocalStorage';
 interface UserInfo {
   ID: string;
   USERNAME: string;
@@ -14,35 +16,38 @@ const MyPage = () => {
   const [user, setUser] = useState<UserInfo>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const HandleModal = () => setIsModalOpen(prev => !prev);
-  const GetUserHandler = async () => {
-    try {
-      const response = await getuser();
-      setUser(response.data);
-    } catch (err) {
-      if(axios.isAxiosError(err))
-      {
-        if(err.response?.status === 401)
-        {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const GetUserHandler = async () => {
+      try {
+        const response = await getuser();
+        setUser(response.data);
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          console.log();
+          if (err.response?.status === 401) {
             toast.warn('토큰이 만료되었습니다. 다시 로그인 해주세요', {
-            position: toast.POSITION.TOP_CENTER,
-          })
-        }
-        else if (err.code === 'ERR_NETWORK') {
-          toast.warn('502 Bad GateWay !', {
-            position: toast.POSITION.TOP_CENTER,
-          });
-        } else {
-          console.log(err);
-          toast.error('알수없는 에러 발생!', {
-            position: toast.POSITION.TOP_CENTER,
-          });
+              position: toast.POSITION.TOP_CENTER,
+              onClose: () => {
+                removeLocalStorageToken();
+                navigate('/signin');
+              }
+            });
+          } else if (err.code === 'ERR_NETWORK') {
+            toast.warn('502 Bad GateWay !', {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          } else {
+            console.log(err);
+            toast.error('알수없는 에러 발생!', {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          }
         }
       }
-    }
-  };
-  useEffect(() => {
+    };
     GetUserHandler();
-  }, []);
+  }, [navigate]);
   return (
     <MyPageLayout>
       <Title>{user?.USERNAME}님 마이페이지</Title>

@@ -37,7 +37,7 @@ const Signin = () => {
         if (err.response?.status === 401) {
           toast.warn('아이디 비밀번호를 확인해주세요', {
             position: toast.POSITION.TOP_CENTER,
-          })
+          });
         } else if (err.code === 'ERR_NETWORK') {
           toast.warn('502 Bad GateWay !', {
             position: toast.POSITION.TOP_CENTER,
