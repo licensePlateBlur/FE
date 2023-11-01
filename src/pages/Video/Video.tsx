@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getLocalStorageToken } from '../../utils/LocalStorage';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CheckModel, modelOptions } from '../Photo/hook/CheckModel';
+import { CheckModel, modelOptions } from '../../utils/CheckModel';
 function Video() {
   const [datas, setDatas] = useState<VideoData[]>([]);
   const [label, setLabel] = useState<number[]>([0, 0, 0, 0]);
@@ -141,7 +141,7 @@ function Video() {
       }
       if (changeinput) changeinput.removeEventListener('change', InputOnchange);
     };
-  }, [dispatch, id, location, navigate]);
+  }, [dispatch, id, location, navigate,model]);
   return (
     <Layer>
       {drop ? (
@@ -152,9 +152,9 @@ function Video() {
         )
       ) : null}
       <UploadBox>
-      <TitleLayer>
-        <BoldText1>동영상을 업로드 해주세요</BoldText1>
-        <ModelLayer>
+        <TitleLayer>
+          <BoldText1>동영상을 업로드 해주세요</BoldText1>
+          <ModelLayer>
             <ModelLabel>모델 : </ModelLabel>
             <ModelSelect value={model} onChange={HandleModel}>
               {modelOptions.map((model, index) => (
@@ -164,7 +164,7 @@ function Video() {
               ))}
             </ModelSelect>
           </ModelLayer>
-          </TitleLayer>
+        </TitleLayer>
         <form>
           <Input ref={changeRef} type="file" id="input-file-upload" multiple={false} />
           <Label ref={inputRef} htmlFor="input-file-upload">

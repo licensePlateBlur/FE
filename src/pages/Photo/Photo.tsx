@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getLocalStorageToken } from '../../utils/LocalStorage';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CheckModel, modelOptions } from './hook/CheckModel';
+import { CheckModel, modelOptions } from '../../utils/CheckModel';
 function Photo() {
   const [checkm, setCheckm] = useState([true, true, true]);
   const [datas, setDatas] = useState<PhotoData[]>([]);
@@ -514,13 +514,18 @@ const ModelLayer = styled.div`
   letter-spacing: -0.32px;
   margin-bottom: 31px;
   margin-left: auto;
+  height : 40px;
 `;
 
 const ModelSelect = styled.select`
   color: #000;
   font-family: Pretendard;
-  font-size: 30px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.32px;
+  background : #FFFBEF;
+  border-radius: 15px;
+  border : 1px dashed #fedd33;
+  padding : 10px;
 `;
