@@ -141,7 +141,7 @@ function Video() {
       }
       if (changeinput) changeinput.removeEventListener('change', InputOnchange);
     };
-  }, [dispatch, id, location, navigate,model]);
+  }, [dispatch, id, location, navigate, model]);
   return (
     <Layer>
       {drop ? (
@@ -346,24 +346,35 @@ const TitleLayer = styled.div`
   align-items: center;
 `;
 
-const ModelLabel = styled.label``;
+const ModelLabel = styled.label`
+font-size: 21px;
+background: #f3f3f3;
+border-radius: 15px;
+padding : 10px;
+border : none;
+`;
 
 const ModelLayer = styled.div`
+  display : flex;
+  gap : 5px;
   color: #000;
   font-family: Pretendard;
   font-size: 30px;
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.32px;
-  margin-bottom: 31px;
   margin-left: auto;
 `;
 
 const ModelSelect = styled.select`
   color: #000;
   font-family: Pretendard;
-  font-size: 30px;
+  font-size: 21px;
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.32px;
+  background: #fffbef;
+  border-radius: 15px;
+  border: 1px dashed #fedd33;
+  padding: 10px;
 `;

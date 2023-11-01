@@ -1,7 +1,7 @@
 import { Authapi } from './core';
 
 export const realtimeshooting = async (formdata: FormData) => {
-  const response = await Authapi.post('detect_realtime',formdata);
+  const response = await Authapi.post('detect_realtime', formdata);
   return response;
 };
 

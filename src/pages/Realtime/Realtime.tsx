@@ -28,7 +28,7 @@ function Realtime() {
   const dispatch = useDispatch();
   //ref
   const inputRef = useRef<HTMLLabelElement>(null);
-  
+
   function HandleCancel() {
     window.location.reload();
   }
@@ -91,7 +91,7 @@ function Realtime() {
         input.removeEventListener('click', RealtimePlay);
       }
     };
-  }, [dispatch, id, location, navigate]);
+  }, [dispatch, id, location, navigate,model]);
   return (
     <Layer>
       {drop ? (
@@ -103,8 +103,8 @@ function Realtime() {
       ) : null}
       <UploadBox>
         <TitleLayer>
-        <BoldText1>클릭시 촬영을 시작합니다.</BoldText1>
-        <ModelLayer>
+          <BoldText1>클릭시 촬영을 시작합니다.</BoldText1>
+          <ModelLayer>
             <ModelLabel>모델 : </ModelLabel>
             <ModelSelect value={model} onChange={HandleModel}>
               {modelOptions.map((model, index) => (
@@ -114,7 +114,7 @@ function Realtime() {
               ))}
             </ModelSelect>
           </ModelLayer>
-          </TitleLayer>
+        </TitleLayer>
         <form>
           <Label ref={inputRef} htmlFor="input-file-upload">
             <DragImage />
@@ -291,24 +291,36 @@ const TitleLayer = styled.div`
   flex-direction: row;
   align-items: center;
 `;
-const ModelLabel = styled.label``;
+
+const ModelLabel = styled.label`
+font-size: 21px;
+background: #f3f3f3;
+border-radius: 15px;
+padding : 10px;
+border : none;
+`;
 
 const ModelLayer = styled.div`
+  display : flex;
+  gap : 5px;
   color: #000;
   font-family: Pretendard;
   font-size: 30px;
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.32px;
-  margin-bottom: 31px;
   margin-left: auto;
 `;
 
 const ModelSelect = styled.select`
   color: #000;
   font-family: Pretendard;
-  font-size: 30px;
+  font-size: 21px;
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.32px;
+  background: #fffbef;
+  border-radius: 15px;
+  border: 1px dashed #fedd33;
+  padding: 10px;
 `;
