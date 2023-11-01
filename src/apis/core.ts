@@ -17,8 +17,8 @@ const Authinstacne = (url: string) => {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 };
-export const api = instance(SERVER_URL);
-export const Authapi = Authinstacne(SERVER_URL);
+export const api = instance(LOCAL_URL);
+export const Authapi = Authinstacne(LOCAL_URL);
 
 Authapi.interceptors.request.use(config => {
   config.headers.Authorization = `Bearer ${getLocalStorageToken()}`;
