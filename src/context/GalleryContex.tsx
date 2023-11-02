@@ -1,19 +1,12 @@
-import React, {
-  useState,
-  ReactNode,
-  createContext,
-  useCallback,
-  useContext,
-} from 'react';
+import React, { useState, ReactNode, createContext, useCallback, useContext } from 'react';
 import { GalleryData } from '../interface/GalleryData';
 import { deletefile, getfiles } from '../apis/gallery';
 
 interface GalleryChangeContextType {
   addPage: () => void;
   DeleteHandler: (id: number) => void;
-  GetFiles : () => void;
-  noError : () =>void;
-  
+  GetFiles: () => void;
+  noError: () => void;
 }
 interface GalleryValue {
   datas: GalleryData[];
@@ -46,17 +39,17 @@ export const GalleryContexFC = ({ children }: { children: ReactNode }) => {
       setIsError(err);
     }
   }, [page]);
-  const DeleteHandler = async(id: number) => {
-    try{
+  const DeleteHandler = async (id: number) => {
+    try {
       await deletefile(id);
       setDatas(prev => prev.filter(todo => todo.ID !== id));
-    }catch(err){
+    } catch (err) {
       setIsError(err);
     }
   };
   return (
     <GalleryContex.Provider value={{ datas, endpoint, isError }}>
-      <GalleryChangeContext.Provider value={{ addPage, DeleteHandler,GetFiles,noError}}>
+      <GalleryChangeContext.Provider value={{ addPage, DeleteHandler, GetFiles, noError }}>
         {children}
       </GalleryChangeContext.Provider>
     </GalleryContex.Provider>

@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 function Gallery() {
   const loader = useRef<HTMLDivElement | null>(null);
   const { datas, endpoint, isError }: any = useGallery();
-  const { addPage, DeleteHandler,GetFiles }: any = useGalleryChange(); //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
+  const { addPage, DeleteHandler, GetFiles }: any = useGalleryChange(); //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
   const [downloading, setDownloading] = useState<boolean>(false);
   const [click, setClick] = useState<boolean>(false);
   const [change, setChange] = useState<boolean>(true);
@@ -43,9 +43,9 @@ function Gallery() {
     if (loader.current) observer.observe(loader.current);
   }, [handleObserver]);
 
-  useEffect( ()=>{
+  useEffect(() => {
     GetFiles();
-  },[GetFiles])
+  }, [GetFiles]);
 
   const DownloadHandler = async (
     id: number,
@@ -66,8 +66,8 @@ function Gallery() {
         download.click();
         setDownloading(false);
         setTimeout(() => {
-        setClick(false);
-      }, 1999);
+          setClick(false);
+        }, 1999);
       } else {
         console.log('Failed to download the file');
       }
@@ -98,7 +98,7 @@ function Gallery() {
   if (isError)
     return (
       <>
-        <Loading isError={isError}/>
+        <Loading isError={isError} />
       </>
     );
   if (datas === null) {
