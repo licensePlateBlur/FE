@@ -15,9 +15,10 @@ import { RootState } from '../../store/store';
 import { PhotoData } from '../../interface/PhotoData';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getLocalStorageToken } from '../../utils/LocalStorage';
+import { getLocalStorageToken, removeLocalStorageToken } from '../../utils/LocalStorage';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckModel, modelOptions } from '../../utils/CheckModel';
+import axios from 'axios';
 function Photo() {
   const [checkm, setCheckm] = useState([true, true, true]);
   const [datas, setDatas] = useState<PhotoData[]>([]);
@@ -136,12 +137,32 @@ function Photo() {
           dispatch(getfilename(resizedImage.name));
           const copylabel = PhotoCounter(response.data);
           setLabel(copylabel);
-          setLoading(prev => !prev);
+          // setLoading(prev => !prev);
           canvas.style.display = 'flex';
           blur.style.display = 'flex';
           hover.style.display = 'flex';
         } catch (err) {
-          console.log(err);
+          if(axios.isAxiosError(err))
+          {
+            if (err.response?.status === 401) {
+              toast.warn('토큰이 만료되었습니다. 다시 로그인 해주세요', {
+                position: toast.POSITION.TOP_CENTER,
+                onClose: () => {
+                  removeLocalStorageToken();
+                  navigate('/signin');
+                },
+              });
+            } else if (err.code === 'ERR_NETWORK') {
+              toast.warn('502 Bad GateWay !', {
+                position: toast.POSITION.TOP_CENTER,
+              });
+            } else {
+              console.log(err);
+              toast.error('알수없는 에러 발생!', {
+                position: toast.POSITION.TOP_CENTER,
+              });
+            }
+          }
         }
         ////////////////////////////////////////좌표값을 받아오고 진행
         const img = new Image();
@@ -167,7 +188,7 @@ function Photo() {
             onClose: () => window.location.reload(),
           });
       }
-
+      setLoading(prev => !prev);
       setTimeout(() => {
         setDrop(false);
       }, 1800);

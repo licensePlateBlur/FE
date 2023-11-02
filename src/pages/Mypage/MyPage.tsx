@@ -24,14 +24,13 @@ const MyPage = () => {
         setUser(response.data);
       } catch (err) {
         if (axios.isAxiosError(err)) {
-          console.log();
           if (err.response?.status === 401) {
             toast.warn('토큰이 만료되었습니다. 다시 로그인 해주세요', {
               position: toast.POSITION.TOP_CENTER,
               onClose: () => {
                 removeLocalStorageToken();
                 navigate('/signin');
-              }
+              },
             });
           } else if (err.code === 'ERR_NETWORK') {
             toast.warn('502 Bad GateWay !', {

@@ -9,15 +9,15 @@ function FindClass({ label }: { label: number[] }) {
           <div className="label">{label[0]}</div>
         </ClassCounterBox>
         <ClassCounterBox $isColor={label[1]}>
-          <div>휴대폰</div>
+          <div>번호판</div>
           <div className="label">{label[1]}</div>
         </ClassCounterBox>
         <ClassCounterBox $isColor={label[2]}>
-          <div>카드</div>
+          <div>핸드폰</div>
           <div className="label">{label[2]}</div>
         </ClassCounterBox>
         <ClassCounterBox $isColor={label[3]}>
-          <div>번호판</div>
+          <div>카드</div>
           <div className="label">{label[3]}</div>
         </ClassCounterBox>
       </AbledInfoRectange1>

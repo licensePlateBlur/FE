@@ -9,6 +9,9 @@ import SwitchLayer from '../../component/SwitchLayer';
 import Loading from '../../component/Loading';
 import { downloadfile } from '../../apis/gallery';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { removeLocalStorageToken } from '../../utils/LocalStorage';
+import { useNavigate } from 'react-router-dom';
 
 function Gallery() {
   const loader = useRef<HTMLDivElement | null>(null);
@@ -17,6 +20,7 @@ function Gallery() {
   const [downloading, setDownloading] = useState<boolean>(false);
   const [click, setClick] = useState<boolean>(false);
   const [change, setChange] = useState<boolean>(true);
+  const navigate = useNavigate();
   const ChangeHandler = () => {
     setChange(prev => !prev);
   };
@@ -60,9 +64,27 @@ function Gallery() {
         console.log('Failed to download the file');
       }
     } catch (err) {
-      if (axios.isAxiosError(err)) {
-        console.log(err);
-      }
+      if(axios.isAxiosError(err))
+          {
+            if (err.response?.status === 401) {
+              toast.warn('토큰이 만료되었습니다. 다시 로그인 해주세요', {
+                position: toast.POSITION.TOP_CENTER,
+                onClose: () => {
+                  removeLocalStorageToken();
+                  navigate('/signin');
+                },
+              });
+            } else if (err.code === 'ERR_NETWORK') {
+              toast.warn('502 Bad GateWay !', {
+                position: toast.POSITION.TOP_CENTER,
+              });
+            } else {
+              console.log(err);
+              toast.error('알수없는 에러 발생!', {
+                position: toast.POSITION.TOP_CENTER,
+              });
+            }
+          }
     } finally {
       setDownloading(false);
       setTimeout(() => {

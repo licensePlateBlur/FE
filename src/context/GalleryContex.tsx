@@ -52,7 +52,6 @@ export const GalleryContexFC = ({ children }: { children: ReactNode }) => {
     }
   }, [page]);
   const DeleteHandler = (id: number) => {
-    console.log('delete');
     deletefile(id);
     setDatas(prev => prev.filter(todo => todo.ID !== id));
   };

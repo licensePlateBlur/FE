@@ -7,13 +7,13 @@ function VideoCounter(props: VideoData[]) {
     const Classes = deepcopy.class.split('/');
     // eslint-disable-next-line array-callback-return
     Classes.map((Class: string) => {
-      if (Class === '0') {
+      if (Class === 'face') {
         label[0] += 1;
-      } else if (Class === 'Mobile phone') {
-        label[1] += 1;
-      } else if (Class === 'card') {
-        label[2] += 1;
       } else if (Class === 'license-plate') {
+        label[1] += 1;
+      } else if (Class === 'Mobile phone') {
+        label[2] += 1;
+      } else if (Class === 'card') {
         label[3] += 1;
       }
     });

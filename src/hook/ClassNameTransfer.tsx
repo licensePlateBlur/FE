@@ -1,5 +1,5 @@
 const ClassNameTransfer = (name: string) => {
-  if (name === '0') {
+  if (name === 'face') {
     return '얼굴';
   } else if (name === 'Mobile phone') {
     return '휴대폰';
