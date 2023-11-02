@@ -118,27 +118,26 @@ function Video() {
           setShow(true);
         }
       } catch (err) {
-        if(axios.isAxiosError(err))
-          {
-            if (err.response?.status === 401) {
-              toast.warn('토큰이 만료되었습니다. 다시 로그인 해주세요', {
-                position: toast.POSITION.TOP_CENTER,
-                onClose: () => {
-                  removeLocalStorageToken();
-                  navigate('/signin');
-                },
-              });
-            } else if (err.code === 'ERR_NETWORK') {
-              toast.warn('502 Bad GateWay !', {
-                position: toast.POSITION.TOP_CENTER,
-              });
-            } else {
-              console.log(err);
-              toast.error('알수없는 에러 발생!', {
-                position: toast.POSITION.TOP_CENTER,
-              });
-            }
+        if (axios.isAxiosError(err)) {
+          if (err.response?.status === 401) {
+            toast.warn('토큰이 만료되었습니다. 다시 로그인 해주세요', {
+              position: toast.POSITION.TOP_CENTER,
+              onClose: () => {
+                removeLocalStorageToken();
+                navigate('/signin');
+              },
+            });
+          } else if (err.code === 'ERR_NETWORK') {
+            toast.warn('502 Bad GateWay !', {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          } else {
+            console.log(err);
+            toast.error('알수없는 에러 발생!', {
+              position: toast.POSITION.TOP_CENTER,
+            });
           }
+        }
       } finally {
         setLoading(false);
         setTimeout(() => {

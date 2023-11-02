@@ -142,8 +142,7 @@ function Photo() {
           blur.style.display = 'flex';
           hover.style.display = 'flex';
         } catch (err) {
-          if(axios.isAxiosError(err))
-          {
+          if (axios.isAxiosError(err)) {
             if (err.response?.status === 401) {
               toast.warn('토큰이 만료되었습니다. 다시 로그인 해주세요', {
                 position: toast.POSITION.TOP_CENTER,

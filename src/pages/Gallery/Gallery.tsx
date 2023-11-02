@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 function Gallery() {
   const loader = useRef<HTMLDivElement | null>(null);
   const { datas, endpoint, isError }: any = useGallery();
-  const { addPage, DeleteHandler }: any = useGalleryChange(); //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
+  const { addPage, DeleteHandler,GetFiles }: any = useGalleryChange(); //addPage 타입을 지정해주고 싶었는데 null 처리가 복잡하다 생각하여 any를 사용함
   const [downloading, setDownloading] = useState<boolean>(false);
   const [click, setClick] = useState<boolean>(false);
   const [change, setChange] = useState<boolean>(true);
@@ -43,6 +43,10 @@ function Gallery() {
     if (loader.current) observer.observe(loader.current);
   }, [handleObserver]);
 
+  useEffect( ()=>{
+    GetFiles();
+  },[GetFiles])
+
   const DownloadHandler = async (
     id: number,
     filename: string,
@@ -60,43 +64,41 @@ function Gallery() {
         download.href = url;
         download.setAttribute('download', filename);
         download.click();
+        setDownloading(false);
+        setTimeout(() => {
+        setClick(false);
+      }, 1999);
       } else {
         console.log('Failed to download the file');
       }
     } catch (err) {
-      if(axios.isAxiosError(err))
-          {
-            if (err.response?.status === 401) {
-              toast.warn('토큰이 만료되었습니다. 다시 로그인 해주세요', {
-                position: toast.POSITION.TOP_CENTER,
-                onClose: () => {
-                  removeLocalStorageToken();
-                  navigate('/signin');
-                },
-              });
-            } else if (err.code === 'ERR_NETWORK') {
-              toast.warn('502 Bad GateWay !', {
-                position: toast.POSITION.TOP_CENTER,
-              });
-            } else {
-              console.log(err);
-              toast.error('알수없는 에러 발생!', {
-                position: toast.POSITION.TOP_CENTER,
-              });
-            }
-          }
-    } finally {
-      setDownloading(false);
-      setTimeout(() => {
-        setClick(false);
-      }, 1999);
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 401) {
+          toast.warn('토큰이 만료되었습니다. 다시 로그인 해주세요', {
+            position: toast.POSITION.TOP_CENTER,
+            onClose: () => {
+              removeLocalStorageToken();
+              navigate('/signin');
+            },
+          });
+        } else if (err.code === 'ERR_NETWORK') {
+          toast.warn('502 Bad GateWay !', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        } else {
+          console.log(err);
+          toast.error('알수없는 에러 발생!', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      }
     }
   };
 
   if (isError)
     return (
       <>
-        <Loading />
+        <Loading isError={isError}/>
       </>
     );
   if (datas === null) {

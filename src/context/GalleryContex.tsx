@@ -1,5 +1,4 @@
 import React, {
-  useEffect,
   useState,
   ReactNode,
   createContext,
@@ -8,17 +7,18 @@ import React, {
 } from 'react';
 import { GalleryData } from '../interface/GalleryData';
 import { deletefile, getfiles } from '../apis/gallery';
-import axios from 'axios';
-import { getLocalStorageToken } from '../utils/LocalStorage';
 
 interface GalleryChangeContextType {
   addPage: () => void;
   DeleteHandler: (id: number) => void;
+  GetFiles : () => void;
+  noError : () =>void;
+  
 }
 interface GalleryValue {
   datas: GalleryData[];
   endpoint: boolean;
-  isError: boolean;
+  isError: unknown;
 }
 const GalleryContex = createContext<GalleryValue | null>(null);
 const GalleryChangeContext = createContext<GalleryChangeContextType | null>(null);
@@ -30,8 +30,9 @@ export const GalleryContexFC = ({ children }: { children: ReactNode }) => {
   const [datas, setDatas] = useState<GalleryData[]>([]);
   const [page, setPage] = useState(1);
   const [endpoint, setEndpoint] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
+  const [isError, setIsError] = useState<unknown>(false);
   const addPage = () => setPage(prev => prev + 1);
+  const noError = () => setIsError(false);
   const GetFiles = useCallback(async () => {
     try {
       const response = await getfiles(page);
@@ -42,27 +43,20 @@ export const GalleryContexFC = ({ children }: { children: ReactNode }) => {
         setEndpoint(false);
       }
     } catch (err) {
-      if (axios.isAxiosError(err)) {
-        if (err.code === 'ERR_NETWORK') {
-          setIsError(true);
-        } else console.log(err);
-      } else {
-        console.log(err);
-      }
+      setIsError(err);
     }
   }, [page]);
-  const DeleteHandler = (id: number) => {
-    deletefile(id);
-    setDatas(prev => prev.filter(todo => todo.ID !== id));
-  };
-  useEffect(() => {
-    if (getLocalStorageToken()) {
-      GetFiles();
+  const DeleteHandler = async(id: number) => {
+    try{
+      await deletefile(id);
+      setDatas(prev => prev.filter(todo => todo.ID !== id));
+    }catch(err){
+      setIsError(err);
     }
-  }, [GetFiles]);
+  };
   return (
     <GalleryContex.Provider value={{ datas, endpoint, isError }}>
-      <GalleryChangeContext.Provider value={{ addPage, DeleteHandler }}>
+      <GalleryChangeContext.Provider value={{ addPage, DeleteHandler,GetFiles,noError}}>
         {children}
       </GalleryChangeContext.Provider>
     </GalleryContex.Provider>
