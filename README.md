@@ -121,3 +121,6 @@ $ npm start
 - network error 예외처리를 진행하지 않음
 - Grid 버전을 추가할 수 있으나 서버 병렬처리가 안되어 에러가 남
 - Canvas를 관심사분리를 하려했으나 context 는 상태를 관리하기보단 useeffect에서 랜더링되는게 좋은데, props로 전달할때 기능이 정상적으로 작동하지 않아 분리하지않음 또한 canvas 이미지를 저장할때 canavs 태그에서 가져와야해서 관심사가 분리되지 않는다고 판단했음
+
+## ✅ 회고
+https://velog.io/@kwonja/4%ED%95%99%EB%85%84-%EC%A1%B8%EC%97%85-%EC%9E%91%ED%92%88-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9B%84%EA%B8%B0
